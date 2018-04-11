@@ -1,0 +1,10 @@
+{
+    "name": "vagrant/pwbox",
+    "require": {
+        "slim/slim": "^3.0",
+        "slim/twig-view": "^2.3"
+    },
+    "autoload" : {
+        "psr-4": {"SlimApp\\": "src/"}
+    }
+}
