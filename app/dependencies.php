@@ -10,6 +10,25 @@ $container['view'] = function($container) {
     return $view;
 };
 
-$container['test'] = function (){
-   echo '<br> hola estoy en dependencies';
+$container['doctrine'] = function ($container){
+   $config = new \Doctrine\DBAL\Configuration();
+   $conn =  \Doctrine\DBAL\DriverManager::getConnection(
+       $container->get('settings')['database'],$config
+   );
+   return $conn;
+};
+
+$container['user_repository'] = function ($container){
+    $repository = new \SlimApp\Implementations\DoctrineUserRepository(
+        $container->get('doctrine')
+    );
+    return $repository;
+};
+
+
+$container['post_user_use_case'] = function ($container){
+    $useCase = new SlimApp\Model\UseCase\PostUserCase(
+        $container->get('user_repository')
+    );
+    return $useCase;
 };

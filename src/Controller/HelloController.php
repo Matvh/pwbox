@@ -7,6 +7,7 @@ namespace SlimApp\Controller;
  use Psr\Http\Message\ResponseInterface as Response;
 
  class HelloController {
+
      protected $container;
 
      /**
