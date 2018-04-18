@@ -12,4 +12,14 @@ namespace SlimApp\Model;
 interface UserRepository
 {
     public function save(User $user);
+
+    public function exist(User $user);
+
+    public function login(User $user);
+
+    public function update(User $user);
+
+
+
+
 }

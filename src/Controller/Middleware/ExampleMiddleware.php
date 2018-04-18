@@ -9,9 +9,9 @@ class ExampleMiddleware{
 
     public function __invoke(Request $request, Response $response, callable $next)
     {
-        $response->getBody()->write('BEFORE');
+        //$response->getBody()->write('BEFORE');
         $next($request,$response);
-        $response->getBody()->write('AFTER');
+        //$response->getBody()->write('AFTER');
         return $response;
     }
 }

@@ -10,4 +10,5 @@ $app->get('/hello/{name}', 'SlimApp\Controller\HelloController:indexAction'
 )->add('SlimApp\Controller\Middleware\ExampleMiddleware');
 
 $app->post('/user','SlimApp\Controller\PostUserController');
+$app->get('/home','SlimApp\Controller\HomeController');
 

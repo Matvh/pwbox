@@ -21,13 +21,8 @@ namespace SlimApp\Controller;
      public function __invoke(Request $request, Response $response, array $args)
      {
          $name = $args['name'];
-         $this ->container->get('test');
+         //$this ->container->get('test');
          return $this ->container->get('view')->render($response,'hello.twig',['name' => $name]);
      }
 
-     public function indexAction(Request $request, Response $response, array $args){
-         $name = $args['name'];
-         $this ->container->get('test'); //servicio de dependencies que tiene el nombre test
-         return $this ->container->get('view')->render($response,'hello.twig',['name' => $name]);
-     }
  }
