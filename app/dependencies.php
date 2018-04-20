@@ -32,3 +32,9 @@ $container['post_user_use_case'] = function ($container){
     );
     return $useCase;
 };
+
+
+$container['flash'] = function (){
+    return new \Slim\Flash\Message();
+};
+

@@ -34,6 +34,10 @@ class PostUserController
             //Si todo esta bien ejecutamos las 2 de abajo
             $service = $this->container->get('post_user_use_case');
             $service($data);
+
+            //aca ya esta todo bien
+            $this->container->get('flash')->addMessage('user_registration','The user has been successfully registered');
+
         }catch (\Exception $e){
             $response = $response
                 ->withStatus(500)

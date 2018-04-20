@@ -38,4 +38,6 @@ class DoctrineUserRepository implements  UserRepository
         $stmt->bindValue("updated_at", $user->getUpdatedAt()->format(self::DATE_FORMAT));
         $stmt->execute();
     }
+
+
 }
