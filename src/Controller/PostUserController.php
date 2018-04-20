@@ -9,9 +9,12 @@
 namespace SlimApp\Controller;
 
 
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
+use SlimApp\Model\User;
 
 class PostUserController
 {
@@ -33,6 +36,14 @@ class PostUserController
             //isset($data['email']);
             //Si todo esta bien ejecutamos las 2 de abajo
             $service = $this->container->get('post_user_use_case');
+            $email = $response['email'];
+            $username = $response['username'];
+
+            $password = $response['password'];
+
+            User::class;
+            $user = new User(1,$username,$email,$password, time(), time());
+            $resul = $this->container->get('user_repository')->save($user);
             $service($data);
 
             //aca ya esta todo bien
@@ -43,6 +54,8 @@ class PostUserController
                 ->withStatus(500)
                 ->withHeader('Content-type', 'txt/html')
                 ->write($e->getMessage());
+        } catch (NotFoundExceptionInterface $e) {
+        } catch (ContainerExceptionInterface $e) {
         }
         return $response;
     }

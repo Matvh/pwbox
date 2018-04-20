@@ -27,6 +27,9 @@ namespace SlimApp\Controller;
          }
          $name = $args['name'];
          //$this ->container->get('test');
+
+
+
          return $this->container->get('view')->render($response,'hello.twig',['name' => $name, 'counter' => $_SESSION['counter']]);
      }
 

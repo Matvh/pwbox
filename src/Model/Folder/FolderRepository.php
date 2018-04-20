@@ -9,13 +9,15 @@
 namespace SlimApp\Model;
 
 
+use SlimApp\Model\Folder\Folder;
+
 interface FolderRepository
 {
 
-    public function create(FolderRepository $folder);
+    public function create(Folder $folder);
 
-    public function delete(FolderRepository $folder);
+    public function delete(Folder $folder);
 
-    public function update(FolderRepository $folder);
+    public function update(Folder $folder);
 
 }

@@ -8,9 +8,9 @@
 
 namespace SlimApp\Controller;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use SlimApp\Model\User;
 
 class HomeController
 {
@@ -29,6 +29,24 @@ class HomeController
         //$name = $args['name'];
         //$this ->container->get('test');
         return $this ->container->get('view')->render($response,'home.twig');
+    }
+    public function indexAction(Request $request, Response $response) {
+
+        //TODO filtrar i validar
+        $resul = $request->getParsedBody();
+        $email = $resul['email'];
+        $password = $resul['password'];
+
+
+        $user = new User(1,'miquel',$email,$password, time(), time());
+        $exit = $this->container->get('user_repository')->login($user);
+
+        if($exit){
+            return $this->container->get('view')->render($response, 'login.twig');
+        } else {
+            //TODO mensaje de error
+        }
+
     }
 
 }

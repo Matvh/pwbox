@@ -28,7 +28,7 @@ class User
      * @param $createdAt
      * @param $updatedAt
      */
-    public function __construct($id, $username, $email, $password, $createdAt, $updatedAt)
+    public function  __construct($id, $username, $email, $password, $createdAt, $updatedAt)
     {
         $this->id = $id;
         $this->username = $username;

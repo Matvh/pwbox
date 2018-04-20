@@ -15,4 +15,8 @@ $app->get('/hello/{name}', 'SlimApp\Controller\HelloController');
 
 $app->post('/user','SlimApp\Controller\PostUserController');
 $app->get('/home','SlimApp\Controller\HomeController');
+$app->post('/home', 'SlimApp\Controller\HomeController:indexAction');
+
+$app->get('/register', 'SlimApp\Controller\RegisterController');
+
 
