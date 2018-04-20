@@ -8,6 +8,7 @@
 
 namespace SlimApp\Controller;
 
+use DateTime;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use SlimApp\Model\User;
@@ -32,17 +33,21 @@ class HomeController
     }
     public function indexAction(Request $request, Response $response) {
 
-        //TODO filtrar i validar
         $resul = $request->getParsedBody();
         $email = $resul['email'];
         $password = $resul['password'];
 
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12){
 
-        $user = new User(1,'miquel',$email,$password, time(), time());
-        $exit = $this->container->get('user_repository')->login($user);
+            $date = new DateTime('now');
+            $user = new User(1,'miquel',$email,$password, $date, $date);
+            $exit = $this->container->get('user_repository')->login($user);
 
-        if($exit){
-            return $this->container->get('view')->render($response, 'login.twig');
+            if($exit){
+                return $this->container->get('view')->render($response, 'login.twig');
+            } else {
+                //TODO mensaje de error
+            }
         } else {
             //TODO mensaje de error
         }

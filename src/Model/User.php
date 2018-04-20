@@ -14,7 +14,7 @@ class User
 
     private $id;
     private $username;
-    private  $email;
+    private $email;
     private $password;
     private $createdAt;
     private $updatedAt;

@@ -39,8 +39,13 @@ class DoctrineUserRepository implements  UserRepository
         $stmt->bindValue("created_at", $user->getCreatedAt()->format(self::DATE_FORMAT)); //pasando el Date a String para al BBDD
         $stmt->bindValue("updated_at", $user->getUpdatedAt()->format(self::DATE_FORMAT));
         try {
-            $stmt->execute();
+            $exit = $stmt->execute();
+            if ($exit){
+                return true;
+            }
+            return false;
         } catch (DBALException $e) {
+            return false;
         }
     }
 
@@ -62,7 +67,6 @@ class DoctrineUserRepository implements  UserRepository
 
     public function login(User $user)
     {
-        //TODO hash password
         try {
             $sql = "SELECT username, password FROM user WHERE :email = email AND :password = password";
             $stmt = $this->database->prepare($sql);
@@ -70,6 +74,7 @@ class DoctrineUserRepository implements  UserRepository
             $stmt->bindValue("password", $user->getPassword(), 'string');
             $stmt->execute();
             $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             return $resul != null;
         } catch (DBALException $e) {
             return false;
