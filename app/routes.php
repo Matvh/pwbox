@@ -14,5 +14,11 @@ $app->get('/hello/{name}', 'SlimApp\Controller\HelloController');
 //->add('SlimApp\Controller\Middleware\UserLoggedMiddleware');
 
 $app->post('/user','SlimApp\Controller\PostUserController');
-$app->get('/home','SlimApp\Controller\HomeController');
+$app->get('/login','SlimApp\Controller\HomeController');
+$app->post('/login', 'SlimApp\Controller\HomeController:indexAction');
 
+$app->get('/register', 'SlimApp\Controller\RegisterController');
+$app->post('/register', 'SlimApp\Controller\RegisterController:validateData');
+
+
+$app->get('/home','' );

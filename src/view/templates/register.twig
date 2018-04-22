@@ -3,12 +3,19 @@
 {% block content %}
     {{ parent() }}   {#llamar al padre#}
     <form action="" method="post">
+        <h1>PWBOX register</h1>
+        Username: <br>
+        <input type="text" name="username"><br>
         Email:<br>
         <input type="text" name="email"><br>
         Password:<br>
-        <input type="password" name="password">
-        <button>Send</button>
-        <a href="/register">Register!</a>
+        <input type="password" name="password"><br>
+        Confirm password:<br>
+        <input type="password" name="repassword"><br>
+        Load your image profile: <br>
+        <input type="file" name="image" accept="image/*"><br>
+        <br>
+        <button>Register</button>
     </form>
 {% endblock %}
 

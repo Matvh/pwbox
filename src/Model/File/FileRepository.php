@@ -9,6 +9,8 @@
 namespace SlimApp\Model;
 
 
+use SlimApp\Model\File\File;
+
 interface FileRepository
 {
 
