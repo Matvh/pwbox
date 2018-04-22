@@ -94,4 +94,16 @@ class DoctrineUserRepository implements  UserRepository
     {
         // TODO: Implement update() method.
     }
+
+
+    public function remove(String $email)
+    {
+        $sql = "DELETE FROM user WHERE email = :email";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $email, 'string');
+        $exit = $stmt->execute();
+
+        return $exit;
+
+    }
 }

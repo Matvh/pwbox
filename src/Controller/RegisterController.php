@@ -63,8 +63,8 @@ class RegisterController
             try {
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
-                    shell_exec("mkdir /home/vagrant/users/$username");
-                    return $this->container->get('view')->render($response, 'login.twig');
+                    shell_exec("mkdir /home/vagrant/users/$email");
+                    return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
                 } else {
                     var_dump($resul);
                     var_dump($exit);

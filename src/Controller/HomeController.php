@@ -27,6 +27,20 @@ class HomeController
         $this->container = $container;
     }
 
+    public function __invoke(Request $request, Response $response, array $args)
+    {
+        $email = $args['email'];
+
+        $exit = $this->container->get('user_repository')->remove($email);
+
+        if($exit){
+            shell_exec("rm -rf /home/vagrant/users/$email");
+
+            return $this->container->get('view')->render($response, 'home.twig');
+        } else {
+
+        }
+    }
 
     public function indexAction(Request $request, Response $response) {
 
@@ -43,7 +57,7 @@ class HomeController
             $exit = $this->container->get('user_repository')->login($user);
 
             if($exit){
-                return $this->container->get('view')->render($response, 'login.twig');
+                return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
             } else {
                 //TODO mensaje de error
             }

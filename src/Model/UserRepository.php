@@ -20,6 +20,8 @@ interface UserRepository
 
     public function update(User $user);
 
+    public function remove(String $email);
+
 
 
 
