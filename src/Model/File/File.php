@@ -11,11 +11,14 @@ namespace SlimApp\Model\File;
 
 class File
 {
-
+    private $id;
     private $name;
-    private $idFolder;
     private $created;
+    private $updated;
     private $type;
+    private $idFolder;
+    private $path;
+
 
 
     /**

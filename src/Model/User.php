@@ -18,6 +18,9 @@ class User
     private $password;
     private $createdAt;
     private $updatedAt;
+    private $available_size;
+    private $birthdate;
+    private $profile_pic;
 
     /**
      * User constructor.

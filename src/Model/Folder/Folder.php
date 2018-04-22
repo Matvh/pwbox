@@ -13,12 +13,10 @@ class Folder
 {
 
     private $id;
-
     private $created;
-
     private $updated;
-
     private $name;
+    private $path;
 
     /**
      * Folder constructor.
