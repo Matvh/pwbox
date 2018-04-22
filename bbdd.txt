@@ -1,0 +1,78 @@
+
+DROP TABLE IF EXISTS `userFolder`;
+DROP TABLE IF EXISTS `notification`;
+DROP TABLE IF EXISTS `folderFolder`;
+DROP TABLE IF EXISTS `file`;
+DROP TABLE IF EXISTS `folder`;
+DROP TABLE IF EXISTS `user`;
+
+
+
+CREATE TABLE `user` (
+  `id` int  unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `email` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `password` char(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+   `active_account` boolean, 
+   `birthdate` DATE,
+   `available_size` FLOAT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQUE_EMAIL` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+CREATE TABLE `folder` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+CREATE TABLE `file` (
+  `id` int  unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `folder_id`  int unsigned NOT NULL,
+   PRIMARY KEY (`id`),
+   FOREIGN KEY (`folder_id`) REFERENCES `folder` (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+CREATE TABLE `folderFolder` (
+  `id_root_folder` int unsigned NOT NULL,
+  `id_folder` int unsigned NOT NULL,
+   PRIMARY KEY (`id_root_folder`,  `id_folder`),
+   FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`),
+   FOREIGN KEY (`id_root_folder`) REFERENCES `folder` (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+CREATE TABLE `notification` (
+  `id` int  unsigned NOT NULL AUTO_INCREMENT,
+  `info` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+CREATE TABLE `userFolder` (
+  `id_user` int  unsigned NOT NULL,
+  `id_folder` int  unsigned NOT NULL,
+  `id_notification` int  unsigned NOT NULL,
+   PRIMARY KEY (`id_user`,  `id_folder`, `id_notification`),
+   FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
+   FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`),
+    FOREIGN KEY (`id_notification`) REFERENCES `notification` (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+
+
+
