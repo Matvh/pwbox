@@ -13,12 +13,15 @@ CREATE TABLE `user` (
   `id` int  unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `email` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `password` char(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `password` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-   `active_account` boolean,
-   `birthdate` DATE,
-   `available_size` FLOAT,
+   `active_account` varchar(255),
+   `birthdate` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `available_size` float,
+   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
+   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
+   `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `profile_pic` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_EMAIL` (`email`)
@@ -73,6 +76,11 @@ CREATE TABLE `userFolder` (
    FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`),
     FOREIGN KEY (`id_notification`) REFERENCES `notification` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+
+INSERT INTO user(username,email,password,created_at,updated_at,active_account,birthdate,available_size, nombre, description, characteristics, profile_pic) VALUES(‘Miquel’,’miquel@gmail.com’, ‘holahola’,2-03-20 20:20:20, 20-20-20 20:20:20, true, 25-06-1996,1.00, ‘Miquel’, ‘hola’, ‘adeeu’, ‘picture’);
+
 
 
 

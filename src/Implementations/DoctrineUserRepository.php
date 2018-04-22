@@ -31,13 +31,22 @@ class DoctrineUserRepository implements  UserRepository
 
     public function save(User $user)
     {
-        $sql = "INSERT INTO user(username, email, password, created_at, updated_at) VALUES(:username, :email, :password, :created_at, :updated_at)";
+        $sql = "INSERT INTO user(username, email, password, created_at, updated_at, active_account, birthdate ,available_size, nombre, description, characteristics) VALUES(:username, :email, :password, :created_at, :updated_at, :active_account, :birthdate, :available_size, :nombre, :description, :characteristics)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("username", $user->getUsername(), 'string');
         $stmt->bindValue("email", $user->getEmail(), 'string');
         $stmt->bindValue("password", $user->getPassword(), 'string');
         $stmt->bindValue("created_at", $user->getCreatedAt()->format(self::DATE_FORMAT)); //pasando el Date a String para al BBDD
         $stmt->bindValue("updated_at", $user->getUpdatedAt()->format(self::DATE_FORMAT));
+        $stmt->bindValue("active_account", "true", 'string');
+        $stmt->bindValue("birthdate", $user->getBirthdate(), 'string');
+        $stmt->bindValue("available_size", $user->getAvailableSize(), 'float');
+        $stmt->bindValue("nombre", $user->getName(), 'string');
+        $stmt->bindValue("description", $user->getDescription(), 'string');
+        $stmt->bindValue("characteristics", $user->getCharacteristics(), 'string');
+        var_dump($stmt);
+
+
         try {
             $exit = $stmt->execute();
             if ($exit){

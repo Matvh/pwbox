@@ -15,6 +15,9 @@ class User
     private $id;
     private $username;
     private $email;
+    private $description;
+    private $name;
+    private $characteristics;
     private $password;
     private $createdAt;
     private $updatedAt;
@@ -27,19 +30,119 @@ class User
      * @param $id
      * @param $username
      * @param $email
+     * @param $description
+     * @param $name
+     * @param $characteristics
+     * @param $password
+     * @param $createdAt
+     * @param $updatedAt
+     * @param $available_size
+     * @param $birthdate
+     * @param $profile_pic
+     */
+
+
+    public function __construct(
+        $id,
+        $username,
+        $email,
+        $description,
+        $name,
+        $characteristics,
+        $password,
+        $createdAt,
+        $updatedAt,
+        $available_size,
+        $birthdate,
+        $profile_pic
+    ) {
+        $this->id = $id;
+        $this->username = $username;
+        $this->email = $email;
+        $this->description = $description;
+        $this->name = $name;
+        $this->characteristics = $characteristics;
+        $this->password = $password;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->available_size = $available_size;
+        $this->birthdate = $birthdate;
+        $this->profile_pic = $profile_pic;
+    }
+
+    /**
+     * User constructor.
+     * @param $id
+     * @param $username
+     * @param $email
+     * @param $password
+     * @param $createdAt
+     * @param $updatedAt
+     * @param $available_size
+     * @param $birthdate
+     * @param $profile_pic
+     */
+
+
+    /**
+     * @return mixed
+     */
+    public function getAvailableSize()
+    {
+        return $this->available_size;
+    }
+
+    /**
+     * @param mixed $available_size
+     */
+    public function setAvailableSize($available_size): void
+    {
+        $this->available_size = $available_size;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBirthdate()
+    {
+        return $this->birthdate;
+    }
+
+    /**
+     * @param mixed $birthdate
+     */
+    public function setBirthdate($birthdate): void
+    {
+        $this->birthdate = $birthdate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePic()
+    {
+        return $this->profile_pic;
+    }
+
+    /**
+     * @param mixed $profile_pic
+     */
+    public function setProfilePic($profile_pic): void
+    {
+        $this->profile_pic = $profile_pic;
+    }
+
+
+    /**
+     * User constructor.
+     * @param $id
+     * @param $username
+     * @param $email
      * @param $password
      * @param $createdAt
      * @param $updatedAt
      */
-    public function  __construct($id, $username, $email, $password, $createdAt, $updatedAt)
-    {
-        $this->id = $id;
-        $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
-    }
+
 
     /**
      * @return mixed
@@ -136,6 +239,55 @@ class User
     {
         $this->updatedAt = $updatedAt;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCharacteristics()
+    {
+        return $this->characteristics;
+    }
+
+    /**
+     * @param mixed $characteristics
+     */
+    public function setCharacteristics($characteristics): void
+    {
+        $this->characteristics = $characteristics;
+    }
+
 
 
 

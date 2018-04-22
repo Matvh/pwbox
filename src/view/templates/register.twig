@@ -4,8 +4,16 @@
     {{ parent() }}   {#llamar al padre#}
     <form action="" method="post">
         <h1>PWBOX register</h1>
+        Name: <br>
+        <input type="text" name="name"><br>
+        Description: <br>
+        <input type="text" name="description"><br>
+        Characteristics: <br>
+        <input type="text" name="characteristics"><br>
         Username: <br>
         <input type="text" name="username"><br>
+        Birthday: <br>
+        <input type="date" name="birthday"><br>
         Email:<br>
         <input type="text" name="email"><br>
         Password:<br>
@@ -13,7 +21,7 @@
         Confirm password:<br>
         <input type="password" name="repassword"><br>
         Load your image profile: <br>
-        <input type="file" name="image" accept="image/*"><br>
+        <input type="file" name="picture" accept="image/*"><br>
         <br>
         <button>Register</button>
     </form>

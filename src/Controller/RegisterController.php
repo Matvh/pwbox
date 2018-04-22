@@ -43,31 +43,36 @@ class RegisterController
     public function validateData(Request $request, Response $response)
     {
 
-        $data = $request->getParsedBody();
-        $username = $data['username'];
-        $email = $data['email'];
-        $password = $data['password'];
-        $repassword = $data['repassword'];
+        $resul = $request->getParsedBody();
+        $email = $resul['email'];
+        $password = $resul['password'];
+        $birthday = $resul['birthday'];
+        $username = $resul['username'];
+        $description = $resul['description'];
+        $name = $resul['name'];
+        $characteristics = $resul['characteristics'];
+        $foto = $resul['picture'];
 
-        //TODO hash password
 
-        if(filter_var($email, FILTER_VALIDATE_EMAIL) && $password == $repassword &&
-            strlen($password) >= 6 && strlen($password) <= 12 ){
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
+            && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != ""){
 
-            $options = [
-                'cost' => 11,
-            ];
             $date = new DateTime('now');
-            //$passwordHash = password_hash($password, PASSWORD_BCRYPT,$options);
-
-            $user = new User(1,'miquel',$email,$password, $date, $date);
-            $exit = $this->container->get('user_repository')->save($user);
-
-            if ($exit){
-                return $this->container->get('view')->render($response, 'login.twig');
-            } else {
-                echo "ERROOOR";
-                //TODO error
+            $user = new User(1, $username, $email, $description,$name, $characteristics, hash("sha256",$password),
+                $date, $date, 1.00, $birthday, $foto);
+            try {
+                $exit = $this->container->get('user_repository')->save($user);
+                if($exit) {
+                    shell_exec("mkdir /home/vagrant/users/$username");
+                    return $this->container->get('view')->render($response, 'login.twig');
+                } else {
+                    var_dump($resul);
+                    var_dump($exit);
+                }
+            } catch (NotFoundExceptionInterface $e) {
+                $e->getTraceAsString();
+            } catch (ContainerExceptionInterface $e) {
+                $e->getTraceAsString();
             }
 
 
