@@ -22,3 +22,5 @@ $app->post('/register', 'SlimApp\Controller\RegisterController:validateData');
 
 $app->post('/home','SlimApp\Controller\HomeController:indexAction');
 $app->get('/home/{email}','SlimApp\Controller\HomeController');
+
+$app->get('/','SlimApp\Controller\HelloController');

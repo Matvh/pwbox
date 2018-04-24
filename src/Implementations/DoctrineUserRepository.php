@@ -106,4 +106,14 @@ class DoctrineUserRepository implements  UserRepository
         return $exit;
 
     }
+
+
+    public function getSize(String $email)
+    {
+        $q = $this->database->query("SELECT `available_size` FROM `user` WHERE email='".$email."'");
+        $f = $q->fetch();
+        $result = $f['available_size'];
+        return $result;
+
+    }
 }

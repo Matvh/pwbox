@@ -57,6 +57,8 @@ class HomeController
             $exit = $this->container->get('user_repository')->login($user);
 
             if($exit){
+
+                $_SESSION['email'] = $user->getEmail();
                 return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
             } else {
                 //TODO mensaje de error

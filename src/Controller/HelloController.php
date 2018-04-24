@@ -20,17 +20,20 @@ namespace SlimApp\Controller;
 
      public function __invoke(Request $request, Response $response, array $args)
      {
-         if (!isset($_SESSION['counter'])){
-             $_SESSION['counter'] = 1;
+         if (!isset($_SESSION['email'])){
+             //TODO landing page explicando de qué va esta cosa
+             return $this->container->get('view')->render($response,'home.twig');
+
          } else {
-             $_SESSION['counter'] += 1;
+             var_dump($this->container->get('user_repository')->getSize($_SESSION['email']));
+             return $this->container->get('view')->render($response,'login.twig');
          }
          $name = $args['name'];
          //$this ->container->get('test');
 
 
 
-         return $this->container->get('view')->render($response,'hello.twig',['name' => $name, 'counter' => $_SESSION['counter']]);
+
      }
 
  }
