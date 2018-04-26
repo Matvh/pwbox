@@ -36,7 +36,7 @@ class HomeController
         if($exit){
             shell_exec("rm -rf /home/vagrant/users/$email");
 
-            return $this->container->get('view')->render($response, 'home.twig');
+            return $this->container->get('view')->render($response, 'login.twig');
         } else {
 
         }
@@ -59,7 +59,7 @@ class HomeController
             if($exit){
 
                 $_SESSION['email'] = $user->getEmail();
-                return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
+                return $this->container->get('view')->render($response, 'home.twig', ['email' => $email]);
             } else {
                 //TODO mensaje de error
             }
