@@ -24,6 +24,8 @@ interface UserRepository
 
     public function getSize(String $email);
 
+    public function activate(String $email);
+
 
 
 

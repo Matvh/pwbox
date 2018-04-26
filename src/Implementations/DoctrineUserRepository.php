@@ -117,4 +117,14 @@ class DoctrineUserRepository implements  UserRepository
         return $result;
 
     }
+
+    public function activate(String $email)
+    {
+        $q = $this->database->query("UPDATE user SET activate_account=`true` WHERE email='".$email."'");
+        $result = $q->execute();
+        return $result;
+
+    }
+
+
 }
