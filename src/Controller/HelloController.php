@@ -22,11 +22,11 @@ namespace SlimApp\Controller;
      {
          if (!isset($_SESSION['email'])){
              //TODO landing page explicando de qué va esta cosa
-             return $this->container->get('view')->render($response,'home.twig');
+             return $this->container->get('view')->render($response,'login.twig');
 
          } else {
              var_dump($this->container->get('user_repository')->getSize($_SESSION['email']));
-             return $this->container->get('view')->render($response,'login.twig');
+             return $this->container->get('view')->render($response,'home.twig');
          }
          $name = $args['name'];
          //$this ->container->get('test');

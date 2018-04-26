@@ -60,8 +60,8 @@ class HomeController
 
                 $_SESSION['email'] = $user->getEmail();
                 return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
-            } else if ($exit && ){
-                //TODO mensaje de error
+            } else if ($exit && $exit['active_account'] == "false"){
+                echo "no has activado tu cuenta";
             }
         } else {
             //TODO mensaje de error

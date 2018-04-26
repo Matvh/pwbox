@@ -67,7 +67,7 @@ class RegisterController
                 if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
                     $this->uploadImage();
-                    return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
+                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email]);
                 } else {
                     var_dump($resul);
                     var_dump($exit);
