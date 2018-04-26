@@ -44,7 +44,6 @@ class DoctrineUserRepository implements  UserRepository
         $stmt->bindValue("nombre", $user->getName(), 'string');
         $stmt->bindValue("description", $user->getDescription(), 'string');
         $stmt->bindValue("characteristics", $user->getCharacteristics(), 'string');
-        var_dump($stmt);
 
 
         try {
