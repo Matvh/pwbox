@@ -1,36 +1,40 @@
 {% extends "base.twig" %}
-{% block title %} Home {% endblock %}
-{% block content %}
-    {{ parent() }}   {#llamar al padre#}
-    <h1>PWBOX register</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        Name: <br>
-        <input type="text" name="name"><br>
-        Description: <br>
-        <input type="text" name="description"><br>
-        Characteristics: <br>
-        <input type="text" name="characteristics"><br>
-        Username: <br>
-        <input type="text" name="username"><br>
-        Birthday: <br>
-        <input type="date" name="birthday"><br>
-        Email:<br>
-        <input type="text" name="email"><br>
-        Password:<br>
-        <input type="password" name="password"><br>
-        Confirm password:<br>
-        <input type="password" name="repassword"><br>
-        Load your image profile: <br>
-        <input type="file" name="picture" id="picture"><br>
-        <br>
-        <button>Register</button>
-    </form>
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }}   {#llamar al padre#}
-    {#<script type="application/javascript">
-        alert('test');
-    </script>#}
+    <script src="{{ base_path }}/assets/js/home.js"></script>
 {% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h2>Register</h2>
+            <form class="box" action="" method="post" enctype="multipart/form-data">
+                <input type="text" placeholder="Name" name="name" >
+                <input type="text" placeholder="Description" name="description" >
+                <input type="text" placeholder="Characteristics" name="characteristics" >
+                <input type="text" placeholder="Username" name="username" >
+                <input type="date" placeholder="Birthday" name="birthday" >
+                <input type="text" placeholder="Email" name="email">
+                <input type="password" placeholder="Password" name="password">
+                <input type="password" placeholder="Repeat password" name="repassword">
+
+                <input type="file" name="picture" id="picture"><br>
+
+                <button class="btn btn-primary full-width loginbtn" type="submit">
+                    Sign me in!
+                </button>
+
+                <button class="btn btn-warning full-width signinbtn" type="button">
+                    Go back
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
