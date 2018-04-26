@@ -1,20 +1,36 @@
 {% extends "base.twig" %}
-{% block title %} Home {% endblock %}
-{% block content %}
-    {{ parent() }}   {#llamar al padre#}
-    <form action="/home" method="post">
-        Email:<br>
-        <input type="text" name="email"><br>
-        Password:<br>
-        <input type="password" name="password">
-        <button>Send</button>
-        <a href="/register">Register!</a>
-    </form>
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }}   {#llamar al padre#}
-    {#<script type="application/javascript">
-        alert('test');
-    </script>#}
+    <script src="{{ base_path }}/assets/js/home.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <br>
+            <div class="img-responsive headimage">
+                <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
+            </div>
+
+            <h2>Login</h2>
+            <form class="box" action="/home" method="post">
+                <input type="text" placeholder="Username or email" name="email">
+                <input type="password" placeholder="Password" name="password">
+
+                <button class="btn btn-primary full-width loginbtn" type="submit">
+                    Get me in!
+                </button>
+
+                <button class="btn btn-warning full-width signinbtn" type="button">
+                    Create account
+                </button>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}
