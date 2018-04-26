@@ -56,17 +56,26 @@ class HomeController
             $user = new User(1,'miquel',$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
             $exit = $this->container->get('user_repository')->login($user);
 
-            if($exit){
+            if($exit && $exit['active_account'] == "true"){
 
                 $_SESSION['email'] = $user->getEmail();
                 return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
-            } else {
+            } else if ($exit && ){
                 //TODO mensaje de error
             }
         } else {
             //TODO mensaje de error
         }
 
+    }
+
+    public function validateSession(Request $request, Response $response){
+        if(isset($_SESSION['email'])){
+            return $this->container->get('view')->render($response, 'login.twig', ['email' => $_SESSION['email']]);
+        } else {
+            return $this->container->get('view')->render($response, 'home.twig');
+
+        }
     }
 
 }

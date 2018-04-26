@@ -38,7 +38,7 @@ class DoctrineUserRepository implements  UserRepository
         $stmt->bindValue("password", $user->getPassword(), 'string');
         $stmt->bindValue("created_at", $user->getCreatedAt()->format(self::DATE_FORMAT)); //pasando el Date a String para al BBDD
         $stmt->bindValue("updated_at", $user->getUpdatedAt()->format(self::DATE_FORMAT));
-        $stmt->bindValue("active_account", "true", 'string');
+        $stmt->bindValue("active_account", "false", 'string');
         $stmt->bindValue("birthdate", $user->getBirthdate(), 'string');
         $stmt->bindValue("available_size", $user->getAvailableSize(), 'float');
         $stmt->bindValue("nombre", $user->getName(), 'string');
@@ -77,7 +77,7 @@ class DoctrineUserRepository implements  UserRepository
     public function login(User $user)
     {
         try {
-            $sql = "SELECT username, password FROM user WHERE :email = email AND :password = password";
+            $sql = "SELECT username, password, active_account FROM user WHERE :email = email AND :password = password";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("email", $user->getEmail(), 'string');
             $stmt->bindValue("password", $user->getPassword(), 'string');

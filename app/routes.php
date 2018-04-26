@@ -19,7 +19,7 @@ $app->get('/login','SlimApp\Controller\LoginController');
 $app->get('/register', 'SlimApp\Controller\RegisterController');
 $app->post('/register', 'SlimApp\Controller\RegisterController:validateData');
 
-
+$app->get('/home','SlimApp\Controller\HomeController:validateSession');
 $app->post('/home','SlimApp\Controller\HomeController:indexAction');
 $app->get('/home/{email}','SlimApp\Controller\HomeController');
 
