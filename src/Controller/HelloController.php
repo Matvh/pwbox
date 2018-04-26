@@ -25,10 +25,10 @@ namespace SlimApp\Controller;
              return $this->container->get('view')->render($response,'login.twig');
 
          } else {
-             var_dump($this->container->get('user_repository')->getSize($_SESSION['email']));
-             return $this->container->get('view')->render($response,'home.twig');
+             //return $response->withStatus(302)->withHeader("Location", "/");
+             return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email']]);
          }
-         $name = $args['name'];
+         //$name = $args['name'];
          //$this ->container->get('test');
 
 
