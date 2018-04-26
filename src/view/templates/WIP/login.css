@@ -1,0 +1,66 @@
+body {
+    background: url(back.jpg);
+}
+
+.jumbotron {
+	text-align: center;
+	width: 50rem;
+	border-radius: 0.5rem;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	margin: 4rem auto;
+	background-color: #fff;
+	padding: 2rem;
+}
+
+input {
+	width: 100%;
+	margin-bottom: 1.4rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	padding-left: 1rem;
+	background-color: #ecf2f4;
+	border-radius: 0.2rem;
+	border: none;
+}
+h2 {
+	margin-bottom: 3rem;
+	font-weight: bold;
+	font-family: sans-serif;
+
+}
+
+.btn{
+	border-radius: 0.2rem;
+}
+.loginbtn{
+	padding: 1rem;
+}
+.signinbtn{
+	padding: 0.5rem;
+}
+
+.full-width {
+	width: 95%;
+}
+
+.box {
+	position: absolute;
+	margin-bottom: 3rem;
+
+	margin-right: 3rem;
+}
+
+.headimage {
+  max-width: 100%;
+  padding: 1em;
+	margin-top: 4rem;
+	margin-bottom: 6rem;
+}
+
+.headimage > img {
+  width: 30rem;
+}

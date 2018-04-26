@@ -7,59 +7,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 100vh}
 
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
+  <link rel="stylesheet" type="text/css" href="home.css">
+  <script src="home.js"></script>
 
-    .headimage {
-      max-width: 100%;
-      padding: 1em;
-    }
-
-    .headimage > img {
-      width: 60%;
-    }
-
-    /* layout.css Style */
-    .upload-drop-zone {
-      height: 200px;
-      border-width: 2px;
-      margin-bottom: 20px;
-    }
-
-    /* skin.css Style*/
-    .upload-drop-zone {
-      color: #ccc;
-      border-style: dashed;
-      border-color: #ccc;
-      line-height: 200px;
-      text-align: center
-    }
-    .upload-drop-zone.drop {
-      color: #222;
-      border-color: #222;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height: auto;}
-
-      .headimage > img {
-        max-height: 120px;
-        width: auto;
-      }
-    }
-  </style>
 </head>
 <body>
 
@@ -85,10 +36,10 @@
         </div>
       </div>
 
-      <div>
-        <button type="submit" class="btn btn-sm btn-warning col-sm-5" id="js-upload-submit">New Folder</button>
-        <button type="submit" class="btn btn-sm btn-warning col-sm-5" id="js-upload-nfolder">Upload files</button>
-        <button type="submit" class="btn btn-sm btn-danger" id="js-upload-clear">X</button>
+      <div class="buttons-div">
+        <button class="btn btn-warning col-sm-5" id="js-upload-submit">New Folder</button>
+        <button class="btn btn-warning col-sm-5" id="js-upload-nfolder">Upload files</button>
+        <button class="btn btn-danger" id="js-upload-clear">X</button>
       </div>
       <br>
       <div class="input-group">
@@ -102,8 +53,18 @@
     </div>
   </div>
 
-  <div class="col-sm-9">
+  <div class="col-sm-9 mycol">
     <h3>Home &gt RutaActual</h3>
+
+    <div class="dropdown profile">
+        SrRada
+        <img src="pwbox.png" class="dropdown-toggle img-circle dropdown-profile" type="button" data-toggle="dropdown">
+        <ul class="dropdown-menu">
+          <li><a href="#">My account</a></li>
+          <li><a href="#">Notifications</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
 
     <h4><small>Folders</small></h4>
     <hr>
@@ -122,7 +83,11 @@
 
   </div>
 
+
+
 </div>
+
+
 
 </body>
 </html>
