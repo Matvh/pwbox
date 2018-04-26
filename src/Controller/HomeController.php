@@ -50,20 +50,25 @@ class HomeController
 
 
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12){
+        if (strlen($password) >= 6 && strlen($password)<= 12){
 
             $date = new DateTime('now');
-            $user = new User(1,'miquel',$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
+            $user = new User(1,$email,$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
             $exit = $this->container->get('user_repository')->login($user);
 
-            if($exit && $exit['active_account'] == "true"){
+
+            if(($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true"){
 
                 $_SESSION['email'] = $user->getEmail();
-                return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
-            } else if ($exit && $exit['active_account'] == "false"){
+                return $this->container->get('view')->render($response, 'home.twig', ['user' => $exit[0]]);
+            } else if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false"){
                 echo "no has activado tu cuenta";
+            } else {
+                var_dump($exit);
+                echo "lol";
             }
         } else {
+            echo "lel";
             //TODO mensaje de error
         }
 

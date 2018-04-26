@@ -76,14 +76,16 @@ class DoctrineUserRepository implements  UserRepository
     public function login(User $user)
     {
         try {
-            $sql = "SELECT username, password, active_account FROM user WHERE :email = email AND :password = password";
+            $sql = "SELECT * FROM user WHERE (:email = email OR :username = username) AND :password = password";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("email", $user->getEmail(), 'string');
             $stmt->bindValue("password", $user->getPassword(), 'string');
-            $stmt->execute();
-            $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->bindValue("username", $user->getUsername(), 'string');
 
-            return $resul != null;
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
         } catch (DBALException $e) {
             return false;
         }
