@@ -67,10 +67,10 @@ class RegisterController
                 if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
                     $this->uploadImage();
+                    $_SESSION['email'] = $user->getEmail();
                     return $this->container->get('view')->render($response, 'home.twig', ['email' => $email]);
                 } else {
-                    var_dump($resul);
-                    var_dump($exit);
+                    echo "Ha habido un problema con la base de datos";
                 }
             } catch (NotFoundExceptionInterface $e) {
                 $e->getTraceAsString();
@@ -80,8 +80,7 @@ class RegisterController
 
 
         } else {
-            echo "ERROR";
-            //TODO ha habido un error en la creacion del usuario
+            echo "Error en algun campo!";
         }
 
     }
