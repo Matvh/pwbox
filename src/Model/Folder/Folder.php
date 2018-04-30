@@ -25,12 +25,13 @@ class Folder
      * @param $updated
      * @param $name
      */
-    public function __construct($id, $created, $updated, $name)
+    public function __construct($id, $created, $updated, $name, $path)
     {
         $this->id = $id;
         $this->created = $created;
         $this->updated = $updated;
         $this->name = $name;
+        $this->path = $path;
     }
 
     /**
@@ -96,6 +97,28 @@ class Folder
     {
         $this->name = $name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param mixed $path
+     */
+    public function setPath($path): void
+    {
+        $this->path = $path;
+    }
+
+
+
+
+
+
 
 
 

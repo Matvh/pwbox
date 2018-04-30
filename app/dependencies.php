@@ -25,6 +25,13 @@ $container['user_repository'] = function ($container){
     return $repository;
 };
 
+$container['folder_repository'] = function ($container){
+    $repository = new \SlimApp\Implementations\DoctrineFolderRepository(
+        $container->get('doctrine')
+    );
+    return $repository;
+};
+
 
 $container['post_user_use_case'] = function ($container){
     $useCase = new SlimApp\Model\UseCase\PostUserCase(
