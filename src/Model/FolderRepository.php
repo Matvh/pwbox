@@ -14,7 +14,7 @@ use SlimApp\Model\Folder\Folder;
 interface FolderRepository
 {
 
-    public function create(Folder $folder);
+    public function create(Folder $folder, User $user);
 
     public function delete(Folder $folder);
 

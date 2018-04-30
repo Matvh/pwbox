@@ -32,7 +32,7 @@ CREATE TABLE `folder` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
@@ -42,7 +42,7 @@ CREATE TABLE `file` (
   `id` int  unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `folder_id`  int unsigned NOT NULL,
