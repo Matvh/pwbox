@@ -25,6 +25,6 @@ class LoginController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        return $this ->container->get('view')->render($response,'home.twig');
+        return $this ->container->get('view')->render($response,'login.twig');
     }
 }

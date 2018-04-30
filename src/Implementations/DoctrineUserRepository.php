@@ -38,13 +38,12 @@ class DoctrineUserRepository implements  UserRepository
         $stmt->bindValue("password", $user->getPassword(), 'string');
         $stmt->bindValue("created_at", $user->getCreatedAt()->format(self::DATE_FORMAT)); //pasando el Date a String para al BBDD
         $stmt->bindValue("updated_at", $user->getUpdatedAt()->format(self::DATE_FORMAT));
-        $stmt->bindValue("active_account", "true", 'string');
+        $stmt->bindValue("active_account", "false", 'string');
         $stmt->bindValue("birthdate", $user->getBirthdate(), 'string');
         $stmt->bindValue("available_size", $user->getAvailableSize(), 'float');
         $stmt->bindValue("nombre", $user->getName(), 'string');
         $stmt->bindValue("description", $user->getDescription(), 'string');
         $stmt->bindValue("characteristics", $user->getCharacteristics(), 'string');
-        var_dump($stmt);
 
 
         try {
@@ -77,14 +76,16 @@ class DoctrineUserRepository implements  UserRepository
     public function login(User $user)
     {
         try {
-            $sql = "SELECT username, password FROM user WHERE :email = email AND :password = password";
+            $sql = "SELECT * FROM user WHERE (:email = email OR :username = username) AND :password = password";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("email", $user->getEmail(), 'string');
             $stmt->bindValue("password", $user->getPassword(), 'string');
-            $stmt->execute();
-            $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->bindValue("username", $user->getUsername(), 'string');
 
-            return $resul != null;
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
         } catch (DBALException $e) {
             return false;
         }
@@ -106,4 +107,24 @@ class DoctrineUserRepository implements  UserRepository
         return $exit;
 
     }
+
+
+    public function getSize(String $email)
+    {
+        $q = $this->database->query("SELECT `available_size` FROM `user` WHERE email='".$email."'");
+        $f = $q->fetch();
+        $result = $f['available_size'];
+        return $result;
+
+    }
+
+    public function activate(String $email)
+    {
+        $q = $this->database->query("UPDATE user SET activate_account=`true` WHERE email='".$email."'");
+        $result = $q->execute();
+        return $result;
+
+    }
+
+
 }

@@ -50,21 +50,38 @@ class HomeController
 
 
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12){
+        if (strlen($password) >= 6 && strlen($password)<= 12){
 
             $date = new DateTime('now');
-            $user = new User(1,'miquel',$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
+            $user = new User(1,$email,$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
             $exit = $this->container->get('user_repository')->login($user);
 
-            if($exit){
-                return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
+
+            if(($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true"){
+
+                $_SESSION['email'] = $user->getEmail();
+                return $this->container->get('view')->render($response, 'home.twig', ['user' => $exit[0]]);
+            } else if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false"){
+                return $this->container->get('view')->render($response, 'home.twig', ['user' => $exit[0], 'mensaje' => "Activa la cuenta, porfavor"]);
+
             } else {
-                //TODO mensaje de error
+                var_dump($exit);
+                echo "lol";
             }
         } else {
+            echo "lel";
             //TODO mensaje de error
         }
 
+    }
+
+    public function validateSession(Request $request, Response $response){
+        if(isset($_SESSION['email'])){
+            return $this->container->get('view')->render($response, 'login.twig', ['email' => $_SESSION['email']]);
+        } else {
+            return $this->container->get('view')->render($response, 'home.twig');
+
+        }
     }
 
 }

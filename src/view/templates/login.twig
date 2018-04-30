@@ -1,131 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>PWBox</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-        .row.content {height: 100vh}
+{% extends "base.twig" %}
 
-        /* Set gray background color and 100% height */
-        .sidenav {
-            background-color: #f1f1f1;
-            height: 100%;
-        }
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
+{% endblock %}
 
-        .headimage {
-            max-width: 100%;
-            padding: 1em;
-        }
+{% block scripts %}
+    <script src="{{ base_path }}/assets/js/home.js"></script>
+{% endblock %}
 
-        .headimage > img {
-            width: 60%;
-        }
+{% block content %}
 
-        /* layout.css Style */
-        .upload-drop-zone {
-            height: 200px;
-            border-width: 2px;
-            margin-bottom: 20px;
-        }
-
-        /* skin.css Style*/
-        .upload-drop-zone {
-            color: #ccc;
-            border-style: dashed;
-            border-color: #ccc;
-            line-height: 200px;
-            text-align: center
-        }
-        .upload-drop-zone.drop {
-            color: #222;
-            border-color: #222;
-        }
-
-        /* On small screens, set height to 'auto' for sidenav and grid */
-        @media screen and (max-width: 767px) {
-            .sidenav {
-                height: auto;
-                padding: 15px;
-            }
-            .row.content {height: auto;}
-
-            .headimage > img {
-                max-height: 120px;
-                width: auto;
-            }
-        }
-    </style>
-</head>
-<body>
-
-<div class="container-fluid">
-    <div class="col-sm-3 sidenav">
-        <div class="row content">
-            <div class="img-responsive headimage">
-                <img src="{{ base_path }}/assets/pwbox.png" alt="Logo"/>
-            </div>
-
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#section1">Sr Rada 's Box</a></li>
-                <li><a href="#section2">Shared with Me</a></li>
-            </ul><br>
-
-            <div class="upload-drop-zone" id="drop-zone">
-                Just drag and drop files here
-            </div>
-
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                    <span class="sr-only">60% Complete</span>
-                </div>
-            </div>
-
-            <div>
-                <button type="submit" class="btn btn-sm btn-warning col-sm-5" id="js-upload-submit">New Folder</button>
-                <button type="submit" class="btn btn-sm btn-warning col-sm-5" id="js-upload-nfolder">Upload files</button>
-                <button type="submit" class="btn btn-sm btn-danger" id="js-upload-clear">X</button>
-            </div>
+    <div class="jumbotron">
+        <div class="container">
             <br>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search here..">
-                <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
+            <div class="img-responsive headimage">
+                <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
             </div>
+
+            <h2>Login</h2>
+            <form class="box" action="/home" method="post">
+                <input type="text" placeholder="Username or email" name="email">
+                <input type="password" placeholder="Password" name="password">
+
+                <button class="btn btn-primary full-width loginbtn" type="submit">
+                    Get me in!
+                </button>
+
+                <button class="btn btn-warning full-width signinbtn" type="button">
+                    Create account
+                </button>
+            </form>
         </div>
     </div>
 
-    <div class="col-sm-9">
-        <h3>Home &gt RutaActual</h3>
-
-        <h4><small>Folders</small></h4>
-        <hr>
-        <div>
-
-        </div>
-        <hr />
-        <br>
-
-        <h4><small>Files</small></h4>
-        <hr>
-        <div>
-
-        </div>
-        <hr />
-
-    </div>
-
-    <a href="/home/{{ email }}">Delete your account</a>
-
-</div>
-
-</body>
-</html>
-
+{% endblock %}

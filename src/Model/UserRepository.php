@@ -22,6 +22,10 @@ interface UserRepository
 
     public function remove(String $email);
 
+    public function getSize(String $email);
+
+    public function activate(String $email);
+
 
 
 

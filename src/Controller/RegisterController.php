@@ -17,7 +17,6 @@ use Psr\Container\ContainerInterface;
 use SlimApp\Model\User;
 
 
-
 class RegisterController
 {
 
@@ -27,13 +26,11 @@ class RegisterController
      * HelloController constructor.
      * @param $container
      */
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 
-    public function __invoke(Request $request, Response $response)
-    {
+    public function __invoke(Request $request, Response $response){
 
 
         try {
@@ -58,19 +55,20 @@ class RegisterController
         $foto = "/path";
 
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password) <= 12
-            && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "") {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
+            && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
+            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)){
 
             $date = new DateTime('now');
-            $user = new User(1, $username, $email, $description, $name, $characteristics, hash("sha256", $password),
-                $date, $date, 1.00, $birthday, $foto);
+            $user = new User(1, $username, $email, $description,$name, $characteristics, hash("sha256",$password),
+                $date, $date, 1024, $birthday, $foto);
             try {
                 $exit = $this->container->get('user_repository')->save($user);
-                if ($exit) {
+                if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
                     $this->sendActivateEmail();
                     $this->uploadImage();
-                    return $this->container->get('view')->render($response, 'login.twig', ['email' => $email]);
+                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email]);
                 } else {
                     var_dump($resul);
                     var_dump($exit);
@@ -89,17 +87,16 @@ class RegisterController
 
     }
 
-    private function uploadImage()
-    {
+    private function uploadImage(){
         var_dump($_FILES);
         $target_dir = "/home/vagrant/profilePics/";
         $target_file = $target_dir . basename($_FILES["picture"]["name"]);
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
-        if (isset($_POST["submit"])) {
+        if(isset($_POST["submit"])) {
             $check = getimagesize($_FILES["picture"]["tmp_name"]);
-            if ($check !== false) {
+            if($check !== false) {
                 echo "File is an image - " . $check["mime"] . ".";
                 $uploadOk = 1;
             } else {
@@ -114,8 +111,8 @@ class RegisterController
         }
 
         // Allow certain file formats
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif") {
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif" ) {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
@@ -125,13 +122,11 @@ class RegisterController
             // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)) {
-                echo "The file " . basename($_FILES["picture"]["name"]) . " has been uploaded.";
+                echo "The file ". basename( $_FILES["picture"]["name"]). " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
-
         }
-    }
 
     private function sendActivateEmail()
     {
