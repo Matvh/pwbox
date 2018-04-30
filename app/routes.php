@@ -24,3 +24,7 @@ $app->post('/home','SlimApp\Controller\HomeController:indexAction');
 $app->get('/home/{email}','SlimApp\Controller\HomeController');
 
 $app->get('/','SlimApp\Controller\HelloController');
+
+
+$app->get('/file', 'SlimApp\Controller\FileController:showFormAction');
+$app->post('/file', 'SlimApp\Controller\FileController:uploadFileAction');
