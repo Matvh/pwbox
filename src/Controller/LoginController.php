@@ -25,10 +25,13 @@ class LoginController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        if (isset($_SESSION['email'])){
-            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email']]);
+        if (!isset($_SESSION['email'])){
+            //TODO landing page explicando de qué va esta cosa
+            return $this->container->get('view')->render($response,'login.twig');
+
         } else {
-            return $this->container->get('view')->render($response, 'login.twig');
+            //return $response->withStatus(302)->withHeader("Location", "/login");
+            return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email']]);
         }
     }
 }

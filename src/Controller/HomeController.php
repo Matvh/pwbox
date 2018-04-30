@@ -64,11 +64,11 @@ class HomeController
                 if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true") {
 
                     $_SESSION['email'] = $user->getEmail();
-                    return $this->container->get('view')->render($response, 'home.twig', ['user' => $exit[0]]);
+                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $exit[0]['email']]);
                 } else {
                     if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false") {
                         return $this->container->get('view')->render($response, 'home.twig',
-                            ['user' => $exit[0], 'mensaje' => "Activa la cuenta, porfavor"]);
+                            ['email' => $exit[0]['email'], 'mensaje' => "Activa la cuenta, porfavor"]);
 
                     } else {
                         echo "lol";

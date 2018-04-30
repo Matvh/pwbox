@@ -15,6 +15,8 @@ $app->get('/hello/{name}', 'SlimApp\Controller\HelloController');
 
 $app->post('/user','SlimApp\Controller\PostUserController');
 $app->get('/login','SlimApp\Controller\LoginController');
+$app->post('/login','SlimApp\Controller\LoginController');
+
 
 $app->get('/register', 'SlimApp\Controller\RegisterController');
 $app->post('/register', 'SlimApp\Controller\RegisterController:validateData');
