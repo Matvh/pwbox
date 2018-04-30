@@ -28,3 +28,7 @@ $app->get('/home/{email}','SlimApp\Controller\HomeController');
 $app->get('/','SlimApp\Controller\HomeController:validateSession');
 
 $app->get('/add','SlimApp\Controller\CreateFolderController');
+
+
+$app->get('/file', 'SlimApp\Controller\FileController:showFormAction');
+$app->post('/file', 'SlimApp\Controller\FileController:uploadFileAction');

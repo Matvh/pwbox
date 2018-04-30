@@ -15,11 +15,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
 use SlimApp\Model\User;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+use Swift_TransportException;
 
 
 class RegisterController
 {
-
     protected $container;
 
     /**
@@ -66,6 +69,7 @@ class RegisterController
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
+                    $this->sendActivateEmail($email);
                     $this->uploadImage();
                     $_SESSION['email'] = $user->getEmail();
                     return $this->container->get('view')->render($response, 'home.twig', ['email' => $email]);
@@ -85,16 +89,17 @@ class RegisterController
 
     }
 
-    private function uploadImage(){
+    private function uploadImage()
+    {
         var_dump($_FILES);
-        $target_dir = "/home/vagrant/profilePics/";
+        $target_dir = "/home/vagrant/code/pwbox/public/profilePics/";
         $target_file = $target_dir . basename($_FILES["picture"]["name"]);
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
-        if(isset($_POST["submit"])) {
+        if (isset($_POST["submit"])) {
             $check = getimagesize($_FILES["picture"]["tmp_name"]);
-            if($check !== false) {
+            if ($check !== false) {
                 echo "File is an image - " . $check["mime"] . ".";
                 $uploadOk = 1;
             } else {
@@ -109,8 +114,8 @@ class RegisterController
         }
 
         // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif" ) {
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif") {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
@@ -120,12 +125,35 @@ class RegisterController
             // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)) {
-                echo "The file ". basename( $_FILES["picture"]["name"]). " has been uploaded.";
+                echo "The file " . basename($_FILES["picture"]["name"]) . " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
         }
+    }
 
+    private function sendActivateEmail(String $email)
+    {
+        try {
+            // Create the Transport
+            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
+                ->setUsername('pwbox18@gmail.com')
+                ->setPassword('pwbox1234');
+
+            // Create the Mailer using your created Transport
+            $mailer = new Swift_Mailer($transport);
+
+            // Create a message
+            $message = (new Swift_Message('Activate Account'))
+                ->setFrom(['pwb@info' => 'pwbox@info'])
+                ->setTo([$email])
+                ->setBody('Follow the link in order to activate your account');
+
+            // Send the message
+            $result = $mailer->send($message);
+        }catch (Swift_TransportException $e){
+            echo 'Message: ' .$e->getMessage();
+        }
     }
 
 }
