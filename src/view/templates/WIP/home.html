@@ -8,8 +8,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="../../../../public/assets/css/home.css">
-  <script src="../../../../public/assets/js/home.js"></script>
+  <link rel="stylesheet" type="text/css" href="home.css">
+  <script src="home.js"></script>
 
 </head>
 <body>
@@ -26,30 +26,77 @@
         <li><a href="#section2">Shared with Me</a></li>
       </ul><br>
 
-      <div class="upload-drop-zone" id="drop-zone">
-            Just drag and drop files here
+      <div class="rspace">
+
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+            <span class="sr-only">62% Complete</span>
+          </div>
+        </div>
+
+        <h5> 622MB of 1GB used </h5>
+
       </div>
 
-      <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-          <span class="sr-only">60% Complete</span>
+      <br>
+
+      <div class="selected_item">
+        <h4> Last selected item</h4>
+
+
+        <div class="input-group">
+          <input type="text" class="form-control" value="tokens.lex">
+          <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+        </span>
+        </div>
+
+        <div class="row">
+
+          <div class="col-sm-5 img-responsive headimage">
+            <img class="centerimage" src="file.png" alt="Logo">
+          </div>
+
+          <div class="col-sm-7">
+            <p><b>Size :</b><br>10MB</p>
+            <p><b>Type: </b><br>TXT</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="buttons-div">
+          <button class="btn btn-warning my-btn" id="js-download">
+            <span class="glyphicon glyphicon-download-alt"></span>
+          </button>
+
+          <button class="btn btn-warning my-btn" id="js-share">
+            <span class="glyphicon glyphicon-share"></span>
+          </button>
+
+          <button class="btn btn-danger my-btn" id="js-delete">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
         </div>
       </div>
 
-      <div class="buttons-div">
-        <button class="btn btn-warning col-sm-5" id="js-upload-submit">New Folder</button>
-        <button class="btn btn-warning col-sm-5" id="js-upload-nfolder">Upload files</button>
-        <button class="btn btn-danger" id="js-upload-clear">X</button>
-      </div>
-      <br>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search here..">
-        <span class="input-group-btn">
+      <div class="new_folder">
+        <h4> New folder</h4>
+
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Insert name">
+          <span class="input-group-btn">
           <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
+            <span class="glyphicon glyphicon-plus"></span>
           </button>
         </span>
+        </div>
+
       </div>
+
     </div>
   </div>
 
@@ -68,7 +115,7 @@
 
     <h4><small>Folders</small></h4>
     <hr>
-    <div>
+    <div id="folders">
 
     </div>
     <hr />
@@ -76,7 +123,7 @@
 
     <h4><small>Files</small></h4>
     <hr>
-    <div>
+    <div id="files">
 
     </div>
     <hr />
