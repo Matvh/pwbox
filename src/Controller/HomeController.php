@@ -80,11 +80,13 @@ class HomeController
 
         if (isset($_GET['email'])){
             $path = $this->container->get('user_repository')->getProfilePic($_GET['email']);
-            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email'], 'pic' => $path]);
+            $username = $this->container->get('user_repository')->getUsername($_GET['email']);
+            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email'], 'pic' => $path, 'username' => $username]);
         }else{
             if(isset($_SESSION['email'])){
                 $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
-                return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic' => $path]);
+                $username = $this->container->get('user_repository')->getUsername($_GET['email']);
+                return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic' => $path,'username' => $username]);
             } else {
                 return $this->container->get('view')->render($response, 'login.twig');
 

@@ -54,11 +54,13 @@ class RegisterController
         $description = $resul['description'];
         $name = $resul['name'];
         $characteristics = $resul['characteristics'];
-        if (isset($_FILES["picture"]["name"]) && empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != ''){
-            $foto = $_FILES["picture"]["name"];
+        if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != ''){
+            $extension = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
+            $foto = $email.'.'.$extension;
         }else{
             $foto = 'default.png';
         }
+
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
             && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
@@ -72,9 +74,9 @@ class RegisterController
                 if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
                     $this->sendActivateEmail($email);
-                    $this->uploadImage();
+                    $this->uploadImage($email);
                     $_SESSION['email'] = $user->getEmail();
-                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email, 'pic'=> $foto]);
+                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email, 'pic'=> $foto, 'username' => $username]);
                 } else {
                     echo "Ha habido un problema con la base de datos";
                 }
@@ -91,12 +93,15 @@ class RegisterController
 
     }
 
-    private function uploadImage()
+    private function uploadImage(String $email)
     {
+        $extension = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
+        $foto = $email.'.'.$extension;
+
         $target_dir = "/home/vagrant/code/pwbox/public/profilePics/";
-        $target_file = $target_dir . basename($_FILES["picture"]["name"]);
+        $target_file = $target_dir . $foto;
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
         if (isset($_POST["submit"])) {
             $check = getimagesize($_FILES["picture"]["tmp_name"]);
@@ -107,11 +112,6 @@ class RegisterController
                 echo "File is not an image.";
                 $uploadOk = 0;
             }
-        }
-
-        if (file_exists($target_file)) {
-            echo "Sorry, file already exists.";
-            $uploadOk = 0;
         }
 
         // Allow certain file formats

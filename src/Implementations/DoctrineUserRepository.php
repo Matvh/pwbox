@@ -31,7 +31,7 @@ class DoctrineUserRepository implements  UserRepository
 
     public function save(User $user)
     {
-        $sql = "INSERT INTO user(username, email, password, created_at, updated_at, active_account, birthdate ,available_size, nombre, description, characteristics) VALUES(:username, :email, :password, :created_at, :updated_at, :active_account, :birthdate, :available_size, :nombre, :description, :characteristics)";
+        $sql = "INSERT INTO user(username, email, password, created_at, updated_at, active_account, birthdate ,available_size, nombre, description, characteristics, profile_pic) VALUES(:username, :email, :password, :created_at, :updated_at, :active_account, :birthdate, :available_size, :nombre, :description, :characteristics, :profile_pic)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("username", $user->getUsername(), 'string');
         $stmt->bindValue("email", $user->getEmail(), 'string');
@@ -44,7 +44,7 @@ class DoctrineUserRepository implements  UserRepository
         $stmt->bindValue("nombre", $user->getName(), 'string');
         $stmt->bindValue("description", $user->getDescription(), 'string');
         $stmt->bindValue("characteristics", $user->getCharacteristics(), 'string');
-
+        $stmt->bindValue("profile_pic", $user->getProfilePic(), 'string');
 
         try {
             $exit = $stmt->execute();
@@ -134,6 +134,16 @@ class DoctrineUserRepository implements  UserRepository
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $res[0]['profile_pic'];
     }
+
+    public function getUsername(String $email){
+        $sql = "SELECT username FROM user WHERE email = :email";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $email, 'string');
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $res[0]['username'];
+    }
+
 
 
 }
