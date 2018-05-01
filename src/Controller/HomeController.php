@@ -52,7 +52,8 @@ class HomeController
             if ($exit){
                 $email = $exit[0]['email'];
             } else {
-                echo "Error, el usuario no existe";
+                return $this->container->get('view')->render($response, 'login.twig', ['mensaje' => "El usuario no existe"]);
+
             }
 
 
@@ -69,8 +70,8 @@ class HomeController
         //var_dump($exit);
 
         if (empty($exit)){
-            echo "Password incorrecta";
-            //TODO el usuario NO existe en la db
+            return $this->container->get('view')->render($response, 'login.twig', ['mensaje' => "Contraseña erronea"]);
+
         } else {
 
             $_SESSION['email'] = $email;
