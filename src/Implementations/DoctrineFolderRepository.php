@@ -41,8 +41,8 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt->bindValue("info", "Folder created", 'string');
         $exit = $stmt->execute();
 
-        $sql = "INSERT INTO userFolder() SELECT user.id folder.id notification.id FROM user, notification, folder WHERE
-                user.email = :email AND folder.path = :path AND notification.id = 1";
+        $sql = "INSERT INTO userFolder(id_user, id_folder, id_notification) SELECT user.id, folder.id, notification.id FROM user, notification, folder WHERE
+                user.email = :email AND folder.path = :path AND notification.id = 4";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $user->getEmail(), 'string');
         $stmt->bindValue("path", $folder->getPath(), 'string');
