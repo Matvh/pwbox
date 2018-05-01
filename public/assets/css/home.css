@@ -16,25 +16,12 @@
   width: 60%;
 }
 
-/* layout.css Style */
-.upload-drop-zone {
-  height: 200px;
-  border-width: 2px;
-  margin-bottom: 20px;
+.centerimage{
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
 }
 
-/* skin.css Style*/
-.upload-drop-zone {
-  color: #ccc;
-  border-style: dashed;
-  border-color: #ccc;
-  line-height: 200px;
-  text-align: center
-}
-.upload-drop-zone.drop {
-  color: #222;
-  border-color: #222;
-}
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
@@ -48,11 +35,29 @@
     max-height: 120px;
     width: auto;
   }
+
+  .centerimage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
-.progress, .buttons-div, .upload-drop-zone{
+.rspace, .selected_item, .new_folder{
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+.buttons-div{
+  margin-left: 1.5rem;
+}
+
+.my-btn{
+  width: 30%;
+}
+
+.new_folder{
+  padding-top: 4rem;
 }
 
 .profile{
@@ -70,6 +75,6 @@
   overflow-y: scroll;
 }
 
-.dropdown-file{
-  
+#files{
+  min-height: 20vh;
 }
