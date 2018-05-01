@@ -143,6 +143,17 @@ class DoctrineUserRepository implements  UserRepository
         return $res[0]['username'];
     }
 
+    public function getEmail(String $username){
+        $sql = "SELECT email FROM user WHERE username = :username";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("username", $username, 'string');
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
+    }
+
+
+
 
 
 }

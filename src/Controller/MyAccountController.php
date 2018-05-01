@@ -26,10 +26,15 @@ class MyAccountController
 
     public function __invoke(Request $request, Response $response)
     {
-        $email = $_SESSION['email'];
-        $exit = $this->container->get('user_repository')->exist($email);
+
+        if(isset($_SESSION['email'])) {
+            $email = $_SESSION['email'];
+            $exit = $this->container->get('user_repository')->exist($email);
 
 
-        return $this->container->get('view')->render($response,'myAccount.twig', ['user' => $exit[0]]);
+            return $this->container->get('view')->render($response, 'myAccount.twig', ['user' => $exit[0]]);
+        }else {
+            return $response->withStatus(403)->withHeader("Location", "/error");
+        }
     }
 }

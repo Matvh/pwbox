@@ -10,6 +10,7 @@ namespace SlimApp\Controller;
 
 
 use DateTime;
+use Doctrine\DBAL\Driver\PDOException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SlimApp\Model\User;
@@ -44,35 +45,53 @@ class HomeController
         $email = $resul['email'];
         $password = $resul['password'];
 
-        if (strlen($password) >= 6 && strlen($password)<= 12){
+        if(!preg_match('/@/', $email)){
 
-            $date = new DateTime('now');
-            $user = new User(1,$email,$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
-            $exit = $this->container->get('user_repository')->login($user);
 
-            var_dump($exit);
-
-            if (empty($exit)){
-                //TODO
+            $exit = $this->container->get('user_repository')->getEmail($email);
+            if ($exit){
+                $email = $exit[0]['email'];
             } else {
-                if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true") {
+                echo "Error, el usuario no existe";
+            }
 
-                    $_SESSION['email'] = $user->getEmail();
-                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $exit[0]['email']]);
+
+        }
+
+
+
+
+
+        $date = new DateTime('now');
+        $user = new User(1,$email,$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);
+        $exit = $this->container->get('user_repository')->login($user);
+
+        //var_dump($exit);
+
+        if (empty($exit)){
+            echo "Password incorrecta";
+            //TODO el usuario NO existe en la db
+        } else {
+
+            $_SESSION['email'] = $email;
+            $path = $this->container->get('user_repository')->getProfilePic($email);
+            $username = $this->container->get('user_repository')->getUsername($email);
+
+
+            if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true") {
+
+                return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic' => $path,'username' => $username]);
+            } else {
+                if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false") {
+                    return $this->container->get('view')->render($response, 'home.twig',
+                        ['email' => $_SESSION['email'],'pic' => $path,'username' => $username, 'mensaje' => "Activa la cuenta, porfavor"]);
+
                 } else {
-                    if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false") {
-                        return $this->container->get('view')->render($response, 'home.twig',
-                            ['email' => $exit[0]['email'], 'mensaje' => "Activa la cuenta, porfavor"]);
-
-                    } else {
-                        echo "lol";
-                    }
+                    echo "lol";
                 }
             }
-        } else {
-            echo "lel";
-            //TODO mensaje de error
         }
+
 
     }
 
