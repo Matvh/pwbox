@@ -23,12 +23,13 @@ $app->post('/register', 'SlimApp\Controller\RegisterController:validateData');
 
 $app->get('/home','SlimApp\Controller\HomeController:validateSession');
 $app->post('/home','SlimApp\Controller\HomeController:indexAction');
-$app->get('/home/{email}','SlimApp\Controller\HomeController');
+
 
 $app->get('/','SlimApp\Controller\HomeController:validateSession');
-
 $app->get('/add','SlimApp\Controller\CreateFolderController');
 
 
 $app->get('/file', 'SlimApp\Controller\FileController:showFormAction');
 $app->post('/file', 'SlimApp\Controller\FileController:uploadFileAction');
+
+$app->get('/activate', 'SlimApp\Controller\ActivateAccountController:activateAction');

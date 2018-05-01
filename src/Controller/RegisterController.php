@@ -147,7 +147,7 @@ class RegisterController
             $message = (new Swift_Message('Activate Account'))
                 ->setFrom(['pwb@info' => 'pwbox@info'])
                 ->setTo([$email])
-                ->setBody('Follow the link in order to activate your account');
+                ->setBody('Follow the link in order to activate your account ');
 
             // Send the message
             $result = $mailer->send($message);

@@ -2,3 +2,14 @@ user
 pwbox18@gmail.com
 pass
 pwbox1234
+
+https://stackoverflow.com/questions/3478906/using-phps-swiftmailer-with-gmail
+
+Not sure when Google made the change but in addition to the configuring your code with your Google username, password and port (465/ssl or 587/tls) you need to do the following steps to be able to use the Google smtp server.
+To use the the gmail smtp server with your gmail account you need to:
+1) In Google "Account settings" enable "Access for less secured apps" by setting it to "Allow".
+2) In gmail settings under the "Forwarding and POP/IMAP" tab, check the IMAP status, it needs to be enabled. (This will allow the emails sent to be saved in the sent folder.)
+3) If after steps 1 and 2 you still throw the Exception Google's smtp server is not accepting the user name and password you need to open a browser, go to gmail and log in, then open another tab in the same browser andgo to this address:
+https://accounts.google.com/DisplayUnlockCaptcha
+According to Google you may have to enter a captcha.
+4) Immediately send an email from your code as this will allow it to be authorized to use your gmail account.

@@ -30,15 +30,11 @@ class HomeController
     public function __invoke(Request $request, Response $response, array $args)
     {
         $email = $args['email'];
-
         $exit = $this->container->get('user_repository')->remove($email);
-
         if($exit){
             shell_exec("rm -rf /home/vagrant/users/$email");
-
             return $this->container->get('view')->render($response, 'home.twig');
         } else {
-
         }
     }
 
@@ -47,8 +43,6 @@ class HomeController
         $resul = $request->getParsedBody();
         $email = $resul['email'];
         $password = $resul['password'];
-
-
 
         if (strlen($password) >= 6 && strlen($password)<= 12){
 
@@ -83,11 +77,16 @@ class HomeController
     }
 
     public function validateSession(Request $request, Response $response){
-        if(isset($_SESSION['email'])){
-            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email']]);
-        } else {
-            return $this->container->get('view')->render($response, 'login.twig');
 
+        if (isset($_GET['email'])){
+            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email']]);
+        }else{
+            if(isset($_SESSION['email'])){
+                return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email']]);
+            } else {
+                return $this->container->get('view')->render($response, 'login.twig');
+
+            }
         }
     }
 
