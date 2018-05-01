@@ -126,5 +126,14 @@ class DoctrineUserRepository implements  UserRepository
 
     }
 
+    public function getProfilePic(String $email){
+        $sql = "SELECT profile_pic FROM user WHERE email = :email";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $email, 'string');
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $res[0]['profile_pic'];
+    }
+
 
 }

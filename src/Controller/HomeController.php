@@ -79,10 +79,12 @@ class HomeController
     public function validateSession(Request $request, Response $response){
 
         if (isset($_GET['email'])){
-            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email']]);
+            $path = $this->container->get('user_repository')->getProfilePic($_GET['email']);
+            return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email'], 'pic' => $path]);
         }else{
             if(isset($_SESSION['email'])){
-                return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email']]);
+                $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+                return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic' => $path]);
             } else {
                 return $this->container->get('view')->render($response, 'login.twig');
 

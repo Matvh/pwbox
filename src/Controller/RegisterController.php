@@ -91,7 +91,6 @@ class RegisterController
 
     private function uploadImage()
     {
-        var_dump($_FILES);
         $target_dir = "/home/vagrant/code/pwbox/public/profilePics/";
         $target_file = $target_dir . basename($_FILES["picture"]["name"]);
         $uploadOk = 1;
@@ -147,7 +146,7 @@ class RegisterController
             $message = (new Swift_Message('Activate Account'))
                 ->setFrom(['pwb@info' => 'pwbox@info'])
                 ->setTo([$email])
-                ->setBody('Follow the link in order to activate your account ');
+                ->setBody('Follow the link in order to activate your account http://pwbox.test/activate?email='.$email);
 
             // Send the message
             $result = $mailer->send($message);
