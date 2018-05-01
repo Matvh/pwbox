@@ -14,7 +14,7 @@ interface UserRepository
 {
     public function save(User $user);
 
-    public function exist(User $user);
+    public function exist(String $user);
 
     public function login(User $user);
 

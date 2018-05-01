@@ -58,16 +58,15 @@ class DoctrineUserRepository implements  UserRepository
     }
 
 
-    public function exist(User $user)
+    public function exist(String $user)
     {
         try {
-            $sql = "SELECT username, password FROM user WHERE :username = username";
+            $sql = "SELECT * FROM user WHERE :email = email";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("username", $user->getUsername(), 'string');
-            $stmt->bindValue("password", $user->getPassword(), 'string');
+            $stmt->bindValue("email", $user, 'string');
             $stmt->execute();
             $resul = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $resul != null;
+            return $resul;
         } catch (DBALException $e) {
             return false;
         }

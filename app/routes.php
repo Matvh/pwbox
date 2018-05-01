@@ -33,3 +33,6 @@ $app->get('/file', 'SlimApp\Controller\FileController:showFormAction');
 $app->post('/file', 'SlimApp\Controller\FileController:uploadFileAction');
 
 $app->get('/activate', 'SlimApp\Controller\ActivateAccountController:activateAction');
+
+
+$app->get('/update', 'SlimApp\Controller\MyAccountController');

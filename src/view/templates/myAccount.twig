@@ -1,0 +1,38 @@
+{% extends "base.twig" %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ base_path }}/assets/js/home.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h2>Update</h2>
+            <form class="box" action="" method="post" enctype="multipart/form-data">
+                <input type="text" placeholder="{{ user.nombre }}" name="name" readonly>
+                <input type="text" placeholder="{{ user.description }}" name="description" readonly>
+                <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
+                <input type="text" placeholder="{{ user.username }}" name="username" readonly>
+                <input type="text" placeholder="{{ user.email }}" name="email">
+                <input type="password" placeholder="Password" name="password">
+                <input type="password" placeholder="Repeat password" name="repassword">
+
+                <input type="file" name="picture" id="picture"><br>
+
+                <button class="btn btn-primary full-width loginbtn" type="submit">
+                    Update
+                </button>
+
+                <button class="btn btn-warning full-width signinbtn" type="button">
+                    Go back
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
