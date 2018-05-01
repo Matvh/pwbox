@@ -42,10 +42,10 @@ class DoctrineFolderRepository implements FolderRepository
         $exit = $stmt->execute();
 
         $sql = "INSERT INTO userFolder(id_user, id_folder, id_notification) SELECT user.id, folder.id, notification.id FROM user, notification, folder WHERE
-                user.email = :email AND folder.path = :path AND notification.id = 4";
+                user.email = :email AND folder.nombre = :nombre AND notification.id = 4";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $user->getEmail(), 'string');
-        $stmt->bindValue("path", $folder->getPath(), 'string');
+        $stmt->bindValue("nombre", $folder->getName(), 'string');
         $exit = $stmt->execute();
 
 

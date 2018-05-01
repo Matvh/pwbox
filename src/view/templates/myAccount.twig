@@ -12,30 +12,27 @@
 
     <div class="jumbotron">
         <div class="container">
-            <h2>Register</h2>
+            <h2>Update</h2>
             <form class="box" action="" method="post" enctype="multipart/form-data">
-                <input type="text" placeholder="Name" name="name" >
-                <input type="text" placeholder="Description" name="description" >
-                <input type="text" placeholder="Characteristics" name="characteristics" >
-                <input type="text" placeholder="Username" name="username" >
-                <input type="date" placeholder="Birthday" name="birthday" >
-                <input type="text" placeholder="Email" name="email">
+                <input type="text" placeholder="{{ user.nombre }}" name="name" readonly>
+                <input type="text" placeholder="{{ user.description }}" name="description" readonly>
+                <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
+                <input type="text" placeholder="{{ user.username }}" name="username" readonly>
+                <input type="text" placeholder="{{ user.email }}" name="email">
                 <input type="password" placeholder="Password" name="password">
                 <input type="password" placeholder="Repeat password" name="repassword">
 
                 <input type="file" name="picture" id="picture"><br>
 
                 <button class="btn btn-primary full-width loginbtn" type="submit">
-                    Sign me in!
+                    Update
                 </button>
 
-                <a  class="btn btn-warning full-width signinbtn" href="login">
+                <button class="btn btn-warning full-width signinbtn" type="button">
                     Go back
-                </a>
-
+                </button>
             </form>
         </div>
     </div>
 
 {% endblock %}
-
