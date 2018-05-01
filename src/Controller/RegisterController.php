@@ -54,9 +54,11 @@ class RegisterController
         $description = $resul['description'];
         $name = $resul['name'];
         $characteristics = $resul['characteristics'];
-        //$foto = $resul['picture'];
-        $foto = "/path";
-
+        if (isset($_FILES["picture"]["name"]) && empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != ''){
+            $foto = $_FILES["picture"]["name"];
+        }else{
+            $foto = 'default.png';
+        }
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
             && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
@@ -72,7 +74,7 @@ class RegisterController
                     $this->sendActivateEmail($email);
                     $this->uploadImage();
                     $_SESSION['email'] = $user->getEmail();
-                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email]);
+                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email, 'pic'=> $foto]);
                 } else {
                     echo "Ha habido un problema con la base de datos";
                 }
