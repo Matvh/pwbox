@@ -1,11 +1,10 @@
 {% extends "base.twig" %}
 
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/profile.css">
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{ base_path }}/assets/js/home.js"></script>
     <script src="{{ base_path }}/assets/js/updateUserInfo.js"></script>
 {% endblock %}
 
@@ -14,16 +13,27 @@
     <div class="jumbotron">
         <div class="container">
             <h2>Update</h2>
-            <form class="box" action="" method="post" enctype="multipart/form-data">
-                <input type="text" placeholder="{{ user.nombre }}" name="name" readonly>
-                <input type="text" placeholder="{{ user.description }}" name="description" readonly>
-                <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
-                <input type="text" placeholder="{{ user.username }}" name="username" readonly>
-                <input id="email" type="text" placeholder="{{ user.email }}" name="email">
-                <input id="pass" type="password" placeholder="Password" name="password">
-                <input id="pass_re" type="password" placeholder="Repeat password" name="repassword">
 
-                <input id="picture" type="file" name="picture" id="picture"><br>
+            <div class="row">
+
+                <form class="col-sm-6" action="" method="post" enctype="multipart/form-data">
+                    <input type="text" placeholder="{{ user.nombre }}" name="name" readonly>
+                    <input type="text" placeholder="{{ user.description }}" name="description" readonly>
+                    <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
+                    <input type="text" placeholder="{{ user.username }}" name="username" readonly>
+                    <input id="email" type="text" placeholder="{{ user.email }}" name="email">
+                    <input id="pass" type="password" placeholder="Password" name="password">
+                    <input id="pass_re" type="password" placeholder="Repeat password" name="repassword">
+                </form>
+
+                <form class="col-sm-6" action="" method="post" enctype="multipart/form-data">
+
+                    <input id="picture" type="file" name="picture" id="picture"><br>
+
+                    <button onclick="updatePhoto()" class="btn btn-primary full-width loginbtn" type="button">
+                        Change photo
+                    </button>
+                </form>
 
                 <button onclick="updateInfo()" class="btn btn-primary full-width loginbtn" type="button">
                     Update
@@ -31,16 +41,8 @@
                 <a  class="btn btn-warning full-width signinbtn" href="home">
                     Go back
                 </a>
-            </form>
 
-            <form class="box" action="" method="post" enctype="multipart/form-data">
-
-                <input id="picture" type="file" name="picture" id="picture"><br>
-
-                <button onclick="updatePhoto()" class="btn btn-primary full-width loginbtn" type="button">
-                    Change photo
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
