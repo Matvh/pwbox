@@ -30,10 +30,13 @@ CREATE TABLE `user` (
 
 CREATE TABLE `folder` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `is_root` boolean,
+  `id_user` int  unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -42,7 +45,7 @@ CREATE TABLE `file` (
   `id` int  unsigned NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `folder_id`  int unsigned NOT NULL,
@@ -77,6 +80,9 @@ CREATE TABLE `userFolder` (
     FOREIGN KEY (`id_notification`) REFERENCES `notification` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+
+
+select * from user;
 
 
 INSERT INTO user(username,email,password,created_at,updated_at,active_account,birthdate,available_size, nombre, description, characteristics, profile_pic) VALUES(‘Miquel’,’miquel@gmail.com’, ‘holahola’,2-03-20 20:20:20, 20-20-20 20:20:20, true, 25-06-1996,1.00, ‘Miquel’, ‘hola’, ‘adeeu’, ‘picture’);
