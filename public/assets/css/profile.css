@@ -1,10 +1,11 @@
 body {
     background: url(../back.jpg);
+	margin-bottom: 5rem;
 }
 
 .jumbotron {
 	text-align: center;
-	width: 50rem;
+	width: 100rem;
 	border-radius: 0.5rem;
 	top: 0;
 	bottom: 0;
@@ -45,13 +46,6 @@ h2 {
 
 .full-width {
 	width: 95%;
-}
-
-.box {
-	position: absolute;
-	margin-bottom: 3rem;
-
-	margin-right: 3rem;
 }
 
 .headimage {
