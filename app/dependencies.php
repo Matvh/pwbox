@@ -45,3 +45,7 @@ $container['flash'] = function (){
     return new \Slim\Flash\Message();
 };
 
+$container['activate_email'] = function (){
+    return new \SlimApp\Email\SwiftEmail();
+};
+

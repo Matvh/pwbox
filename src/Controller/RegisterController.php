@@ -15,10 +15,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
 use SlimApp\Model\User;
-use Swift_Mailer;
-use Swift_Message;
-use Swift_SmtpTransport;
-use Swift_TransportException;
+//use Swift_Mailer;
+//use Swift_Message;
+//use Swift_SmtpTransport;
+//use Swift_TransportException;
 
 
 class RegisterController
@@ -73,7 +73,8 @@ class RegisterController
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
-                    $this->sendActivateEmail($email);
+                    //$this->sendActivateEmail($email);
+                    $this->container->get('activate_email')->sendActivateEmail($email);
                     $this->uploadImage($email);
                     $_SESSION['email'] = $user->getEmail();
                     return $this->container->get('view')->render($response, 'home.twig', ['email' => $email, 'pic'=> $foto, 'username' => $username]);
@@ -133,7 +134,7 @@ class RegisterController
         }
     }
 
-    private function sendActivateEmail(String $email)
+    /*private function sendActivateEmail(String $email)
     {
         try {
             // Create the Transport
@@ -155,6 +156,6 @@ class RegisterController
         }catch (Swift_TransportException $e){
             echo 'Message: ' .$e->getMessage();
         }
-    }
+    }*/
 
 }

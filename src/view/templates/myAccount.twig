@@ -6,6 +6,7 @@
 
 {% block scripts %}
     <script src="{{ base_path }}/assets/js/home.js"></script>
+    <script src="{{ base_path }}/assets/js/updateUserInfo.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -18,19 +19,18 @@
                 <input type="text" placeholder="{{ user.description }}" name="description" readonly>
                 <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
                 <input type="text" placeholder="{{ user.username }}" name="username" readonly>
-                <input type="text" placeholder="{{ user.email }}" name="email">
-                <input type="password" placeholder="Password" name="password">
-                <input type="password" placeholder="Repeat password" name="repassword">
+                <input id="email" type="text" placeholder="{{ user.email }}" name="email">
+                <input id="pass" type="password" placeholder="Password" name="password">
+                <input id="pass_re" type="password" placeholder="Repeat password" name="repassword">
 
-                <input type="file" name="picture" id="picture"><br>
+                <input id="picture" type="file" name="picture" id="picture"><br>
 
-                <button class="btn btn-primary full-width loginbtn" type="submit">
+                <button onclick="updateInfo()" class="btn btn-primary full-width loginbtn" type="button">
                     Update
                 </button>
-
-                <button class="btn btn-warning full-width signinbtn" type="button">
+                <a  class="btn btn-warning full-width signinbtn" href="home">
                     Go back
-                </button>
+                </a>
             </form>
         </div>
     </div>
