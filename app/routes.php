@@ -38,3 +38,6 @@ $app->get('/activate', 'SlimApp\Controller\ActivateAccountController:activateAct
 $app->get('/profile', 'SlimApp\Controller\MyAccountController');
 
 $app->get('/error', 'SlimApp\Controller\ErrorController');
+
+$app->get('/logout', 'SlimApp\Controller\LogoutController');
+
