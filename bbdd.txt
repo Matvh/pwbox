@@ -19,8 +19,8 @@ CREATE TABLE `user` (
    `active_account` varchar(255),
    `birthdate` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `available_size` float,
-   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
-   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
+   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `profile_pic` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -31,12 +31,10 @@ CREATE TABLE `user` (
 CREATE TABLE `folder` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `is_root` boolean,
-  `id_user` int  unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
    `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
    PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
