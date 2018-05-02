@@ -64,3 +64,13 @@ h2 {
 .headimage > img {
   width: 30rem;
 }
+
+.glyphicon{
+	font-size: 4rem;
+}
+
+.modaldiv{
+	float: right;
+	margin-right: 2rem;
+	margin-top: 2rem;
+}
