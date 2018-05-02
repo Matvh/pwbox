@@ -75,8 +75,10 @@ class HomeController
         } else {
 
             $_SESSION['email'] = $email;
+            $_SESSION['folder'] =
             $path = $this->container->get('user_repository')->getProfilePic($email);
             $username = $this->container->get('user_repository')->getUsername($email);
+            //$folders = $this->container->get('folder_repository')->select($email);
 
 
             if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true") {
@@ -84,6 +86,7 @@ class HomeController
                 return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic' => $path,'username' => $username]);
             } else {
                 if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false") {
+
                     return $this->container->get('view')->render($response, 'home.twig',
                         ['email' => $_SESSION['email'],'pic' => $path,'username' => $username, 'mensaje' => "Activa la cuenta, porfavor"]);
 
@@ -101,11 +104,15 @@ class HomeController
         if (isset($_GET['email'])){
             $path = $this->container->get('user_repository')->getProfilePic($_GET['email']);
             $username = $this->container->get('user_repository')->getUsername($_GET['email']);
+            //folders = $this->container->get('folder_repository')->select($username);
+
             return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email'], 'pic' => $path, 'username' => $username]);
         }else{
             if(isset($_SESSION['email'])){
                 $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
                 $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+                //$folders = $this->container->get('folder_repository')->select($username);
+
                 return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic' => $path,'username' => $username]);
             } else {
                 return $this->container->get('view')->render($response, 'login.twig');
