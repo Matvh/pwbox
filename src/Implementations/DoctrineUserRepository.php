@@ -90,10 +90,21 @@ class DoctrineUserRepository implements  UserRepository
         }
     }
 
-    public function update(User $user)
+    public function updateEmail(String $email, String $new_email)
     {
-        // TODO: Implement update() method.
+        $q = $this->database->query("UPDATE user SET email='".$new_email."' WHERE email='".$email."'");
+        $result = $q->execute();
+        return $result;
+
     }
+
+    public function updatePassword(String $email, String $password)
+    {
+        $q = $this->database->query("UPDATE user SET password ='".$password."'WHERE email='".$email."'");
+        $result = $q->execute();
+        return $result;
+    }
+
 
 
     public function remove(String $email)

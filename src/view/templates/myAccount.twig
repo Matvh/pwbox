@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="{{ base_path }}/assets/js/updateUserInfo.js"></script>
 {% endblock %}
 
@@ -16,7 +17,7 @@
 
             <div class="row">
 
-                <form class="col-sm-6" action="" method="post" enctype="multipart/form-data">
+                <form id="fieldsForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
                     <input type="text" placeholder="{{ user.nombre }}" name="name" readonly>
                     <input type="text" placeholder="{{ user.description }}" name="description" readonly>
                     <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
@@ -24,20 +25,18 @@
                     <input id="email" type="text" placeholder="{{ user.email }}" name="email">
                     <input id="pass" type="password" placeholder="Password" name="password">
                     <input id="pass_re" type="password" placeholder="Repeat password" name="repassword">
+                    <button class="btn btn-primary full-width loginbtn" type="button" onclick="updateInfo()">
+                        Update
+                    </button>
                 </form>
 
-                <form class="col-sm-6" action="" method="post" enctype="multipart/form-data">
-
-                    <input id="picture" type="file" name="picture" id="picture"><br>
-
-                    <button onclick="updatePhoto()" class="btn btn-primary full-width loginbtn" type="button">
+                <form id="pictuteForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
+                    <input type="file" name="picture" id="picture"><br>
+                    <button  class="btn btn-primary full-width loginbtn" onclick="updatePhoto()">
                         Change photo
                     </button>
                 </form>
 
-                <button onclick="updateInfo()" class="btn btn-primary full-width loginbtn" type="button">
-                    Update
-                </button>
                 <a  class="btn btn-warning full-width signinbtn" href="home">
                     Go back
                 </a>

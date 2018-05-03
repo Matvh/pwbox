@@ -15,11 +15,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
 use SlimApp\Model\User;
-//use Swift_Mailer;
-//use Swift_Message;
-//use Swift_SmtpTransport;
-//use Swift_TransportException;
-
 
 class RegisterController
 {
@@ -73,9 +68,8 @@ class RegisterController
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
                     shell_exec("mkdir /home/vagrant/users/$email");
-                    //$this->sendActivateEmail($email);
                     $this->container->get('activate_email')->sendActivateEmail($email);
-                    $this->uploadImage($email);
+                    $this->container->get('upload_photo')->uploadPhoto($email);
                     $_SESSION['email'] = $user->getEmail();
                     return $this->container->get('view')->render($response, 'home.twig', ['email' => $email, 'pic'=> $foto, 'username' => $username]);
                 } else {
@@ -94,7 +88,7 @@ class RegisterController
 
     }
 
-    private function uploadImage(String $email)
+    /*private function uploadImage(String $email)
     {
         $extension = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
         $foto = $email.'.'.$extension;
@@ -132,30 +126,5 @@ class RegisterController
                 echo "Sorry, there was an error uploading your file.";
             }
         }
-    }
-
-    /*private function sendActivateEmail(String $email)
-    {
-        try {
-            // Create the Transport
-            $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465,'ssl'))
-                ->setUsername('pwbox18@gmail.com')
-                ->setPassword('pwbox1234');
-
-            // Create the Mailer using your created Transport
-            $mailer = new Swift_Mailer($transport);
-
-            // Create a message
-            $message = (new Swift_Message('Activate Account'))
-                ->setFrom(['pwb@info' => 'pwbox@info'])
-                ->setTo([$email])
-                ->setBody('Follow the link in order to activate your account http://pwbox.test/activate?email='.$email);
-
-            // Send the message
-            $result = $mailer->send($message);
-        }catch (Swift_TransportException $e){
-            echo 'Message: ' .$e->getMessage();
-        }
     }*/
-
 }

@@ -47,7 +47,6 @@ class HomeController
 
         if(!preg_match('/@/', $email)){
 
-
             $exit = $this->container->get('user_repository')->getEmail($email);
             if ($exit){
                 $email = $exit[0]['email'];
@@ -55,13 +54,7 @@ class HomeController
                 return $this->container->get('view')->render($response, 'login.twig', ['mensaje' => "El usuario no existe"]);
 
             }
-
-
         }
-
-
-
-
 
         $date = new DateTime('now');
         $user = new User(1,$email,$email,null, $date, $date, hash("sha256",$password), null, null, null, null, null);

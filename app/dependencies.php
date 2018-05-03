@@ -49,3 +49,6 @@ $container['activate_email'] = function (){
     return new \SlimApp\Email\SwiftEmail();
 };
 
+$container['upload_photo'] = function (){
+    return new \SlimApp\Photo\Photos();
+};

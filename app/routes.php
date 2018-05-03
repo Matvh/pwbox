@@ -36,6 +36,7 @@ $app->get('/activate', 'SlimApp\Controller\ActivateAccountController:activateAct
 
 
 $app->get('/profile', 'SlimApp\Controller\MyAccountController');
+$app->post('/profile', 'SlimApp\Controller\MyAccountController:updateData');
 
 $app->get('/error', 'SlimApp\Controller\ErrorController');
 
