@@ -18,16 +18,15 @@ interface UserRepository
 
     public function login(User $user);
 
-    public function update(User $user);
-
     public function remove(String $email);
 
     public function getSize(String $email);
 
     public function activate(String $email);
 
+    public function updateEmail(String $email, String $new_email);
 
-
+    public function updatePassword(String $email, String $password);
 
 
 }

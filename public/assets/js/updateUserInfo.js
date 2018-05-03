@@ -1,13 +1,39 @@
 function updateInfo() {
 
-    var email = document.getElementById("email").value;
-    var pass = document.getElementById("pass").value;
-    var pass_re = document.getElementById("pass_re").value;
-    var picture = document.getElementById("picture").value;
     //TODO check if white space
 
-    //TODO send ajax
+    $.post(
+        'profile',
+        {
+            email: document.getElementById("email").value,
+            password: document.getElementById("pass").value,
+            picture: document.getElementById("picture").value
+        },
+        function (result) {
+            if (result === "success"){
+                console.log("success");
+                //TODO el redirect en el callback del js o en el php?
+            }else{
+                console.log("error");
+            }
+        }
+    );
+}
 
+function updatePhoto(){
 
-    alert(email + pass + pass_re + picture);
+    $.post(
+        'profile',
+        {
+            picture: document.getElementById("picture").value
+        },
+        function (result) {
+            if (result === "success"){
+                console.log("success");
+                //TODO el redirect en el callback del js o en el php?
+            }else{
+                console.log("error");
+            }
+        }
+    );
 }

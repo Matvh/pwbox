@@ -8,8 +8,10 @@
 
 namespace SlimApp\Controller;
 
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Doctrine\DBAL\DBALException;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Container\ContainerInterface;
 
 class MyAccountController
 {
@@ -20,20 +22,61 @@ class MyAccountController
      * HelloController constructor.
      * @param $container
      */
-    public function __construct($container) {
+    public function __construct($container)
+    {
         $this->container = $container;
     }
 
     public function __invoke(Request $request, Response $response)
     {
 
-        if(isset($_SESSION['email'])) {
+        if (isset($_SESSION['email'])) {
             $email = $_SESSION['email'];
             $exit = $this->container->get('user_repository')->exist($email);
 
             return $this->container->get('view')->render($response, 'myAccount.twig', ['user' => $exit[0]]);
-        }else {
+        } else {
             return $response->withStatus(403)->withHeader("Location", "/error");
+        }
+    }
+
+    public function updateData(Request $request, Response $response)
+    {
+        //TODO verificaciones
+        if (isset($_SESSION['email'])) {
+
+            //cambiar mail
+            if (isset($_POST['email']) && !empty($_POST['email']) && $_POST['email'] != " ") {
+                var_dump($_SESSION['email']);
+                $email = $_SESSION['email'];
+                $new_email = $_POST['email'];
+
+                $this->container->get('user_repository')->updateEmail($email, $new_email);
+                //rename(oldname,newname);
+                $_SESSION['email'] = $new_email;
+
+            } else {
+                if (isset($_POST['email']) && (empty($_POST['email']) || $_POST['email'] == " ")) {
+                    echo "password must not be empty";
+                }
+            }
+
+            //cambiar password
+            if (isset($_POST['password']) && !empty($_POST['password']) && $_POST['password'] != " ") {
+                $password = hash("sha256", $_POST['password']);
+                $this->container->get('user_repository')->updatePassword($_SESSION['email'], $password);
+            }
+
+            //cambiar foto
+            if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
+                $email = $_SESSION['email'];
+                unlink("/home/vagrant/code/pwbox/public/profilePics/" . $email . ".png");
+                $this->container->get('upload_photo')->uploadPhoto($email);
+
+            } else {
+                return $response->withStatus(403)->withHeader("Location", "/error");
+            }
+
         }
     }
 }

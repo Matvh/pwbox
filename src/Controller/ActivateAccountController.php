@@ -32,7 +32,8 @@ class ActivateAccountController
         var_dump($email);
         try{
             $this->container->get('user_repository')->activate($email);
-            header('Location: http://pwbox.test/home?email='.$email);
+            $_SESSION['email'] = $email;
+            header('Location:/home?email='.$email);
         } catch (NotFoundExceptionInterface $e) {
             //TODO mostrar error en twig
             echo 'Message: ' .$e->getMessage();

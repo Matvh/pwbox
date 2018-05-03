@@ -53,7 +53,7 @@
 }
 
 .my-btn{
-  width: 30%;
+  width: 45%;
 }
 
 .new_folder{
@@ -75,6 +75,3 @@
   overflow-y: scroll;
 }
 
-#files{
-  min-height: 20vh;
-}
