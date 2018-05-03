@@ -32,8 +32,11 @@ class LoginController
         } else {
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+            $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
+
             //return $response->withStatus(302)->withHeader("Location", "/login");
-            return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'],'pic' => $path,'username' => $username]);
+            return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'],'pic' =>
+                $path,'username' => $username, 'folders' => $folders]);
         }
     }
 }

@@ -41,3 +41,6 @@ $app->get('/error', 'SlimApp\Controller\ErrorController');
 
 $app->get('/logout', 'SlimApp\Controller\LogoutController');
 
+$app->get('/resendemail', 'SlimApp\Controller\ResendActivateController');
+
+

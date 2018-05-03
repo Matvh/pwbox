@@ -64,7 +64,7 @@ class RegisterController
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
             && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
-            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)){
+            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) && preg_match('/[1-9]/', $password)){
 
             $date = new DateTime('now');
             $user = new User(1, $username, $email, $description,$name, $characteristics, hash("sha256",$password),
@@ -77,7 +77,8 @@ class RegisterController
                     $this->container->get('activate_email')->sendActivateEmail($email);
                     $this->uploadImage($email);
                     $_SESSION['email'] = $user->getEmail();
-                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email, 'pic'=> $foto, 'username' => $username]);
+                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email,
+                            'pic'=> $foto, 'username' => $username, 'mensaje' => "Activa la cuenta, porfavor"]);
                 } else {
                     echo "Ha habido un problema con la base de datos";
                 }

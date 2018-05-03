@@ -26,7 +26,9 @@ namespace SlimApp\Controller;
 
          } else {
              //return $response->withStatus(302)->withHeader("Location", "/");
-             return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email']]);
+             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
+
+             return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'], 'folders' => folders]);
          }
          //$name = $args['name'];
          //$this ->container->get('test');

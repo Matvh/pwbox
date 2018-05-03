@@ -103,7 +103,7 @@
 
         <br>
        
-            {{ mensaje }}
+            <a href="/resendemail">{{ mensaje }}</a>
 
 
         <div class="dropdown profile">
@@ -117,6 +117,13 @@
         </div>
 
         <h4><small>Folders</small></h4>
+        <ul>
+            {% for folder in folders %}
+                <li>{{ folder.name }}</li>
+            {% endfor %}
+        </ul>
+        <h1>Members</h1>
+
         <hr>
         <div id="folders">
 
@@ -126,6 +133,7 @@
 
         <h4><small>Files</small></h4>
         <hr>
+
         <div id="files">
 
         </div>
