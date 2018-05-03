@@ -46,6 +46,8 @@ class FolderController
             $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $email = $this->container->get('user_repository')->getEmail($_SESSION['email']);
 
+            //TODO controlar que la carpeta no exista
+
 
 
 
@@ -53,21 +55,27 @@ class FolderController
             $this->container->get('folder_repository')->create($folder, $user);
             $child = $this->container->get('folder_repository')->selectChildId($folderName);
             $this->container->get('folder_repository')->createChild($paramValue, $child[0]['id']);
+            return $response->withStatus(302)->withHeader("Location", "/folder/$paramValue");
+
         }
         else {
             $root = 1;
             $date = new DateTime('now');
-            $folder = new Folder(1, $date, $date, "hola", "path", $root);
+            $folder = new Folder(1, $date, $date, $folderName, "path", $root);
             $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $email = $this->container->get('user_repository')->getEmail($_SESSION['email']);
 
 
+            //TODO controlar que la carpeta no exista
 
 
             $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
             $this->container->get('folder_repository')->create($folder, $user);
-            $child = $this->container->get('folder_repository')->selectChildId("hola");
+            $child = $this->container->get('folder_repository')->selectChildId($folderName);
+            return $response->withStatus(302)->withHeader("Location", "/");
+
         }
+
 
 
     }
