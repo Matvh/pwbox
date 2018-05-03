@@ -86,9 +86,9 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Insert name">
                     <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
+                    <a href="/create-folder/{{ id_folder }}"><button class="btn btn-default" type="button" >
                         <span class="glyphicon glyphicon-plus"></span>
-                    </button>
+                    </button></a>
                     </span>
                 </div>
 
@@ -119,7 +119,7 @@
         <h4><small>Folders</small></h4>
         <ul>
             {% for folder in folders %}
-                <li>{{ folder.name }}</li>
+                <a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</li></a>
             {% endfor %}
         </ul>
         <h1>Members</h1>

@@ -68,10 +68,25 @@ class DoctrineFolderRepository implements FolderRepository
     public function select(String $user)
     {
         try {
-            $sql = "SELECT folder.name FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id 
+            $sql = "SELECT folder.name, folder.id FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id 
                     = userFolder.id_folder AND userFolder.id_user = user.id AND (user.email = :email OR user.username = :email) ";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("email",$user , 'string');
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+    }
+
+    public function selectChild(int $id)
+    {
+        try {
+            $sql = "SELECT folder.name, folder.id FROM folder, folderFolder WHERE folderFolder.id_root_folder = :id AND folderFolder.id_folder = folder.id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id",$id , 'string');
             $stmt->execute();
             $result = $stmt->fetchAll();
 
