@@ -79,14 +79,14 @@
             <div class="new_folder">
                 <h4> New folder</h4>
 
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Insert name">
+                <form class="input-group" action="/create-folder/{{ id_folder }}" method="post">
+                    <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
                     <span class="input-group-btn">
-                    <a href="/create-folder/{{ id_folder }}"><button class="btn btn-default" type="button" >
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button></a>
+                        <button class="btn btn-default" type="submit" >
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
                     </span>
-                </div>
+                </form>
 
             </div>
 
