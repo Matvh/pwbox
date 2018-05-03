@@ -14,14 +14,14 @@
         <div class="container">
             <h2>Register</h2>
             <form class="box" action="" method="post" enctype="multipart/form-data">
-                <input type="text" placeholder="Name" name="name" >
-                <input type="text" placeholder="Description" name="description" >
-                <input type="text" placeholder="Characteristics" name="characteristics" >
-                <input type="text" placeholder="Username" name="username" >
-                <input type="date" placeholder="Birthday" name="birthday" >
-                <input type="text" placeholder="Email" name="email">
-                <input type="password" placeholder="Password" name="password">
-                <input type="password" placeholder="Repeat password" name="repassword">
+                <input type="text" placeholder="Name" name="name" onchange="checkError(this, 'text')">
+                <input type="text" placeholder="Description" name="description" onchange="checkError(this, 'text')">
+                <input type="text" placeholder="Characteristics" name="characteristics" onchange="checkError(this, 'text')">
+                <input type="text" placeholder="Username" name="username" onchange="checkError(this, 'text')">
+                <input type="date" placeholder="Birthday" name="birthday" onchange="checkError(this, 'text')">
+                <input type="text" placeholder="Email" name="email" onchange="checkError(this, 'mail')">
+                <input type="password" placeholder="Password" name="password" onchange="checkError(this, 'pass')">
+                <input type="password" placeholder="Repeat password" name="repassword" onchange="checkError(this, 'pass')">
 
                 <input type="file" name="picture" id="picture"><br>
 
