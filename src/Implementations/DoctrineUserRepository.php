@@ -105,6 +105,13 @@ class DoctrineUserRepository implements  UserRepository
         return $result;
     }
 
+    public function updateProfilePicPath(String $email, String $photo)
+    {
+        $q = $this->database->query("UPDATE user SET profile_pic ='".$photo."'WHERE email='".$email."'");
+        $result = $q->execute();
+        return $result;
+    }
+
 
 
     public function remove(String $email)

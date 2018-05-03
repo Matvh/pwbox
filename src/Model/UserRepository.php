@@ -28,5 +28,9 @@ interface UserRepository
 
     public function updatePassword(String $email, String $password);
 
+    public function updateProfilePicPath(String $email, String $photo);
+
+    public function getProfilePic(String $email);
+
 
 }

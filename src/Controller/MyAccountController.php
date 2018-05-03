@@ -52,7 +52,8 @@ class MyAccountController
                 $new_email = $_POST['email'];
 
                 $this->container->get('user_repository')->updateEmail($email, $new_email);
-                //rename(oldname,newname);
+                $this->container->get('user_repository')->updateProfilePicPath($new_email, $new_email.".png");
+                rename("/home/vagrant/code/pwbox/public/profilePics/" . $email . ".png","/home/vagrant/code/pwbox/public/profilePics/". $new_email . ".png");
                 $_SESSION['email'] = $new_email;
 
             } else {
@@ -70,13 +71,14 @@ class MyAccountController
             //cambiar foto
             if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
                 $email = $_SESSION['email'];
-                unlink("/home/vagrant/code/pwbox/public/profilePics/" . $email . ".png");
+                $oldPic = "/home/vagrant/code/pwbox/public/profilePics/".$email.".png";
+                chmod($oldPic, 0644);
+                unlink($oldPic);
                 $this->container->get('upload_photo')->uploadPhoto($email);
-
-            } else {
-                return $response->withStatus(403)->withHeader("Location", "/error");
             }
-
+        } else {
+                echo "papoaspodpdos";
+                return $response->withStatus(403)->withHeader("Location", "/error");
         }
     }
 }
