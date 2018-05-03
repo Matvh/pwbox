@@ -28,28 +28,57 @@ class DoctrineFolderRepository implements FolderRepository
 
     public function create(Folder $folder, User $user)
     {
-        $sql = "INSERT INTO folder(created_at, updated_at, nombre, path) VALUES(:created_at, :updated_at, :nombre, :path)";
+        $sql = "INSERT INTO folder(is_root, created_at, updated_at, name, path) VALUES(:root, :created_at, :updated_at, :nombre, :path)";
         $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("root", $folder->getRoot());
         $stmt->bindValue("created_at", $folder->getCreated()->format(self::DATE_FORMAT));
         $stmt->bindValue("updated_at", $folder->getUpdated()->format(self::DATE_FORMAT));
         $stmt->bindValue("nombre", $folder->getName(), 'string');
         $stmt->bindValue("path", $folder->getPath(), 'string');
-        $exit = $stmt->execute();
+        $stmt->execute();
 
         $sql = "INSERT INTO notification(info) VALUES(:info)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("info", "Folder created", 'string');
-        $exit = $stmt->execute();
+        $stmt->execute();
 
-        $sql = "INSERT INTO userFolder(id_user, id_folder, id_notification) SELECT user.id, folder.id, notification.id FROM user, notification, folder WHERE
-                user.email = :email AND folder.nombre = :nombre AND notification.id = 4";
+        $sql = "SELECT * FROM user ";
         $stmt = $this->database->prepare($sql);
-        $stmt->bindValue("email", $user->getEmail(), 'string');
-        $stmt->bindValue("nombre", $folder->getName(), 'string');
+        //$stmt->bindValue("email", $user->getEmail(), 'string');
+        $stmt->execute();
+        $email = $stmt->fetchAll();
+
+
+        $sql = "SELECT id FROM folder WHERE name = :name ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("name", $folder->getName(), 'string');
+        $stmt->execute();
+        $exit2 = $stmt->fetchAll();
+
+        $sql = "INSERT INTO userFolder(id_user, id_folder, id_notification) VALUES (:usera, :folder, 4)";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("usera", $email[0]['id'], 'string');
+        $stmt->bindValue("folder", $exit2[0]['id'], 'string');
         $exit = $stmt->execute();
 
 
 
+    }
+
+    public function select(String $user)
+    {
+        try {
+            $sql = "SELECT folder.name FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id 
+                    = userFolder.id_folder AND userFolder.id_user = user.id AND (user.email = :email OR user.username = :email) ";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("email",$user , 'string');
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
     }
 
     public function delete(Folder $folder)

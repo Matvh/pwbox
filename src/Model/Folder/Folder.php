@@ -17,6 +17,7 @@ class Folder
     private $updated;
     private $name;
     private $path;
+    private $root;
 
     /**
      * Folder constructor.
@@ -25,13 +26,14 @@ class Folder
      * @param $updated
      * @param $name
      */
-    public function __construct($id, $created, $updated, $name, $path)
+    public function __construct($id, $created, $updated, $name, $path, $root)
     {
         $this->id = $id;
         $this->created = $created;
         $this->updated = $updated;
         $this->name = $name;
         $this->path = $path;
+        $this->root = $root;
     }
 
     /**
@@ -113,6 +115,23 @@ class Folder
     {
         $this->path = $path;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * @param mixed $root
+     */
+    public function setRoot($root): void
+    {
+        $this->root = $root;
+    }
+
 
 
 

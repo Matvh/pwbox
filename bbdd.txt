@@ -14,13 +14,13 @@ CREATE TABLE `user` (
   `username` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `email` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `password` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` varchar(255),
+  `updated_at` varchar(255),
    `active_account` varchar(255),
    `birthdate` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   `available_size` float,
-   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `available_size` varchar(255),
+   `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
+   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
    `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `profile_pic` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -30,9 +30,9 @@ CREATE TABLE `user` (
 
 CREATE TABLE `folder` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `is_root` boolean,
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `is_root` varchar(255),
+  `created_at` varchar(255),
+  `updated_at` varchar(255),
    `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    PRIMARY KEY (`id`)
@@ -41,8 +41,8 @@ CREATE TABLE `folder` (
 
 CREATE TABLE `file` (
   `id` int  unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` varchar(255),
+  `updated_at` varchar(255),
    `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
@@ -78,15 +78,8 @@ CREATE TABLE `userFolder` (
     FOREIGN KEY (`id_notification`) REFERENCES `notification` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-
-
-select * from user;
-
-
-INSERT INTO user(username,email,password,created_at,updated_at,active_account,birthdate,available_size, nombre, description, characteristics, profile_pic) VALUES(‘Miquel’,’miquel@gmail.com’, ‘holahola’,2-03-20 20:20:20, 20-20-20 20:20:20, true, 25-06-1996,1.00, ‘Miquel’, ‘hola’, ‘adeeu’, ‘picture’);
-
-
-
+SELECT folder.id, folder.name FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id
+                    = userFolder.id_folder AND userFolder.id_user = user.id AND (user.email = 'miquel@gmail.com' OR user.username = 'miquel');
 
 
 
