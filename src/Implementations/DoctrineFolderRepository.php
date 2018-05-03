@@ -96,6 +96,41 @@ class DoctrineFolderRepository implements FolderRepository
         }
     }
 
+    public function selectChildId(String $name)
+    {
+        try {
+            $sql = "SELECT folder.id FROM folder WHERE folder.name = :name ";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("name",$name, 'string');
+
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+    }
+
+    public function createChild(int $parent, int $child)
+    {
+
+        try {
+            $sql = "INSERT INTO folderFolder(id_root_folder, id_folder) VALUES (:parent, :child)";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("parent",$parent, 'string');
+            $stmt->bindValue("child",$child, 'string');
+
+            $result = $stmt->execute();
+
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+
+    }
+
     public function delete(Folder $folder)
     {
         // TODO: Implement delete() method.
