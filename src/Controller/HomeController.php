@@ -119,7 +119,7 @@ class HomeController
                 $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
                 $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
                 $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
-                
+
 
 
                 return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic'
