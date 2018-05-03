@@ -15,7 +15,7 @@ class Photos
     public function uploadPhoto(String $email)
     {
         $extension = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
-        $foto = $email . '.' . $extension;
+        $foto = $email . '.' .$extension;
 
         $target_dir = "/home/vagrant/code/pwbox/public/profilePics/";
         $target_file = $target_dir . $foto;

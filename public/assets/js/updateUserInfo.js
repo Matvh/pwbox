@@ -22,7 +22,7 @@ function updateInfo() {
 
 function updatePhoto(){
 
-    $.post(
+    /*$.post(
         'profile',
         {
             picture: document.getElementById("picture").value
@@ -35,5 +35,20 @@ function updatePhoto(){
                 console.log("error");
             }
         }
-    );
+    );*/
+
+    var formData = new FormData($("picForm")[0]);
+
+    $.ajax({
+        url: "profile",
+        type: "POST",
+        data: formData,
+        async: false,
+        success: function (msg) {
+            alert(msg)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
 }

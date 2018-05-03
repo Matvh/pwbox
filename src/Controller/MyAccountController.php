@@ -55,7 +55,7 @@ class MyAccountController
                 $this->container->get('user_repository')->updateProfilePicPath($new_email, $new_email.".png");
                 rename("/home/vagrant/code/pwbox/public/profilePics/" . $email . ".png","/home/vagrant/code/pwbox/public/profilePics/". $new_email . ".png");
                 $_SESSION['email'] = $new_email;
-
+                echo "success";
             } else {
                 if (isset($_POST['email']) && (empty($_POST['email']) || $_POST['email'] == " ")) {
                     echo "password must not be empty";
@@ -66,18 +66,26 @@ class MyAccountController
             if (isset($_POST['password']) && !empty($_POST['password']) && $_POST['password'] != " ") {
                 $password = hash("sha256", $_POST['password']);
                 $this->container->get('user_repository')->updatePassword($_SESSION['email'], $password);
+                echo "success";
             }
+
 
             //cambiar foto
             if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
+
                 $email = $_SESSION['email'];
+
                 $oldPic = "/home/vagrant/code/pwbox/public/profilePics/".$email.".png";
-                chmod($oldPic, 0644);
+                chmod($oldPic, 777);
                 unlink($oldPic);
                 $this->container->get('upload_photo')->uploadPhoto($email);
+                echo "success";
+                exit();
+            }else{
+                echo "error";
             }
+
         } else {
-                echo "papoaspodpdos";
                 return $response->withStatus(403)->withHeader("Location", "/error");
         }
     }

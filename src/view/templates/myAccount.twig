@@ -30,12 +30,11 @@
                     </button>
                 </form>
 
-                <form class="col-sm-6" action="" method="post" enctype="multipart/form-data">
-
-                    <img src="{{ base_path }}/profilePics/{{ email }}.png">
-
-                    <input id="picture" type="file" name="picture" id="picture"><br>
-
+                <form id="picForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
+                    <img id="pic" src="{{ base_path }}/profilePics/{{ user.email }}.png" width="200" height="200"  >
+                    <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
+                            id="picture" name="picture">
+                    <br>
                     <button onclick="updatePhoto()" class="btn btn-primary full-width loginbtn" type="button">
                         Change photo
                     </button>
