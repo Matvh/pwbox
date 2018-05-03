@@ -47,5 +47,6 @@ $app->get('/resendemail', 'SlimApp\Controller\ResendActivateController');
 
 $app->get('/folder/{id}', 'SlimApp\Controller\FolderController');
 $app->get('/create-folder/{id}', 'SlimApp\Controller\FolderController:createFolder');
+$app->get('/create-folder/', 'SlimApp\Controller\FolderController:createFolder');
 
 
