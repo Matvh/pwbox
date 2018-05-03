@@ -1,17 +1,21 @@
 var PASS_REG = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,12}$/;
 
 
-var CORRECT = 'rgb(104, 134, 121)';
-var INCORRECT = 'rgb(224, 155, 93)'
+var CORRECT = 'rgb(225, 242, 230)';
+var INCORRECT = 'rgb(244, 231, 219)';
 
 var user = false;
 var pass = false;
+
+window.onload = function(){
+    document.getElementById('submitbutton').disabled=true;
+}
 
 function checkError(e, t) {
 
 	switch (t){
 		case 'text':
-			if(e.value == 'a'){
+			if(e.value == "" || e.value == "undefined" || e.value == null){
                 e.style.setProperty('background-color', INCORRECT, 'important');
                 user = false;
                 blockSubmit();
@@ -40,9 +44,13 @@ function checkError(e, t) {
 
 }
 
-function allowSubmit(){}
+function allowSubmit(){
+    document.getElementById('submitbutton').disabled=false;
+}
 
-function blockSubmit(){}
+function blockSubmit(){
+    document.getElementById('submitbutton').disabled=true;
+}
 
 function preventDefault(){
     return pass && user;
