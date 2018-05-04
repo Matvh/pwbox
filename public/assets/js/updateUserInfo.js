@@ -22,33 +22,22 @@ function updateInfo() {
 
 function updatePhoto(){
 
-    /*$.post(
-        'profile',
-        {
-            picture: document.getElementById("picture").value
-        },
-        function (result) {
-            if (result === "success"){
-                console.log("success");
-                //TODO el redirect en el callback del js o en el php?
-            }else{
-                console.log("error");
-            }
-        }
-    );*/
+    var formData = new FormData();
+    var image = document.getElementById("picture").files[0];
+    formData.append('picture', image);
 
-    var formData = new FormData($("picForm")[0]);
+    console.log(image);
 
     $.ajax({
-        url: "profile",
-        type: "POST",
+        url: "/profile",
+        type: "post",
+        contentType: false,
+        processData: false,
         data: formData,
         async: false,
         success: function (msg) {
-            alert(msg)
+
         },
-        cache: false,
-        contentType: false,
-        processData: false
+        cache: false
     });
 }
