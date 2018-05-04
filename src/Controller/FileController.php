@@ -28,7 +28,7 @@ class FileController
 
     public function uploadFileAction(Request $request, Response $response)
     {
-        $directory = '/home/vagrant/projects/pwbox/public/uploads'; //TODO ver si aca estan las cosas
+        $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
 
         $uploadedFiles = $request->getUploadedFiles();
 
@@ -44,10 +44,8 @@ class FileController
             }
 
             $fileName = $uploadedFile->getClientFilename();
-
             $fileInfo = pathinfo($fileName);
 
-            var_dump($fileInfo);
 
             $extension = $fileInfo['extension'];
 
@@ -59,7 +57,7 @@ class FileController
                 );
                 continue;
             }
-            //        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
+               $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
         }
 
         return $this->container->get('view')
@@ -74,7 +72,7 @@ class FileController
      */
     private function isValidExtension(string $extension)
     {
-        $validExtensions = ['jpg', 'png'];
+        $validExtensions = ['jpg', 'png', 'pdf'];
 
         return in_array($extension, $validExtensions);
     }
