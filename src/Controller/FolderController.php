@@ -39,8 +39,9 @@ class FolderController
     {
         $folderName = $_POST['folder_name'];
         if ($args != null) {
-
-            $exist = $this->container->get('folder_repository')->exist($folderName);
+            $id = $this->container->get('user_repository')->exist($_SESSION['email']);
+            var_dump($id);exit();
+            $exist = $this->container->get('folder_repository')->exist($folderName, $id);
             $paramValue = $args['id'];
 
             if($exist){
@@ -52,7 +53,8 @@ class FolderController
             $date = new DateTime('now');
             $folder = new Folder(1, $date, $date, $folderName, "path", $root);
             $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-            $email = $this->container->get('user_repository')->getEmail($_SESSION['email']);
+            var_dump($user);exit();
+            $email = $_SESSION['email'];
             $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
             $this->container->get('folder_repository')->create($folder, $user);
             $child = $this->container->get('folder_repository')->selectChildId($folderName);
@@ -63,16 +65,16 @@ class FolderController
         else {
             $root = 1;
             $date = new DateTime('now');
+            $id = $this->container->get('user_repository')->exist($_SESSION['email']);
 
-            $exist = $this->container->get('folder_repository')->exist($folderName);
+            $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
 
             if($exist){
                 return $response->withStatus(302)->withHeader("Location", "/");
             }
             $folder = new Folder(1, $date, $date, $folderName, "path", $root);
             $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-            $email = $this->container->get('user_repository')->getEmail($_SESSION['email']);
-
+            $email = $_SESSION['email'];
 
 
 

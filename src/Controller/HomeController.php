@@ -68,7 +68,6 @@ class HomeController
         } else {
 
             $_SESSION['email'] = $email;
-            $_SESSION['folder'] =
             $path = $this->container->get('user_repository')->getProfilePic($email);
             $username = $this->container->get('user_repository')->getUsername($email);
             $folders = $this->container->get('folder_repository')->select($email);

@@ -127,23 +127,12 @@
                 </ul>
             </div>
 
-
-        <h4><small>Folders</small></h4>
-        <ul>
-            {% for folder in folders %}
-                <a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</a> <a href="/delete/{{ folder.id }}">Delete</a> <a>Rename</a></li>
-            {% endfor %}
-        </ul>
-        <h1>Members</h1>
-
             <h4>
                 <small>Folders</small>
             </h4>
             <ul>
                 {% for folder in folders %}
-                    <a href="/folder/{{ folder.id }}">
-                        <li>{{ folder.name }}</li>
-                    </a>
+                    <a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</a> <a href="/delete/{{ folder.id }}">Delete</a> <a>Rename</a></li>
                 {% endfor %}
             </ul>
             <h1>Members</h1>
@@ -162,7 +151,7 @@
                 <hr>
 
                 <div id="files">
-                {% block errorFiles %} {% endblock %}
+                    {% block errorFiles %} {% endblock %}
                 </div>
                 <hr/>
             {% endblock %}

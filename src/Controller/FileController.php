@@ -31,8 +31,9 @@ class FileController
         $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
 
         $uploadedFiles = $request->getUploadedFiles();
-
+        $moreErrors = null;
         $errors = [];
+
 
         foreach ($uploadedFiles['files'] as $uploadedFile) {
             if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {

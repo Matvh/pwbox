@@ -28,6 +28,7 @@ class DoctrineFolderRepository implements FolderRepository
 
     public function create(Folder $folder, User $user)
     {
+
         $sql = "INSERT INTO folder(is_root, created_at, updated_at, name, path) VALUES(:root, :created_at, :updated_at, :nombre, :path)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("root", $folder->getRoot());
@@ -42,9 +43,9 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt->bindValue("info", "Folder created", 'string');
         $stmt->execute();
 
-        $sql = "SELECT * FROM user ";
+        $sql = "SELECT * FROM user WHERE email = :email";
         $stmt = $this->database->prepare($sql);
-        //$stmt->bindValue("email", $user->getEmail(), 'string');
+        $stmt->bindValue("email", $user->getEmail(), 'string');
         $stmt->execute();
         $email = $stmt->fetchAll();
 
@@ -65,12 +66,14 @@ class DoctrineFolderRepository implements FolderRepository
 
     }
 
-    public function exist(String $name)
+    public function exist(String $name, int $id)
     {
         try {
-            $sql = "SELECT folder.name FROM folder WHERE name = :name";
+            $sql = "SELECT folder.name FROM folder, userFolder WHERE folder.name = :name AND userFolder.id_folder = folder.id AND userFolder.id_user = :id";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("name",$name , 'string');
+            $stmt->bindValue("id",$id );
+
             $stmt->execute();
             $result = $stmt->fetchAll();
 
@@ -89,7 +92,6 @@ class DoctrineFolderRepository implements FolderRepository
             $stmt->bindValue("email",$user , 'string');
             $stmt->execute();
             $result = $stmt->fetchAll();
-
             return $result;
         } catch (DBALException $e) {
             return false;

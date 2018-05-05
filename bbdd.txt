@@ -24,7 +24,9 @@ CREATE TABLE `user` (
    `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `profile_pic` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQUE_EMAIL` (`email`)
+  UNIQUE KEY `UNIQUE_EMAIL` (`email`),
+    UNIQUE KEY `UNIQUE_USERNAME` (`username`)
+
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
