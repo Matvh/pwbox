@@ -11,143 +11,154 @@
 
 {% block content %}
 
-<div class="container-fluid">
-    <div class="col-sm-3 sidenav">
-        <div class="row content">
-            <div class="img-responsive headimage">
-                <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
-            </div>
-
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#section1">{{ username }} 's Box</a></li>
-                <li><a href="#section2">Shared with Me</a></li>
-            </ul><br>
-
-            <div class="rspace">
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                        <span class="sr-only">62% Complete</span>
-                    </div>
+    <div class="container-fluid">
+        <div class="col-sm-3 sidenav">
+            <div class="row content">
+                <div class="img-responsive headimage">
+                    <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
                 </div>
 
-                <h5> 622MB of 1GB used </h5>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#section1"> {% block Username1 %} {{ username }} {% endblock %} 's Box</a></li>
+                    <li><a href="#section2">Shared with Me</a></li>
+                </ul>
+                <br>
 
-            </div>
+                <div class="rspace">
 
-            <br>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                             aria-valuemax="100" style="width: 60%;">
+                            <span class="sr-only">62% Complete</span>
+                        </div>
+                    </div>
 
-            <div class="selected_item">
-                <h4> Selected item</h4>
+                    <h5> 622MB of 1GB used </h5>
+
+                </div>
+
+                <br>
+
+                <div class="selected_item">
+                    <h4> Selected item</h4>
 
 
-                <div class="input-group">
-                    <input type="text" class="form-control" value="tokens.lex">
-                    <span class="input-group-btn">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="tokens.lex">
+                        <span class="input-group-btn">
                     <button class="btn btn-default" type="button">
                         <span class="glyphicon glyphicon-edit"></span>
                     </button>
                 </span>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-sm-5 img-responsive headimage">
-                        <img class="centerimage" src="{{ base_path }}/assets/file.png" alt="icon">
                     </div>
 
-                    <div class="col-sm-7">
-                        <p><b>Size :</b><br>10MB</p>
-                        <p><b>Type: </b><br>TXT</p>
+                    <div class="row">
+
+                        <div class="col-sm-5 img-responsive headimage">
+                            <img class="centerimage" src="{{ base_path }}/assets/file.png" alt="icon">
+                        </div>
+
+                        <div class="col-sm-7">
+                            <p><b>Size :</b><br>10MB</p>
+                            <p><b>Type: </b><br>TXT</p>
+
+                        </div>
 
                     </div>
 
+
+                    <div class="buttons-div">
+                        <button class="btn btn-warning my-btn" id="js-download">
+                            <span class="glyphicon glyphicon-download-alt"></span>
+                        </button>
+
+                        <button class="btn btn-danger my-btn" id="js-delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
                 </div>
 
-
-                <div class="buttons-div">
-                    <button class="btn btn-warning my-btn" id="js-download">
-                        <span class="glyphicon glyphicon-download-alt"></span>
-                    </button>
-
-                    <button class="btn btn-danger my-btn" id="js-delete">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="new_folder">
-                <h4> New folder</h4>
-                <form class="input-group" action="/create-folder/{{ id_folder }}" method="post">
-                    <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit" >
+                <div class="new_folder">
+                    <h4> New folder</h4>
+                    <form class="input-group" action="/create-folder/{{ id_folder }}" method="post">
+                        <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </span>
-                </form>
-            </div>
+                    </form>
+                </div>
 
-            <div class="new_folder">
-                <h4> Upload File</h4>
-                <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
-                    <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
-                    <input type="hidden" name="email" id="email" value="{{ email }}">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit" >
+                <div class="new_folder">
+                    <h4> Upload File</h4>
+                    <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
+                        <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
+                        <input type="hidden" name="email" id="email" value="{{ email }}">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </span>
-                </form>
-            </div>
+                    </form>
+                </div>
 
+            </div>
         </div>
-    </div>
 
-    <div class="col-sm-9 mycol">
+        <div class="col-sm-9 mycol">
 
-        <h3>Home &gt RutaActual</h3>
+            <h3>Home &gt RutaActual</h3>
 
-        <br>
-       
+            <br>
+
             <a href="/resendemail">{{ mensaje }}</a>
 
 
-        <div class="dropdown profile">
-            {{ username }}
-            <img src="{{ base_path }}/profilePics/{{ email }}.png" class="dropdown-toggle img-circle dropdown-profile"
-                 type="button" data-toggle="dropdown">
-            <ul class="dropdown-menu">
-                <li><a href="profile">My account</a></li>
-                <li><a href="#">Notifications</a></li>
-                <li><a href="logout">Logout</a></li>
+            <div class="dropdown profile">
+                {% block Username2 %} {{ username }} {% endblock %}
+                <img src="{{ base_path }}/profilePics/{% block picture %}{{ email }}{% endblock %}.png "
+                     class="dropdown-toggle img-circle dropdown-profile"
+                     type="button" data-toggle="dropdown">
+                <ul class="dropdown-menu">
+                    <li><a href="profile">My account</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="logout">Logout</a></li>
+                </ul>
+            </div>
+
+            <h4>
+                <small>Folders</small>
+            </h4>
+            <ul>
+                {% for folder in folders %}
+                    <a href="/folder/{{ folder.id }}">
+                        <li>{{ folder.name }}</li>
+                    </a>
+                {% endfor %}
             </ul>
+            <h1>Members</h1>
+
+            <hr>
+            <div id="folders">
+
+            </div>
+            <hr/>
+            <br>
+
+            {% block files %}
+                <h4>
+                    <small>Files</small>
+                </h4>
+                <hr>
+
+                <div id="files">
+                {% block errorFiles %} {% endblock %}
+                </div>
+                <hr/>
+            {% endblock %}
+
         </div>
-
-        <h4><small>Folders</small></h4>
-        <ul>
-            {% for folder in folders %}
-                <a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</li></a>
-            {% endfor %}
-        </ul>
-        <h1>Members</h1>
-
-        <hr>
-        <div id="folders">
-
-        </div>
-        <hr />
-        <br>
-
-        <h4><small>Files</small></h4>
-        <hr>
-
-        <div id="files">
-
-        </div>
-        <hr />
 
     </div>
-
-</div>
 {% endblock %}
