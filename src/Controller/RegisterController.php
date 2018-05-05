@@ -57,9 +57,11 @@ class RegisterController
             $foto = 'default.png';
         }
 
+        $existe = $this->container->get('user_repository')->getEmail($username);
+
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
             && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
-            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) && preg_match('/[1-9]/', $password)){
+            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) && preg_match('/[1-9]/', $password) && $existe == null){
 
             $date = new DateTime('now');
             $user = new User(1, $username, $email, $description,$name, $characteristics, hash("sha256",$password),

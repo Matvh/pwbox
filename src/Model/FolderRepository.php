@@ -16,7 +16,6 @@ interface FolderRepository
 
     public function create(Folder $folder, User $user);
 
-    public function delete(Folder $folder);
 
     public function update(Folder $folder);
 
