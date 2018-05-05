@@ -1,26 +1,29 @@
-{% extends 'home.twig' %}
-{% block title %}Upload file{% endblock %}
-{% block content %}
+{% embed 'home.twig' %}
+    {% block title %}Upload file{% endblock %}
 
-    {{ parent() }}
+    {% block content %}
 
-    {% block Username1 %} {{ user['name'] }} {% endblock %}
-    {% block Username2 %} {{ user['name'] }} {% endblock %}
-    {% block picture %}{{ user['email'] }}{% endblock %}
+        {{ parent() }}
+
+        {% block Username1 %} {{ user['name'] }} {% endblock %}
+        {% block Username2 %} {{ user['name'] }} {% endblock %}
+        {% block picture %}{{ user['email'] }}{% endblock %}
 
 
-    {% block errorFiles %}
-        {% for error in errors %}
-            <p> {{ error }} </p>
-        {%  endfor %}
+        {% block errorFiles %}
+            {% for error in errors %}
+                <p> {{ error }} </p>
+            {% endfor %}
 
-        {% if moreErrors['invalidExt'] is defined %}
-            <p> {{ moreErrors['extensions'] }} </p>
-        {% endif %}
+            {% if moreErrors['invalidExt'] is defined %}
+                <p> {{ moreErrors['extensions'] }} </p>
+            {% endif %}
 
-        {% if moreErrors['invalidSize'] is defined %}
-            <p> {{ moreErrors['size'] }} </p>
-        {% endif %}
+            {% if moreErrors['invalidSize'] is defined %}
+                <p> {{ moreErrors['size'] }} </p>
+            {% endif %}
+        {% endblock %}
+
     {% endblock %}
-{% endblock %}
 
+{% endembed %}

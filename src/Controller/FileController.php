@@ -11,6 +11,7 @@ namespace SlimApp\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
+use SlimApp\Model\File\File;
 
 
 class FileController
@@ -29,9 +30,9 @@ class FileController
     public function uploadFileAction(Request $request, Response $response)
     {
         $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
-
         $uploadedFiles = $request->getUploadedFiles();
-
+        //var_dump($uploadedFiles['files'][0]);
+        //exit();
         $errors = [];
 
         foreach ($uploadedFiles['files'] as $uploadedFile) {
@@ -46,7 +47,6 @@ class FileController
             $fileName = $uploadedFile->getClientFilename();
             $fileInfo = pathinfo($fileName);
 
-
             $extension = $fileInfo['extension'];
 
             if (!$this->isValidExtension($extension)) {
@@ -60,7 +60,6 @@ class FileController
                 continue;
             }
 
-
             if (!$this->isValidSize($uploadedFile->getSize())){
                 $moreErrors['invalidSize'] = true;
                 $moreErrors['size'] = 'The maximum available size per file is 2MB';
@@ -73,7 +72,14 @@ class FileController
             }
 
             $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
+            $id_folder = $_POST['id_folder'];
+            $file = new File($fileName, $id_folder ,new \DateTime('now'), $extension);
+            $this->container->get('file_repository')->upload($file);
+            var_dump($file);exit();
+
         }
+
+        $moreErrors='';
 
         $user['name'] = $this->container->get('user_repository')->getUsername($_POST['email']);
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_POST['email']);

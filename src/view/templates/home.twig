@@ -90,11 +90,12 @@
                     </form>
                 </div>
 
-                <div class="new_folder">
+                <div class="new_file">
                     <h4> Upload File</h4>
                     <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
                         <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
                         <input type="hidden" name="email" id="email" value="{{ email }}">
+                        <input type="hidden" name="id_folder" id="id_folder" value="{{ email }}">
                         <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -132,9 +133,7 @@
             </h4>
             <ul>
                 {% for folder in folders %}
-                    <a href="/folder/{{ folder.id }}">
-                        <li>{{ folder.name }}</li>
-                    </a>
+                    <a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</a> <a href="/delete/{{ folder.id }}">Delete</a> <a>Rename</a></li>
                 {% endfor %}
             </ul>
             <h1>Members</h1>

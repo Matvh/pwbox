@@ -32,6 +32,13 @@ $container['folder_repository'] = function ($container){
     return $repository;
 };
 
+$container['file_repository'] = function ($container){
+    $repository = new \SlimApp\Implementations\DoctrineFileRepository(
+        $container->get('doctrine')
+    );
+    return $repository;
+};
+
 
 $container['post_user_use_case'] = function ($container){
     $useCase = new SlimApp\Model\UseCase\PostUserCase(
@@ -52,3 +59,4 @@ $container['activate_email'] = function (){
 $container['upload_photo'] = function (){
     return new \SlimApp\Photo\Photos();
 };
+

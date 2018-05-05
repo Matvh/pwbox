@@ -17,23 +17,25 @@ class File
     private $updated;
     private $type;
     private $idFolder;
-    private $path;
-
-
 
     /**
      * File constructor.
      * @param $name
      * @param $idFolder
      * @param $created
+     * @param $type
      */
 
-    public function __construct($name, $idFolder, $created)
+
+    public function __construct($name, $idFolder, $created, $type)
     {
         $this->name = $name;
         $this->idFolder = $idFolder;
         $this->created = $created;
+        $this->updated = $created;
+        $this->type = $type;
     }
+
 
 
     /**
@@ -83,6 +85,56 @@ class File
     {
         $this->created = $created;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param mixed $updated
+     */
+    public function setUpdated($updated): void
+    {
+        $this->updated = $updated;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
+
 
 
 
