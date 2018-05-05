@@ -39,18 +39,20 @@ class FolderController
     {
         $folderName = $_POST['folder_name'];
         if ($args != null) {
+
+            $exist = $this->container->get('folder_repository')->exist($folderName);
             $paramValue = $args['id'];
+
+            if($exist){
+                return $response->withStatus(302)->withHeader("Location", "/folder/$paramValue");
+            }
+
+
             $root = 0;
             $date = new DateTime('now');
             $folder = new Folder(1, $date, $date, $folderName, "path", $root);
             $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $email = $this->container->get('user_repository')->getEmail($_SESSION['email']);
-
-            //TODO controlar que la carpeta no exista
-
-
-
-
             $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
             $this->container->get('folder_repository')->create($folder, $user);
             $child = $this->container->get('folder_repository')->selectChildId($folderName);
@@ -61,12 +63,18 @@ class FolderController
         else {
             $root = 1;
             $date = new DateTime('now');
+
+            $exist = $this->container->get('folder_repository')->exist($folderName);
+
+            if($exist){
+                return $response->withStatus(302)->withHeader("Location", "/");
+            }
             $folder = new Folder(1, $date, $date, $folderName, "path", $root);
             $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $email = $this->container->get('user_repository')->getEmail($_SESSION['email']);
 
 
-            //TODO controlar que la carpeta no exista
+
 
 
             $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
@@ -79,5 +87,27 @@ class FolderController
 
 
     }
+
+     public function deleteFolder(Request $request, Response $response, array $args)
+     {
+
+         $paramValue = $args['id'];
+         $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
+
+         $this->container->get('folder_repository')->delete($parent,$paramValue);
+
+         if($args != null) {
+             $id = $args['id'];
+             return $response->withStatus(302)->withHeader("Location", "/folder/$parent");
+         } else {
+             return $response->withStatus(302)->withHeader("Location", "/");
+         }
+
+
+
+
+
+
+     }
 
 }

@@ -49,4 +49,5 @@ $app->get('/folder/{id}', 'SlimApp\Controller\FolderController');
 $app->post('/create-folder/{id}', 'SlimApp\Controller\FolderController:createFolder');
 $app->post('/create-folder/', 'SlimApp\Controller\FolderController:createFolder');
 
+$app->get('/delete/{id}', 'SlimApp\Controller\FolderController:deleteFolder');
 

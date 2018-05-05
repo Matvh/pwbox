@@ -65,6 +65,21 @@ class DoctrineFolderRepository implements FolderRepository
 
     }
 
+    public function exist(String $name)
+    {
+        try {
+            $sql = "SELECT folder.name FROM folder WHERE name = :name";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("name",$name , 'string');
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+    }
+
     public function select(String $user)
     {
         try {
@@ -94,6 +109,23 @@ class DoctrineFolderRepository implements FolderRepository
         } catch (DBALException $e) {
             return false;
         }
+    }
+
+    public function selectParent(int $id)
+    {
+
+        try {
+            $sql = "SELECT id_root_folder FROM folderFolder WHERE id_folder = :id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id",$id );
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+
     }
 
     public function selectChildId(String $name)
@@ -131,9 +163,25 @@ class DoctrineFolderRepository implements FolderRepository
 
     }
 
-    public function delete(Folder $folder)
+    public function delete(int $parent, int $folder)
     {
-        // TODO: Implement delete() method.
+        $sql = "DELETE FROM folderFolder WHERE folderFolder.id_folder = :email ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $folder);
+        $exit = $stmt->execute();
+
+        $sql = "DELETE FROM userFolder WHERE userFolder.id_folder = :email ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $folder);
+        $exit = $stmt->execute();
+
+        $sql = "DELETE FROM folder WHERE id = :id ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $folder);
+        $exit = $stmt->execute();
+
+
+        return $exit;
     }
 
     public function update(Folder $folder)
