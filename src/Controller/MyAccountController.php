@@ -69,6 +69,7 @@ class MyAccountController
                 echo "success";
             }
 
+            var_dump($_FILES);
 
             //cambiar foto
             if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
@@ -82,7 +83,7 @@ class MyAccountController
                 echo "success";
                 exit();
             }else{
-                echo "error";
+                echo "hola";
             }
 
         } else {

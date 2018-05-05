@@ -53,9 +53,9 @@ class RegisterController
             $extension = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
             $foto = $email.'.'.$extension;
         }else{
+
             $foto = 'default.png';
         }
-
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
             && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
@@ -67,7 +67,7 @@ class RegisterController
             try {
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
-                    shell_exec("mkdir /home/vagrant/users/$email");
+                    shell_exec("mkdir ../public/uploads/$email");
                     $this->container->get('activate_email')->sendActivateEmail($email);
                     $this->container->get('upload_photo')->uploadPhoto($email);
                     $_SESSION['email'] = $user->getEmail();
