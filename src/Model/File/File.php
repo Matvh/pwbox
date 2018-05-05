@@ -33,6 +33,7 @@ class File
         $this->name = $name;
         $this->idFolder = $idFolder;
         $this->created = $created;
+
     }
 
 
