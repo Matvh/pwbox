@@ -23,67 +23,74 @@ class FileController
     }
 
     public function showFormAction(Request $request, Response $response){
+        //TODO ver la sesion o redireccionar a login
         return $this->container->get('view')
             ->render($response,'file.twig',[]);
     }
 
     public function uploadFileAction(Request $request, Response $response)
     {
-        $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
-        $uploadedFiles = $request->getUploadedFiles();
-        //var_dump($uploadedFiles['files'][0]);
-        //exit();
-        $errors = [];
 
-        foreach ($uploadedFiles['files'] as $uploadedFile) {
-            if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
-                $errors[] = sprintf(
-                    'An unexpected error ocurred uploading the file %s',
-                    $uploadedFile->getClientFilename()
-                );
-                continue;
-            }
-
-            $fileName = $uploadedFile->getClientFilename();
-            $fileInfo = pathinfo($fileName);
-
-            $extension = $fileInfo['extension'];
-
-            if (!$this->isValidExtension($extension)) {
-                $moreErrors['invalidExt'] = true;
-                $moreErrors['extensions'] = 'Valid extensions: jpg, png, gif, pdf, md, txt';
-                $errors[] = sprintf(
-                    'Unable to upload the file %s, the extension %s is not valid',
-                    $fileName,
-                    $extension
-                );
-                continue;
-            }
-
-            if (!$this->isValidSize($uploadedFile->getSize())){
-                $moreErrors['invalidSize'] = true;
-                $moreErrors['size'] = 'The maximum available size per file is 2MB';
-                $errors[] = sprintf(
-                    'Unable to upload the file %s, the size %s is not valid',
-                    $fileName,
-                    $this->convertToReadableSize($uploadedFile->getSize())
-                );
-                continue;
-            }
-
-            $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
-            $id_folder = $_POST['id_folder'];
-            $file = new File($fileName, $id_folder ,new \DateTime('now'), $extension);
-            $this->container->get('file_repository')->upload($file);
-            var_dump($file);exit();
-
-        }
-
-        $moreErrors='';
-
+        $moreErrors = '';
         $user['name'] = $this->container->get('user_repository')->getUsername($_POST['email']);
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_POST['email']);
         $user['email'] = $_POST['email'];
+
+        $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
+        $uploadedFiles = $request->getUploadedFiles();
+
+        if(!empty($uploadedFiles['files'][0]->file)) {
+
+
+            $errors = [];
+
+            foreach ($uploadedFiles['files'] as $uploadedFile) {
+                if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+                    $errors[] = sprintf(
+                        'An unexpected error ocurred uploading the file %s',
+                        $uploadedFile->getClientFilename()
+                    );
+                    continue;
+                }
+
+                $fileName = $uploadedFile->getClientFilename();
+                $fileInfo = pathinfo($fileName);
+
+                $extension = $fileInfo['extension'];
+
+                if (!$this->isValidExtension($extension)) {
+                    $moreErrors['invalidExt'] = true;
+                    $moreErrors['extensions'] = 'Valid extensions: jpg, png, gif, pdf, md, txt';
+                    $errors[] = sprintf(
+                        'Unable to upload the file %s, the extension %s is not valid',
+                        $fileName,
+                        $extension
+                    );
+                    continue;
+                }
+
+                if (!$this->isValidSize($uploadedFile->getSize())) {
+                    $moreErrors['invalidSize'] = true;
+                    $moreErrors['size'] = 'The maximum available size per file is 2MB';
+                    $errors[] = sprintf(
+                        'Unable to upload the file %s, the size %s is not valid',
+                        $fileName,
+                        $this->convertToReadableSize($uploadedFile->getSize())
+                    );
+                    continue;
+                }
+
+                $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
+
+                $id_folder = $_POST['id_folder'];
+                $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+                if ($id_folder == null) {
+                    $id_folder = $this->container->get('folder_repository')->selectIdRoot("root" . $username)[0]['id'];
+                }
+                $file = new File($fileName, $id_folder, new \DateTime('now'), $extension);
+                $this->container->get('file_repository')->upload($file);
+            }
+        }
 
         return $this->container->get('view')
             ->render($response, 'file.twig', ['errors' => $errors, 'isPost' => true, 'moreErrors' => $moreErrors, 'user' => $user]);
