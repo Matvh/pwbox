@@ -72,6 +72,8 @@ class FolderController
             $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
             $this->container->get('folder_repository')->create($folder, $user);
             $child = $this->container->get('folder_repository')->selectChildId($folderName);
+            $this->container->get('folder_repository')->createChild($_POST['id_folder'], $child[0]['id']);
+
             return $response->withStatus(302)->withHeader("Location", "/");
 
         }
@@ -86,7 +88,6 @@ class FolderController
          $paramValue = $args['id'];
          $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
          $this->container->get('folder_repository')->delete($paramValue);
-         var_dump($parent, $paramValue);exit();
 
          if($parent != null) {
              $id = $args['id'];

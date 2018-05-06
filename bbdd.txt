@@ -33,6 +33,7 @@ CREATE TABLE `user` (
 CREATE TABLE `folder` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `is_root` varchar(255),
+  `super_root` varchar(255),
   `created_at` varchar(255),
   `updated_at` varchar(255),
    `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
@@ -47,7 +48,6 @@ CREATE TABLE `file` (
   `updated_at` varchar(255),
    `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `folder_id`  int unsigned NOT NULL,
    PRIMARY KEY (`id`),
    FOREIGN KEY (`folder_id`) REFERENCES `folder` (`id`)

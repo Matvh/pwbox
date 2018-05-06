@@ -71,17 +71,18 @@ class HomeController
             $path = $this->container->get('user_repository')->getProfilePic($email);
             $username = $this->container->get('user_repository')->getUsername($email);
             $folders = $this->container->get('folder_repository')->select($email);
+            $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username);
 
 
             if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "true") {
 
                 return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic'
-                        => $path,'username' => $username, 'folders' => $folders]);
+                        => $path,'username' => $username, 'folders' => $folders, 'id_folder' => $foldersRoot]);
             } else {
                 if (($exit[0]['email'] == $email || $exit[0]['username'] == $email) && $exit[0]['active_account'] == "false") {
 
                     return $this->container->get('view')->render($response, 'home.twig',
-                        ['email' => $_SESSION['email'],'pic' => $path,'username' => $username, 'mensaje' => "Activa la cuenta, porfavor", 'folders' => $folders]);
+                        ['email' => $_SESSION['email'],'pic' => $path,'username' => $username, 'mensaje' => "Activa la cuenta, porfavor", 'folders' => $folders, 'id_folder' => $foldersRoot]);
 
                 } else {
                     echo "lol";
@@ -98,6 +99,10 @@ class HomeController
 
         if (isset($_GET['email'])){
             $exit = $this->container->get('user_repository')->getActivate($_GET['email']);
+            $username = $this->container->get('user_repository')->getUsername($_GET['email']);
+
+            $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
+            var_dump($foldersRoot);exit();
 
             if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
             else $mensaje = "";
@@ -106,9 +111,8 @@ class HomeController
             $folders = $this->container->get('folder_repository')->select($_GET['email']);
 
 
-
             return $this->container->get('view')->render($response, 'home.twig', ['email' => $_GET['email'], 'pic' =>
-                $path, 'username' => $username, 'mensaje' => $mensaje, 'folders' => $folders]);
+                $path, 'username' => $username, 'mensaje' => $mensaje, 'folders' => $folders, 'id_folder' => $foldersRoot]);
         }else{
             if(isset($_SESSION['email'])){
                 $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
@@ -118,11 +122,13 @@ class HomeController
                 $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
                 $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
                 $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
+                $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username);
+                var_dump($foldersRoot);exit();
 
 
 
                 return $this->container->get('view')->render($response, 'home.twig', ['email' => $_SESSION['email'],'pic'
-                    => $path,'username' => $username, 'mensaje' => $mensaje, 'folders' => $folders]);
+                    => $path,'username' => $username, 'mensaje' => $mensaje, 'folders' => $folders, 'id_folder' => $foldersRoot]);
             } else {
                 return $this->container->get('view')->render($response, 'login.twig');
 

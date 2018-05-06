@@ -75,7 +75,6 @@ class FileController
             $id_folder = $_POST['id_folder'];
             $file = new File($fileName, $id_folder ,new \DateTime('now'), $extension);
             $this->container->get('file_repository')->upload($file);
-            var_dump($file);exit();
 
         }
 
@@ -84,9 +83,15 @@ class FileController
         $user['name'] = $this->container->get('user_repository')->getUsername($_POST['email']);
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_POST['email']);
         $user['email'] = $_POST['email'];
+        $paramValue = $_POST['id_folder'];
+        var_dump($paramValue);exit();
+        $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
+        if($parent != null) {
+            return $response->withStatus(302)->withHeader("Location", "/folder/$parent");
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/");
+        }
 
-        return $this->container->get('view')
-            ->render($response, 'file.twig', ['errors' => $errors, 'isPost' => true, 'moreErrors' => $moreErrors, 'user' => $user]);
     }
 
     /**
