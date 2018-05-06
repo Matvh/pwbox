@@ -89,8 +89,14 @@ class FileController
             }
         }
 
-        return $this->container->get('view')
-            ->render($response, 'file.twig', ['errors' => $errors, 'isPost' => true, 'moreErrors' => $moreErrors, 'user' => $user]);
+
+        $parent = $this->container->get('folder_repository')->selectParent($_POST['id_folder'])[0]['id_root_folder'];
+        $actual = $_POST['id_folder'];
+        if($actual != null) {
+            return $response->withStatus(302)->withHeader("Location", "/folder/$actual");
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/");
+        }
     }
 
     /**

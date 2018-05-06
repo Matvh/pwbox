@@ -82,6 +82,8 @@
                     <h4> New folder</h4>
                     <form class="input-group" action="/create-folder/{{ id_folder }}" method="post">
                         <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
+                        <input type="hidden" name="id_folder" id="id_folder" value="{{ id_folder }}">
+
                         <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -122,9 +124,9 @@
                      class="dropdown-toggle img-circle dropdown-profile"
                      type="button" data-toggle="dropdown">
                 <ul class="dropdown-menu">
-                    <li><a href="profile">My account</a></li>
+                    <li><a href="/profile">My account</a></li>
                     <li><a href="#">Notifications</a></li>
-                    <li><a href="logout">Logout</a></li>
+                    <li><a href="/logout">Logout</a></li>
                 </ul>
             </div>
 
@@ -150,6 +152,9 @@
                     <small>Files</small>
                 </h4>
                 <hr>
+                {% for file in files %}
+                    <li>{{ file.name }}</li>
+                {% endfor %}
 
                 <div id="files">
                     {% block errorFiles %} {% endblock %}

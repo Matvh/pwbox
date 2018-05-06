@@ -62,5 +62,24 @@ class DoctrineFileRepository implements FileRepository
         // TODO: Implement download() method.
     }
 
+    public function select(int $id)
+    {
+        try {
+            $sql = "SELECT * FROM file WHERE :id = folder_id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+
+
+
+
+    }
+
 
 }

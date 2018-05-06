@@ -77,8 +77,8 @@ class RegisterController
                     $this->container->get('upload_photo')->uploadPhoto($email);
                     $_SESSION['email'] = $user->getEmail();
 
-                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email,
-                            'pic'=> $foto, 'username' => $username, 'mensaje' => "Activa la cuenta, porfavor"]);
+                    return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
+
                 } else {
                     echo "Ha habido un problema con la base de datos";
                 }
