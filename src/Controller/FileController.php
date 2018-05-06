@@ -30,7 +30,7 @@ class FileController
 
     public function uploadFileAction(Request $request, Response $response)
     {
-
+        $errors = [];
         $moreErrors = '';
         $user['name'] = $this->container->get('user_repository')->getUsername($_POST['email']);
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_POST['email']);
@@ -40,9 +40,6 @@ class FileController
         $uploadedFiles = $request->getUploadedFiles();
 
         if(!empty($uploadedFiles['files'][0]->file)) {
-
-
-            $errors = [];
 
             foreach ($uploadedFiles['files'] as $uploadedFile) {
                 if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
