@@ -13,6 +13,7 @@ class Folder
 {
 
     private $id;
+    private $superRoot;
     private $created;
     private $updated;
     private $name;
@@ -26,7 +27,7 @@ class Folder
      * @param $updated
      * @param $name
      */
-    public function __construct($id, $created, $updated, $name, $path, $root)
+    public function __construct($id, $created, $updated, $name, $path, $root, $superRoot)
     {
         $this->id = $id;
         $this->created = $created;
@@ -34,6 +35,7 @@ class Folder
         $this->name = $name;
         $this->path = $path;
         $this->root = $root;
+        $this->superRoot = $superRoot;
     }
 
     /**

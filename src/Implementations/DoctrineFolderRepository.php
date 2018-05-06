@@ -98,6 +98,20 @@ class DoctrineFolderRepository implements FolderRepository
         }
     }
 
+    public function selectIdRoot(String $user)
+    {
+        try {
+            $sql = "SELECT id FROM folder WHERE name = :user ";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("user",$user , 'string');
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+    }
+
     public function selectChild(int $id)
     {
         try {
@@ -147,7 +161,6 @@ class DoctrineFolderRepository implements FolderRepository
     }
     public function selectSuperRoot(String $name)
     {
-        var_dump($name);exit();
         try {
             $sql = "SELECT folder.id FROM folder WHERE folder.name = :name ";
             $stmt = $this->database->prepare($sql);

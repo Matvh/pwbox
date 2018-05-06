@@ -14,6 +14,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
+use SlimApp\Model\Folder\Folder;
 use SlimApp\Model\User;
 
 class RegisterController
@@ -70,11 +71,14 @@ class RegisterController
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
                     shell_exec("mkdir ../public/uploads/$email");
+                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "false", "true" ), $user);
+
                     $this->container->get('activate_email')->sendActivateEmail($email);
                     $this->container->get('upload_photo')->uploadPhoto($email);
                     $_SESSION['email'] = $user->getEmail();
-                    return $this->container->get('view')->render($response, 'home.twig', ['email' => $email,
-                            'pic'=> $foto, 'username' => $username, 'mensaje' => "Activa la cuenta, porfavor"]);
+
+                    return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
+
                 } else {
                     echo "Ha habido un problema con la base de datos";
                 }
