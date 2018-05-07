@@ -134,6 +134,23 @@ class Folder
         $this->root = $root;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSuperRoot()
+    {
+        return $this->superRoot;
+    }
+
+    /**
+     * @param mixed $superRoot
+     */
+    public function setSuperRoot($superRoot): void
+    {
+        $this->superRoot = $superRoot;
+    }
+
+
 
 
 

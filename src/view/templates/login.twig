@@ -19,7 +19,7 @@
 
             <h2>Login</h2>
             <h4 >{{ mensaje }}</h4>
-            <form class="box" action="/home" method="post" onsubmit="return preventDefault()">
+            <form class="box" action="/login" method="post" onsubmit="return preventDefault()">
                 <input  id='user' type="text" placeholder="Username or email" name="email" onchange="checkError(this, 'text')" autofocus>
                 <input  id='pass' type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
 

@@ -15,7 +15,7 @@ $app->get('/hello/{name}', 'SlimApp\Controller\HelloController');
 
 $app->post('/user','SlimApp\Controller\PostUserController');
 $app->get('/login','SlimApp\Controller\LoginController');
-$app->post('/login','SlimApp\Controller\LoginController');
+$app->post('/login','SlimApp\Controller\LoginController:login');
 
 
 $app->get('/register', 'SlimApp\Controller\RegisterController');
@@ -50,4 +50,5 @@ $app->post('/create-folder/{id}', 'SlimApp\Controller\FolderController:createFol
 $app->post('/create-folder/', 'SlimApp\Controller\FolderController:createFolder');
 
 $app->get('/delete/{id}', 'SlimApp\Controller\FolderController:deleteFolder');
+$app->get('/rename/{id}', 'SlimApp\Controller\FolderController:renameFolder');
 
