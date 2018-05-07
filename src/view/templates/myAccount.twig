@@ -57,9 +57,14 @@
                                 <p>This will delete all your saved data in PWBox, including your files and personal
                                 information. You won't be able to access to folders shared with you.</p>
                             </div>
-                            <div class="modal-footer">
-                                <a href="/deleteAccount" methods="POST" type="button" class="btn btn-danger">Yes!</a>
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                            <div class="modal-footer my-modal-foot">
+                                <div class="row">
+                                    <form  class="col-sm-6" action="/deleteAccount" method="POST">
+                                        <button type="submit" class="btn btn-danger">Yes!</button>
+                                    </form>
+                                    <button type="button" class="btn btn-warning col-sm-6" data-dismiss="modal">Cancel</button>
+                                </div>
+
                             </div>
                         </div>
 
