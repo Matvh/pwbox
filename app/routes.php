@@ -52,3 +52,5 @@ $app->post('/create-folder/', 'SlimApp\Controller\FolderController:createFolder'
 $app->get('/delete/{id}', 'SlimApp\Controller\FolderController:deleteFolder');
 $app->get('/rename/{id}', 'SlimApp\Controller\FolderController:renameFolder');
 
+
+$app->post('/deleteAccount', 'SlimApp\Controller\MyAccountController:deleteUser');

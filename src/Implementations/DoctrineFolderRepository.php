@@ -216,6 +216,23 @@ class DoctrineFolderRepository implements FolderRepository
         return $exit;
     }
 
+    public function deleteAllFolders(String $email, int $id)
+    {
+        $sql = "DELETE FROM folderFolder WHERE folderFolder.id_user = :id ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+
+        $sql = "DELETE FROM folderFolder WHERE folderFolder.id_user = :id ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+
+
+
+
+    }
+
     public function update(Folder $folder)
     {
         // TODO: Implement update() method.
