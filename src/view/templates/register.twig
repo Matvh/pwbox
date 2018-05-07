@@ -23,7 +23,9 @@
                 <input type="password" placeholder="Password" name="password" onchange="checkError(this, 'pass')">
                 <input type="password" placeholder="Repeat password" name="repassword" onchange="checkError(this, 'pass')">
 
-                <input type="file" name="picture" id="picture"><br>
+                <img id="pic" src="{{ base_path }}/profilePics/default.png" width="100" height="100"  >
+                <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
+                       id="picture" name="picture">
 
                 <button class="btn btn-primary full-width loginbtn" type="submit">
                     Sign me in!

@@ -50,12 +50,10 @@ class RegisterController
         $description = $resul['description'];
         $name = $resul['name'];
         $characteristics = $resul['characteristics'];
-        if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != ''){
-            $extension = strtolower(pathinfo($_FILES["picture"]["name"], PATHINFO_EXTENSION));
-            $foto = $email.'.'.$extension;
-        }else{
+        $foto = 'default.png';
 
-            $foto = 'default.png';
+        {
+
         }
 
         $existe = $this->container->get('user_repository')->getEmail($username);
@@ -70,14 +68,22 @@ class RegisterController
             try {
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {
-                    shell_exec("mkdir ../public/uploads/$email");
+                    $user_id = $this->container->get('user_repository')->getID($email);
+                    shell_exec("mkdir ../public/uploads/$user_id");
                     $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "false", "true" ), $user);
-
                     $this->container->get('activate_email')->sendActivateEmail($email);
-                    $this->container->get('upload_photo')->uploadPhoto($email);
-                    $_SESSION['email'] = $user->getEmail();
 
-                    return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
+                    if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
+                        $uploadErrors = $this->container->get('upload_photo')->uploadPhoto($user_id);
+                        $data['error'] = $uploadErrors;
+                    }
+
+                    $_SESSION['email'] = $user->getEmail();
+                    $data['username'] = $username;
+                    $data['user_id'] = $user_id;
+
+                    $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
+                    return $response->withStatus(302)->withHeader("Location", "/folder/$foldersRoot", array('data' => $data));
 
                 } else {
                     echo "Ha habido un problema con la base de datos";

@@ -19,7 +19,7 @@
                 </div>
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#section1"> {% block Username1 %} {{ username }} {% endblock %} 's Box</a></li>
+                    <li class="active"><a href="#section1">{{ username }}'s Box</a></li>
                     <li><a href="#section2">Shared with Me</a></li>
                 </ul>
                 <br>
@@ -119,8 +119,8 @@
 
 
             <div class="dropdown profile">
-                {% block Username2 %} {{ username }} {% endblock %}
-                <img src="{{ base_path }}/profilePics/{% block picture %}{{ email }}{% endblock %}.png "
+                {{ username }}
+                <img src="{{ base_path }}/profilePics/{{ email }}.png "
                      class="dropdown-toggle img-circle dropdown-profile"
                      type="button" data-toggle="dropdown">
                 <ul class="dropdown-menu">
@@ -157,7 +157,19 @@
                 {% endfor %}
 
                 <div id="files">
-                    {% block errorFiles %} {% endblock %}
+                    {% block errorFiles %}
+                        {% for error in errors %}
+                            <p> {{ error }} </p>
+                        {% endfor %}
+
+                        {% if moreErrors['invalidExt'] is defined %}
+                            <p> {{ moreErrors['extensions'] }} </p>
+                        {% endif %}
+
+                        {% if moreErrors['invalidSize'] is defined %}
+                            <p> {{ moreErrors['size'] }} </p>
+                        {% endif %}
+                    {% endblock %}
                 </div>
                 <hr/>
             {% endblock %}

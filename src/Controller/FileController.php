@@ -31,7 +31,7 @@ class FileController
     public function uploadFileAction(Request $request, Response $response)
     {
         $errors = [];
-        $moreErrors = '';
+        $moreErrors = [];
         $user['name'] = $this->container->get('user_repository')->getUsername($_POST['email']);
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_POST['email']);
         $user['email'] = $_POST['email'];
@@ -116,9 +116,13 @@ class FileController
      * @return bool
      */
     private function isValidSize(int $size){
-        return $size < 2000000;
+        return $size < 262144;
     }
 
+    /**
+     * @param $size
+     * @return string
+     */
     function convertToReadableSize($size){
         $base = log($size) / log(1024);
         $suffix = array("", "KB", "MB", "GB", "TB");

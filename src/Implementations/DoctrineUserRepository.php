@@ -125,16 +125,6 @@ class DoctrineUserRepository implements  UserRepository
 
     }
 
-
-    public function getSize(String $email)
-    {
-        $q = $this->database->query("SELECT `available_size` FROM `user` WHERE email='".$email."'");
-        $f = $q->fetch();
-        $result = $f['available_size'];
-        return $result;
-
-    }
-
     public function activate(String $email)
     {
         $q = $this->database->query("UPDATE user SET active_account = true WHERE email='".$email."'");
@@ -161,6 +151,15 @@ class DoctrineUserRepository implements  UserRepository
         return $res[0]['username'];
     }
 
+    public function getID(String $email){
+        $sql = "SELECT id FROM user WHERE email = :email";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $email, 'string');
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $res[0]['id'];
+    }
+
     public function getEmail(String $username){
         $sql = "SELECT email FROM user WHERE username = :username";
         $stmt = $this->database->prepare($sql);
@@ -178,6 +177,14 @@ class DoctrineUserRepository implements  UserRepository
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $res[0]['active_account'];
+    }
+
+    public function getSize(String $email)
+    {
+        $q = $this->database->query("SELECT `available_size` FROM `user` WHERE email='".$email."'");
+        $f = $q->fetch();
+        $result = $f['available_size'];
+        return $result;
     }
 
 
