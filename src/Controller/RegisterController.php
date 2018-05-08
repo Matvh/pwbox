@@ -52,9 +52,6 @@ class RegisterController
         $characteristics = $resul['characteristics'];
         $foto = 'default.png';
 
-        {
-
-        }
 
         $existe = $this->container->get('user_repository')->getEmail($username);
 
@@ -74,18 +71,14 @@ class RegisterController
                     $this->container->get('activate_email')->sendActivateEmail($email);
 
                     if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
-                        $uploadErrors = $this->container->get('upload_photo')->uploadPhoto($user_id);
-                        $data['error'] = $uploadErrors;
+                        $errors = $this->container->get('upload_photo')->uploadPhoto($user_id);
                     }
-
                     $_SESSION['email'] = $user->getEmail();
-                    $data['username'] = $username;
-                    $data['user_id'] = $user_id;
+                    //$_SESSION['id_folder'] = $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
-                    $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
-                    $data['folder_id'] = $foldersRoot;
-
-                    return $response->withStatus(302)->withHeader("Location", "/home", array('data' => $data));
+                    $this->container->
+                    get('flash')->addMessage('info', $errors);
+                    return $response->withStatus(302)->withHeader("Location", "/home");
 
                 } else {
                     echo "Ha habido un problema con la base de datos";

@@ -39,6 +39,7 @@ class HomeController
         }
     }
 
+
     public function indexAction(Request $request, Response $response) {
 
         if (!isset($_SESSION['email'])){
@@ -54,8 +55,6 @@ class HomeController
             return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'],'pic' =>
                 $path,'username' => $username, 'folders' => $folders]);
         }
-
-
     }
 
     public function validateSession(Request $request, Response $response){
@@ -97,9 +96,7 @@ class HomeController
                     $files = $this->container->get('file_repository')->select($foldersRoot);
                 }
 
-
                 return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
-
 
             } else {
                 return $this->container->get('view')->render($response, 'login.twig');

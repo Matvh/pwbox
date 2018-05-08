@@ -173,7 +173,9 @@
                 </div>
                 <hr/>
             {% endblock %}
-            {{ flash }}
+            {% for message in flash %}
+                {{ info.message }}
+            {%  endfor %}
         </div>
     </div>
 {% endblock %}
