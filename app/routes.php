@@ -52,3 +52,9 @@ $app->get('/rename/{id}', 'SlimApp\Controller\FolderController:renameFolder');
 
 
 $app->post('/deleteAccount', 'SlimApp\Controller\MyAccountController:deleteUser');
+
+$app->post('/addNotification', 'SlimApp\Controller\NotificationController:addNotification');
+$app->post('/deleteNotification', 'SlimApp\Controller\NotificationController:deleteNotification');
+
+
+

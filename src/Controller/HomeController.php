@@ -73,21 +73,24 @@ class HomeController
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
             $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
+            $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
+            $sizepercent = ($size/1024) *100;
 
             $messages = $this->container->get('flash')->getMessages();
 
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $_SESSION['folder_id'] = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
-            return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
-                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje]);
+
+            return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent]);
+
 
 
         } else {
             return $response->withStatus(302)->withHeader("Location", "/login");
 
         }
-        }
-
-
+    }
+    
 }
