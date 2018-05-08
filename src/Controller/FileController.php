@@ -36,10 +36,10 @@ class FileController
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
         $user['email'] = $_SESSION['email'];
 
-        $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
+        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $_POST['email'] . "/";
         $uploadedFiles = $request->getUploadedFiles();
 
-        if(!empty($uploadedFiles['files'][0]->file)) {
+        if (!empty($uploadedFiles['files'][0]->file)) {
 
             foreach ($uploadedFiles['files'] as $uploadedFile) {
                 if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
@@ -81,26 +81,16 @@ class FileController
 
                 $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
 
-                $id_folder = $_POST['id_folder'];
-                $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-                if ($id_folder == null) {
-                    $id_folder = $this->container->get('folder_repository')->selectIdRoot("root" . $username)[0]['id'];
-                }
-                $fileSize = $uploadedFile->getSize()/1024;
+
+                $fileSize = $uploadedFile->getSize() / 1024;
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-                $this->container->get('user_repository')->setSize($user['email'], $currentSize - ($fileSize/1024));
-                $file = new File($fileName, $id_folder, new \DateTime('now'), $extension);
+                $this->container->get('user_repository')->setSize($user['email'], $currentSize - ($fileSize / 1024));
+
+                $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
                 $this->container->get('file_repository')->upload($file);
+
+                return $response->withStatus(302)->withHeader("Location", "/home");
             }
-        }
-
-
-        $parent = $this->container->get('folder_repository')->selectParent($_POST['id_folder'])[0]['id_root_folder'];
-        $actual = $_POST['id_folder'];
-        if($actual != null) {
-            return $response->withStatus(302)->withHeader("Location", "/folder/$actual");
-        } else {
-            return $response->withStatus(302)->withHeader("Location", "/");
         }
     }
 

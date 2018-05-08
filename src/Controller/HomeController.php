@@ -62,44 +62,31 @@ class HomeController
     public function validateSession(Request $request, Response $response){
 
 
-        /*if (isset($_GET['email'])){
-            $exit = $this->container->get('user_repository')->getActivate($_GET['email']);
-            $username = $this->container->get('user_repository')->getUsername($_GET['email']);
+        if(isset($_SESSION['email'])){
 
-
+            $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
+            //miramos si la cuenta esta activada
             if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
             else $mensaje = "";
 
-            $path = $this->container->get('user_repository')->getProfilePic($_GET['email']);
-            $username = $this->container->get('user_repository')->getUsername($_GET['email']);
+            $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
-            $files = $this->container->get('file_repository')->select($_SESSION['id_folder']);
+            $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
+
+            $messages = $this->container->get('flash')->getMessages();
+
+            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+            $_SESSION['folder_id'] = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
             return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
-                'files' => $files, 'messages' => $messages]);
-
-        }else{*/
-            if(isset($_SESSION['email'])){
-                $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
-                //miramos si la cuenta esta activada
-                if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
-                else $mensaje = "";
-
-                $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
-                $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-                $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
-                $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
-
-                $messages = $this->container->get('flash')->getMessages();
-
-                return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
-                        'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje]);
+                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje]);
 
 
-            } else {
-                return $response->withStatus(302)->withHeader("Location", "/login");
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/login");
 
-            }
+        }
         }
 
 
