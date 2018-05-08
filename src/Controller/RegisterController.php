@@ -70,7 +70,7 @@ class RegisterController
                 if($exit) {
                     $user_id = $this->container->get('user_repository')->getID($email);
                     shell_exec("mkdir ../public/uploads/$user_id");
-                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "false", "true" ), $user);
+                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "true" ), $user);
                     $this->container->get('activate_email')->sendActivateEmail($email);
 
                     if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
