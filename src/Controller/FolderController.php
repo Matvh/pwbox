@@ -33,7 +33,8 @@ class FolderController
         $exit = $this->container->get('folder_repository')->selectChild($paramValue);
         $files = $this->container->get('file_repository')->select($paramValue);
 
-        return $this->container->get('view')->render($response, 'home.twig', ['folders' => $exit, 'id_folder' => $paramValue, 'files' => $files]);
+        return $this->container->get('view')->render($response, 'home.twig', ['folders' => $exit, 'id_folder' => $paramValue,
+            'files' => $files, 'flash' => $this->container->get('flash')->getMessages()]);
     }
 
     public function createFolder(Request $request, Response $response, array $args)

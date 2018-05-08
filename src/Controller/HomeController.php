@@ -111,6 +111,7 @@ class HomeController
 
             return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
 
+
         }else{
             if(isset($_SESSION['email'])){
                 $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
