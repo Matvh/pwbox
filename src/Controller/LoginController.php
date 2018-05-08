@@ -63,7 +63,7 @@ class LoginController
 
         if (empty($exit)) {
             return $this->container->get('view')->render($response, 'login.twig',
-                ['mensaje' => "Contraseña erronea o email"]);
+                ['mensaje' => "Contraseña o email erroneos"]);
         } else {
 
             $_SESSION['email'] = $email;
