@@ -89,6 +89,8 @@ class FileController
                 $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
                 $this->container->get('file_repository')->upload($file);
 
+                
+
                 return $response->withStatus(302)->withHeader("Location", "/home");
             }
         }

@@ -78,8 +78,6 @@ class HomeController
 
             $messages = $this->container->get('flash')->getMessages();
 
-            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-            $_SESSION['folder_id'] = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
 
             return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
