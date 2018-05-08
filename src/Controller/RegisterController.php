@@ -83,7 +83,9 @@ class RegisterController
                     $data['user_id'] = $user_id;
 
                     $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
-                    return $response->withStatus(302)->withHeader("Location", "/folder/$foldersRoot", array('data' => $data));
+                    $data['folder_id'] = $foldersRoot;
+
+                    return $response->withStatus(302)->withHeader("Location", "/home", array('data' => $data));
 
                 } else {
                     echo "Ha habido un problema con la base de datos";

@@ -29,9 +29,10 @@ class DoctrineFolderRepository implements FolderRepository
     public function create(Folder $folder, User $user)
     {
 
-        $sql = "INSERT INTO folder(is_root, created_at, updated_at, name, path) VALUES(:root, :created_at, :updated_at, :nombre, :path)";
+        $sql = "INSERT INTO folder(is_root, super_root, created_at, updated_at, name, path) VALUES(:root, :super_root, :created_at, :updated_at, :nombre, :path)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("root", $folder->getRoot());
+        $stmt->bindValue("super_root", $folder->getSuperRoot());
         $stmt->bindValue("created_at", $folder->getCreated()->format(self::DATE_FORMAT));
         $stmt->bindValue("updated_at", $folder->getUpdated()->format(self::DATE_FORMAT));
         $stmt->bindValue("nombre", $folder->getName(), 'string');
@@ -215,8 +216,37 @@ class DoctrineFolderRepository implements FolderRepository
         return $exit;
     }
 
+    public function deleteAllFolders(String $email, int $id)
+    {
+        $sql = "DELETE FROM folderFolder WHERE folderFolder.id_user = :id ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+
+        $sql = "DELETE FROM folderFolder WHERE folderFolder.id_user = :id ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+
+
+
+
+    }
+
     public function update(Folder $folder)
     {
         // TODO: Implement update() method.
+    }
+
+    public function rename(String $name, int $id)
+    {
+        $sql = "UPDATE folder SET name = :name WHERE id = :id";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("name", $name);
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+
+
+
     }
 }

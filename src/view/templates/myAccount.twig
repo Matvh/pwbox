@@ -13,7 +13,7 @@
 
     <div class="jumbotron">
         <div class="container">
-            <h2>Update</h2>
+            <h2>Your account</h2>
 
             <div class="row">
 
@@ -39,6 +39,37 @@
                         Change photo
                     </button>
                 </form>
+
+                <div class="modaldiv btn btn-danger full-width signinbtn" data-toggle="modal" data-target="#myModal">
+                    Delete account
+                </div>
+
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Are you sure you want to to delete your account?</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>This will delete all your saved data in PWBox, including your files and personal
+                                information. You won't be able to access to folders shared with you.</p>
+                            </div>
+                            <div class="modal-footer my-modal-foot">
+                                <div class="row">
+                                    <form  class="col-sm-6" action="/deleteAccount" method="POST">
+                                        <button type="submit" class="btn btn-danger">Yes!</button>
+                                    </form>
+                                    <button type="button" class="btn btn-warning col-sm-6" data-dismiss="modal">Cancel</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
                 <a  class="btn btn-warning full-width signinbtn" href="home">
                     Go back

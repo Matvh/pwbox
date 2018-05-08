@@ -106,4 +106,15 @@ class FolderController
 
      }
 
+    public function renameFolder(Request $request, Response $response, array $args)
+    {
+
+
+
+
+
+
+
+    }
+
 }

@@ -90,4 +90,19 @@ class MyAccountController
                 return $response->withStatus(403)->withHeader("Location", "/error");
         }
     }
+
+    public function deleteUser(Request $request, Response $response)
+    {
+        /*$idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+        $this->container->get('folder_repository')->deleteAllFolders($_SESSION['email'], $idUser);
+
+        $this->container->get('user_repository')->remove($_SESSION['email']);*/
+
+        $this->container->get('user_repository')->remove($_SESSION['email']);
+        return $this->container->get('view')->render($response, 'login.twig');
+
+
+
+    }
 }
