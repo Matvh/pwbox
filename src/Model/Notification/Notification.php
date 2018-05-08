@@ -6,7 +6,7 @@ class Notification
 {
 
     private $id;
-    private $userid;
+    private $usermail;
     private $message;
 
 
@@ -16,10 +16,10 @@ class Notification
      * @param $userid
      * @param $message
      */
-    public function __construct($id, $userid, $message)
+    public function __construct($id, $usermail, $message)
     {
         $this->id = $id;
-        $this->userid = $userid;
+        $this->usermail = $usermail;
         $this->message = $message;
     }
 
@@ -42,17 +42,17 @@ class Notification
     /**
      * @return mixed
      */
-    public function getUserid()
+    public function getUsermail()
     {
-        return $this->userid;
+        return $this->usermail;
     }
 
     /**
-     * @param mixed $userid
+     * @param mixed $usermail
      */
-    public function setUserid($userid)
+    public function setUsermail($usermail)
     {
-        $this->userid = $userid;
+        $this->usermail = $usermail;
     }
 
     /**

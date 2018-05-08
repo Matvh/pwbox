@@ -16,4 +16,14 @@ class NotificationController
         $this->container = $container;
     }
 
+    public function addNotification(Request $request, Response $response){
+        //TODO: Agregarlo a la base de datos
+        return $response->withStatus(302)->withHeader("Location", "/home");
+    }
+
+    public function deleteNotifications(Request $request, Response $response){
+        //TODO: Eliminarlo de la base de datos
+        return $response->withStatus(302)->withHeader("Location", "/home");
+    }
+
 }
