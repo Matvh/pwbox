@@ -29,11 +29,13 @@ class ActivateAccountController
 
     public function activateAction(Request $request, Response $response){
         $email = $_GET['email'];
-        var_dump($email);
         try{
             $this->container->get('user_repository')->activate($email);
             $_SESSION['email'] = $email;
-            header('Location:/home?email='.$email);
+            $username = $this->container->get('user_repository')->getUsername($email);
+            $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root" . $username)[0]['id'];
+            $_SESSION['folder_id'] = $foldersRoot;
+            return $response->withStatus(302)->withHeader("Location", "/home");
         } catch (NotFoundExceptionInterface $e) {
             //TODO mostrar error en twig
             echo 'Message: ' .$e->getMessage();
