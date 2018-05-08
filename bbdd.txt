@@ -18,7 +18,7 @@ CREATE TABLE `user` (
   `updated_at` varchar(255),
    `active_account` varchar(255),
    `birthdate` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   `available_size` varchar(255),
+   `available_size` int,
    `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
    `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
    `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',

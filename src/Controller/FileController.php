@@ -32,9 +32,9 @@ class FileController
     {
         $errors = [];
         $moreErrors = [];
-        $user['name'] = $this->container->get('user_repository')->getUsername($_POST['email']);
-        $user['pic'] = $this->container->get('user_repository')->getProfilePic($_POST['email']);
-        $user['email'] = $_POST['email'];
+        $user['name'] = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+        $user['pic'] = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+        $user['email'] = $_SESSION['email'];
 
         $directory = '/home/vagrant/code/pwbox//public/uploads/'.$_POST['email']."/";
         $uploadedFiles = $request->getUploadedFiles();
@@ -44,6 +44,7 @@ class FileController
             foreach ($uploadedFiles['files'] as $uploadedFile) {
                 if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
                     $errors[] = sprintf(
+
                         'An unexpected error ocurred uploading the file %s',
                         $uploadedFile->getClientFilename()
                     );
@@ -63,6 +64,7 @@ class FileController
                         $fileName,
                         $extension
                     );
+
                     continue;
                 }
 
@@ -84,6 +86,9 @@ class FileController
                 if ($id_folder == null) {
                     $id_folder = $this->container->get('folder_repository')->selectIdRoot("root" . $username)[0]['id'];
                 }
+                $fileSize = $uploadedFile->getSize()/1024;
+                $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
+                $this->container->get('user_repository')->setSize($user['email'], $currentSize - ($fileSize/1024));
                 $file = new File($fileName, $id_folder, new \DateTime('now'), $extension);
                 $this->container->get('file_repository')->upload($file);
             }
