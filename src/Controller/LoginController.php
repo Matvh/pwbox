@@ -31,7 +31,7 @@ class LoginController
         if(isset($_SESSION['folder_id'])){
             return $response->withStatus(302)->withHeader("Location", "/home");
         } else {
-            return $this->container->get('view')->render($response, 'login.twig');
+            return $this->container->get('view')->render($response, 'login.html.twig');
         }
 
 
@@ -49,7 +49,7 @@ class LoginController
             if ($exit) {
                 $email = $exit[0]['email'];
             } else {
-                return $this->container->get('view')->render($response, 'login.twig',
+                return $this->container->get('view')->render($response, 'login.html.twig',
                     ['mensaje' => "El usuario no existe"]);
 
             }
@@ -62,7 +62,7 @@ class LoginController
 
 
         if (empty($exit)) {
-            return $this->container->get('view')->render($response, 'login.twig',
+            return $this->container->get('view')->render($response, 'login.html.twig',
                 ['mensaje' => "Contraseña o email erroneos"]);
         } else {
 

@@ -34,7 +34,7 @@ class HomeController
         $exit = $this->container->get('user_repository')->remove($email);
         if($exit){
             shell_exec("rm -rf /home/vagrant/users/$email");
-            return $this->container->get('view')->render($response, 'home.twig');
+            return $this->container->get('view')->render($response, 'home.html.twig');
         } else {
         }
     }
@@ -43,7 +43,7 @@ class HomeController
 
         if (!isset($_SESSION['email'])){
             //TODO landing page explicando de qué va esta cosa
-            return $this->container->get('view')->render($response,'login.twig');
+            return $this->container->get('view')->render($response,'login.html.twig');
 
         } else {
 
@@ -52,7 +52,7 @@ class HomeController
             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
 
             //return $response->withStatus(302)->withHeader("Location", "/login");
-            return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'],'pic' =>
+            return $this->container->get('view')->render($response,'home.html.twig', ['email' => $_SESSION['email'],'pic' =>
                 $path,'username' => $username, 'folders' => $folders]);
         }
 
@@ -79,7 +79,7 @@ class HomeController
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $_SESSION['folder_id'] = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
-            return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+            return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
                     'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje]);
 
 

@@ -25,7 +25,7 @@ class FileController
     public function showFormAction(Request $request, Response $response){
         //TODO ver la sesion o redireccionar a login
         return $this->container->get('view')
-            ->render($response,'file.twig',[]);
+            ->render($response,'file.html.twig',[]);
     }
 
     public function uploadFileAction(Request $request, Response $response)
