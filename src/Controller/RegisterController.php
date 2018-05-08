@@ -83,7 +83,7 @@ class RegisterController
                     $data['user_id'] = $user_id;
 
                     $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
-                    $data['folder_id'] = $foldersRoot;
+                    $_SESSION['folder_id'] = $foldersRoot;
 
                     return $response->withStatus(302)->withHeader("Location", "/home", array('data' => $data));
 

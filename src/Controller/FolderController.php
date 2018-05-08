@@ -28,10 +28,9 @@ class FolderController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $paramValue = $args['id'];
+        $paramValue = $_SESSION['folder_id'];
 
-        $exit = $this->container->get('folder_repository')->selectChild($paramValue);
-        $files = $this->container->get('file_repository')->select($paramValue);
+
 
         return $this->container->get('view')->render($response, 'home.twig', ['folders' => $exit, 'id_folder' => $paramValue, 'files' => $files]);
     }

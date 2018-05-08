@@ -46,6 +46,7 @@ class HomeController
             return $this->container->get('view')->render($response,'login.twig');
 
         } else {
+
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
@@ -61,50 +62,45 @@ class HomeController
     public function validateSession(Request $request, Response $response){
 
 
-
-        if (isset($_GET['email'])){
+        /*if (isset($_GET['email'])){
             $exit = $this->container->get('user_repository')->getActivate($_GET['email']);
             $username = $this->container->get('user_repository')->getUsername($_GET['email']);
 
-            $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
             if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
             else $mensaje = "";
+
             $path = $this->container->get('user_repository')->getProfilePic($_GET['email']);
             $username = $this->container->get('user_repository')->getUsername($_GET['email']);
-            $folders = $this->container->get('folder_repository')->select($_GET['email']);
-            $files = $this->container->get('file_repository')->select($_POST['id_folder']);
+            $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
+            $files = $this->container->get('file_repository')->select($_SESSION['id_folder']);
 
-            return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
+            return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+                'files' => $files, 'messages' => $messages]);
 
-        }else{
+        }else{*/
             if(isset($_SESSION['email'])){
                 $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
-
+                //miramos si la cuenta esta activada
                 if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
                 else $mensaje = "";
+
                 $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
                 $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-                $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
+                $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
+                $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
 
-                $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
+                $messages = $this->container->get('flash')->getMessages();
 
-                if($_POST != null) {
-                    $files = $this->container->get('file_repository')->select($_POST['id_folder']);
-
-                } else {
-                    $files = $this->container->get('file_repository')->select($foldersRoot);
-                }
-
-
-                return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
+                return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+                        'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje]);
 
 
             } else {
-                return $this->container->get('view')->render($response, 'login.twig');
+                return $response->withStatus(302)->withHeader("Location", "/login");
 
             }
         }
-    }
+
 
 }
