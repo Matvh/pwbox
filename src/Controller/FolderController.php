@@ -86,6 +86,23 @@ class FolderController
 
     public function renameFolder(Request $request, Response $response, array $args)
     {
+        $id_folder = $_POST['id_folder'];
+        $newName = $_POST['folder_name'];
+
+        $exit = $this->container->get('folder_repository')->rename($newName, $id_folder);
+
+        if($exit)
+        {
+
+            $this->container->get('flash')->addMessage('carpeta_error', "Error, la carpeta con ese nombre ya existe");
+            return $response->withStatus(302)->withHeader("Location", "/home");
+
+
+        } else{
+
+            return $response->withStatus(302)->withHeader("Location", "/home");
+
+        }
 
 
 

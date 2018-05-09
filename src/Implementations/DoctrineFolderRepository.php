@@ -243,7 +243,7 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("name", $name);
         $stmt->bindValue("id", $id);
-        $stmt->execute();
+        return $stmt->execute();
 
 
 

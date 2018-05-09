@@ -50,10 +50,12 @@ class HomeController
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
+            $messages = $this->container->get('flash')->getMessages();
+
 
             //return $response->withStatus(302)->withHeader("Location", "/login");
             return $this->container->get('view')->render($response,'home.html.twig', ['email' => $_SESSION['email'],'pic' =>
-                $path,'username' => $username, 'folders' => $folders]);
+                $path,'username' => $username, 'folders' => $folders, 'messages' => $messages]);
         }
 
 
@@ -77,7 +79,6 @@ class HomeController
             $sizepercent = ($size/1024) *100;
 
             $messages = $this->container->get('flash')->getMessages();
-
 
 
             return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
