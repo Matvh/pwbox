@@ -142,11 +142,13 @@
                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-edit"></span></button>
 
+                            <ul class="dropdown-menu">
+                                <li><form class=" input-group" action="/rename" method="post">
+                                    <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
+                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                </form></li>
+                            </ul>
 
-                            <form class="dropdown-menu input-group" action="/rename" method="post">
-                                <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
-                                <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
-                            </form>
 
                         </div>
                     </div>
