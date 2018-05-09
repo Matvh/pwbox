@@ -11,7 +11,7 @@
 
 {% block content %}
 
-    <div class="container-fluid">
+    <div class="container-fluid row">
         <div class="col-sm-3 sidenav">
             <div class="row content">
                 <div class="img-responsive headimage">
@@ -37,77 +37,33 @@
 
                 </div>
 
-                <br>
+                <div class="buttons-div row">
 
-                <div class="selected_item">
-                    <h4> Selected item</h4>
+                    <div class="dropup">
+                        <button class="btn btn-default my-btn" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-folder-close"></span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li><form class="input-group" action="/create-folder" method="post">
+                                    <input type="text" class="form-control" name="folder_name" placeholder="Insert name" autofocus>
+                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ id_folder }}">
+                            </form></li>
+                        </ul>
+                    </div>
 
 
-                    <div class="input-group">
-                        <input type="text" class="form-control" value="tokens.lex">
-                        <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-edit"></span>
+                    <button class="btn btn-default my-btn modaldiv" data-toggle="modal" data-target="#uploadModal">
+                        <span class="glyphicon glyphicon-file"></span>
                     </button>
-                </span>
-                    </div>
 
-                    <div class="row">
-
-                        <div class="col-sm-5 img-responsive headimage">
-                            <img class="centerimage" src="{{ base_path }}/assets/file.png" alt="icon">
-                        </div>
-
-                        <div class="col-sm-7">
-                            <p><b>Size :</b><br>10MB</p>
-                            <p><b>Type: </b><br>TXT</p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="buttons-div">
-                        <button class="btn btn-warning my-btn" id="js-download">
-                            <span class="glyphicon glyphicon-download-alt"></span>
-                        </button>
-
-                        <button class="btn btn-danger my-btn" id="js-delete">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </div>
                 </div>
 
-                <div class="new_folder">
-                    <h4> New folder</h4>
-                    <form class="input-group" action="/create-folder" method="post">
-                        <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
-                        <input type="hidden" name="id_folder" id="id_folder" value="{{ id_folder }}">
-
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
-                        </span>
-                    </form>
-                </div>
-
-                <div class="new_file">
-                    <h4> Upload File</h4>
-                    <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
-                        <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
-                        <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </span>
-                    </form>
-                </div>
 
             </div>
         </div>
 
-        <div class="col-sm-9 mycol">
+        <div class="mainbody col-sm-9">
 
             <h3>Home &gt RutaActual</h3>
 
@@ -115,59 +71,37 @@
 
             <a href="/resendemail">{{ mensaje }}</a>
 
+            <h4>Folders</h4>
 
-            <div class="dropdown profile">
-                {{ username }}
-                <img src="{{ base_path }}/profilePics/{{ path }}"
-                     class="dropdown-toggle img-circle dropdown-profile"
-                     type="button" data-toggle="dropdown">
-                <ul class="dropdown-menu">
-                    <li><a href="/profile">My account</a></li>
-                    <li><a href="#">Notifications</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                </ul>
-            </div>
+            <table id="folders" class="table table-hover unselectable">
 
-            <h4>
-                <small>Folders</small>
-            </h4>
-            <ul>
+                <tbody>
                 {% for folder in folders %}
-                    <div>
-                        <form  class="col-sm-6" action="/folder" method="POST">
-                            <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
-                            <button type="submit" class="">{{ folder.name }}</button>
-                        </form>
-                        <div class="dropup">
-                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-edit"></span></button>
-
+                    <tr ondblclick="openFolder('{{ folder.id }}');">
+                        <th><span class="glyphicon glyphicon-folder-open"></span> {{ folder.name }}</th>
+                        <th><span class="glyphicon glyphicon-share"></span></th>
+                        <th class="dropup">
+                            <button class="btn btn-link" type="button" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
                             <ul class="dropdown-menu">
                                 <li><form class=" input-group" action="/rename" method="post">
-                                    <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
-                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
-                                </form></li>
+                                        <input type="text" class="form-control" name="folder_name" placeholder="Insert name" autofocus>
+                                        <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                    </form></li>
                             </ul>
-
-
-                        </div>
-                    </div>
-                    {#<a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</a> <a href="/delete/{{ folder.id }}">Delete</a> <a href="/rename/{{ folder.id }}>Rename</a></li>#}
+                        </th>
+                    </tr>
                 {% endfor %}
-            </ul>
 
-            <hr>
-            <div id="folders">
+                </tbody>
 
-            </div>
-            <hr/>
+            </table>
+
+
             <br>
 
             {% block files %}
-                <h4>
-                    <small>Files</small>
-                </h4>
-                <hr>
+                <h4>Files </h4>
                 {% for file in files %}
                     <li>{{ file.name }}</li>
                 {% endfor %}
@@ -187,10 +121,45 @@
                         {% endif %}
                     {% endblock %}
                 </div>
-                <hr/>
             {% endblock %}
 
         </div>
 
+    </div>
+
+    <div class="dropdown profile">
+        {{ username }}
+        <img src="{{ base_path }}/profilePics/{{ path }}"
+             class="dropdown-toggle img-circle dropdown-profile my-img-circle"
+             type="button" data-toggle="dropdown">
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="/profile">My account</a></li>
+            <li><a href="#">Notifications</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+
+    <div id="uploadModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Upload in current folder</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
+                        <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
+                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">
+                                                 <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
 {% endblock %}

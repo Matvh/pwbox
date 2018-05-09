@@ -1,10 +1,19 @@
-/* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-.row.content {height: 100vh}
+.row.content {
+  height: 100vh;
+}
 
-/* Set gray background color and 100% height */
 .sidenav {
   background-color: #f1f1f1;
   height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+}
+
+.mainbody{
+  margin-left: 25%;
 }
 
 .headimage {
@@ -43,7 +52,7 @@
   }
 }
 
-.rspace, .selected_item, .new_folder{
+.rspace, .selected_item, .new_folder, .new_file{
   margin-left: 1rem;
   margin-right: 1rem;
 }
@@ -61,9 +70,10 @@
 }
 
 .profile{
-  float: right;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
+  position: fixed;
+  right: 5rem;
+  top: 5rem;
+
 }
 
 .dropdown-profile{
@@ -71,7 +81,17 @@
   max-height: 10rem;
 }
 
-.mycol{
-  overflow-y: scroll;
+.my-img-circle{
+  height: 6rem;
+  width: 6rem;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
