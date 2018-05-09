@@ -85,10 +85,10 @@
                         <input type="hidden" name="id_folder" id="id_folder" value="{{ id_folder }}">
 
                         <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </span>
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
                     </form>
                 </div>
 
@@ -133,14 +133,26 @@
             </h4>
             <ul>
                 {% for folder in folders %}
-                    <form  class="col-sm-6" action="/folder" method="POST">
-                        <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
-                        <button type="submit" class="">{{ folder.name }}</button>
-                    </form>
+                    <div>
+                        <form  class="col-sm-6" action="/folder" method="POST">
+                            <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                            <button type="submit" class="">{{ folder.name }}</button>
+                        </form>
+                        <div class="dropup">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-edit"></span></button>
+
+
+                            <form class="dropdown-menu input-group" action="/rename" method="post">
+                                <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
+                                <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                            </form>
+
+                        </div>
+                    </div>
                     {#<a href="/folder/{{ folder.id }}"><li>{{ folder.name }}</a> <a href="/delete/{{ folder.id }}">Delete</a> <a href="/rename/{{ folder.id }}>Rename</a></li>#}
                 {% endfor %}
             </ul>
-            <h1>Members</h1>
 
             <hr>
             <div id="folders">
