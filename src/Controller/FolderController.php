@@ -93,7 +93,7 @@ class FolderController
 
         if($exit)
         {
-            
+
             $this->container->get('flash')->addMessage('carpeta_error', "Error, la carpeta con ese nombre ya existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
 
