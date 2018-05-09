@@ -1,5 +1,5 @@
 BLOQUE 1: 
-	cambiar archivos twig a .html.twig
+	——
 BLOQUE 2: 
 	añadir info de la landing page
 	faltan mensajes de errores(cuenta no activada) y available_size en la home
