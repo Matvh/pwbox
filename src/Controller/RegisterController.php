@@ -77,7 +77,7 @@ class RegisterController
                             $photo = $user_id . '.' . strtolower(pathinfo($_FILES["picture"]["name"],PATHINFO_EXTENSION));
                             $this->container->get('user_repository')->updateProfilePicPath($email, $photo);
                         }else{
-                            $this->container->get('flash')->addMessage($uploadErrors);
+                            $this->container->get('flash')->addMessage('error', $uploadErrors . 'You can change your picture in MyAccount');
                         }
                     }
 
