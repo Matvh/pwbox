@@ -42,14 +42,14 @@ class FolderController
 
         $folderName = $_POST['folder_name'];
 
-        $id = $this->container->get('user_repository')->exist($_SESSION['email']);
-        $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
+        //$id = $this->container->get('user_repository')->exist($_SESSION['email']);
+       // $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
         $paramValue = $_SESSION['folder_id'];
 
-        if($exist){
+        /*if($exist){
             $this->container->get('flash')->addMessage('carpeta_error', "Error, la carpeta con ese nombre ya existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
-        }
+        }*/
 
 
         $date = new DateTime('now');

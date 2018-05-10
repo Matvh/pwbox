@@ -50,7 +50,7 @@ class DoctrineFolderRepository implements FolderRepository
         $email = $stmt->fetchAll();
 
 
-        $sql = "SELECT id FROM folder WHERE name = :name ";
+        $sql = "SELECT id FROM folder WHERE name = :name ORDER BY id DESC";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("name", $folder->getName(), 'string');
         $stmt->execute();
@@ -120,7 +120,6 @@ class DoctrineFolderRepository implements FolderRepository
             $stmt->bindValue("id",$id , 'string');
             $stmt->execute();
             $result = $stmt->fetchAll();
-
             return $result;
         } catch (DBALException $e) {
             return false;
@@ -147,7 +146,7 @@ class DoctrineFolderRepository implements FolderRepository
     public function selectChildId(String $name)
     {
         try {
-            $sql = "SELECT folder.id FROM folder WHERE folder.name = :name ";
+            $sql = "SELECT folder.id FROM folder WHERE folder.name = :name ORDER BY id DESC";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("name",$name, 'string');
 

@@ -21,3 +21,7 @@ function openFolder(folder){
 
 }
 
+function deleteNotification(element){
+    element.remove();
+}
+
