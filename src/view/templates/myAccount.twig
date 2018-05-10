@@ -24,14 +24,14 @@
                     <input type="text" placeholder="{{ user.username }}" name="username" readonly>
                     <input id="email" type="text" placeholder="{{ user.email }}" name="email">
                     <input id="pass" type="password" placeholder="Password" name="password">
-                    <input id="pass_re" type="password" placeholder="Repeat password" name="repassword">
+                    <input id="pass_re" type="password" placeholder="Repeat password" name="pass_re">
                     <button class="btn btn-primary full-width loginbtn" type="button" onclick="updateInfo()">
                         Update
                     </button>
                 </form>
 
                 <form id="picForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
-                    <img id="pic" src="{{ base_path }}/profilePics/{{ user.email }}.png" width="200" height="200"  >
+                    <img id="pic" src="{{ base_path }}/profilePics/{{ user.profile_pic }}" width="200" height="200"  >
                     <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
                             id="picture" name="picture">
                     <br>
@@ -39,6 +39,8 @@
                         Change photo
                     </button>
                 </form>
+
+                <p id="message"></p> {#error/success messages#}
 
                 <div class="modaldiv btn btn-danger full-width signinbtn" data-toggle="modal" data-target="#myModal">
                     Delete account

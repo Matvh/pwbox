@@ -36,7 +36,7 @@ class FileController
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
         $user['email'] = $_SESSION['email'];
 
-        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $_POST['email'] . "/";
+        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $_SESSION['email'] . "/";
         $uploadedFiles = $request->getUploadedFiles();
 
         if (!empty($uploadedFiles['files'][0]->file)) {
@@ -88,6 +88,12 @@ class FileController
 
                 $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
                 $this->container->get('file_repository')->upload($file);
+
+                $this->container->get('flash')->addMessage('Test', 'This is a message');
+                $message = $this->container->get('flash')->getMessages();
+                var_dump($message);
+                var_dump("hello");
+                exit();
 
                 return $response->withStatus(302)->withHeader("Location", "/home");
             }
