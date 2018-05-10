@@ -14,6 +14,7 @@
 
 .mainbody{
   margin-left: 25%;
+  margin-bottom: 5rem;
 }
 
 .headimage {
@@ -52,7 +53,7 @@
   }
 }
 
-.rspace, .selected_item, .new_folder, .new_file{
+.rspace, .selected_item{
   margin-left: 1rem;
   margin-right: 1rem;
 }
@@ -63,6 +64,9 @@
 
 .my-btn{
   width: 45%;
+  float: left;
+  position: relative;
+
 }
 
 .new_folder{
@@ -102,4 +106,44 @@
 .borderless > thead > tr > td,
 .borderless > thead > tr > th {
     border: none;
+}
+
+figure {
+  float: left;
+  margin: 1rem;
+  width: 20rem; /* Limita el tamaño del contenedor */
+  position: relative;
+}
+
+figure figcaption{
+  overflow: hidden;
+}
+
+.floating-buttons{
+  display: flex;
+  float: left;
+  width: 16rem;
+  position: relative;
+}
+
+.floating-buttons button{
+  margin-right: 2.5rem;
+}
+
+.cardimg{
+  height: 12rem;
+  width: 12rem;
+}
+
+figcaption{
+  margin-top: 2rem;
+  margin-right: 2rem;
+}
+
+.filedropup{
+  position:relative;
+}
+
+.filedropupmenu{
+  position:absolute;
 }
