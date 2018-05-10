@@ -33,7 +33,7 @@ class RegisterController
 
 
         try {
-            return $this->container->get('view')->render($response, 'register.twig');
+            return $this->container->get('view')->render($response, 'register.html.twig');
         } catch (NotFoundExceptionInterface $e) {
         } catch (ContainerExceptionInterface $e) {
         }

@@ -114,19 +114,35 @@
     </div>
 
     <h4><small>Folders</small></h4>
-    <hr>
-    <div id="folders">
 
-    </div>
-    <hr />
+    <table id="folders" class="table table-hover">
+      <thead>
+      </thead>
+
+      <tbody>
+        <tr ondblclick="openFolder()">
+          <th> <span class="glyphicon glyphicon-folder-open"></span> Mis documentos </th>
+          <th> <span class="glyphicon glyphicon-share"></span></th>
+          <th class="dropup">
+            <button class="btn btn-link" type="button" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
+
+            <ul class="dropdown-menu">
+              <li><form class=" input-group" method="post">
+                <input type="text" class="form-control" name="folder_name" placeholder="Insert name">
+              </form></li>
+            </ul>
+          </th>
+        </tr>
+      </tbody>
+
+    </table>
     <br>
 
     <h4><small>Files</small></h4>
-    <hr>
     <div id="files">
 
     </div>
-    <hr />
 
   </div>
 

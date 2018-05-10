@@ -1,0 +1,273 @@
+{% extends "base.html.twig" %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/home.css">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ base_path }}/assets/js/home.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid row">
+        <div class="col-sm-3 sidenav">
+            <div class="row content">
+                <div class="img-responsive headimage">
+                    <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
+                </div>
+
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="/home">{{ username }}'s Box</a></li>
+                    <li><a href="/showSharedFolders">Shared with Me</a></li>
+                </ul>
+                <br>
+
+                <div class="rspace">
+
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ sizepercent }}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{ sizepercent }}%;">
+                            <span class="sr-only">{{ sizepercent }}% Complete</span>
+                        </div>
+                    </div>
+
+                    <h5> {{ size }}MB of 1GB used </h5>
+
+                </div>
+
+                <div class="buttons-div row">
+
+                    <div class="dropup">
+                        <button class="btn btn-default my-btn" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-folder-close"></span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li><form class="input-group" action="/create-folder" method="post">
+                                    <input type="text" class="form-control" name="folder_name" placeholder="Insert name" autofocus>
+                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ id_folder }}">
+                            </form></li>
+                        </ul>
+                    </div>
+
+
+                    <button class="btn btn-default my-btn modaldiv" data-toggle="modal" data-target="#uploadModal">
+                        <span class="glyphicon glyphicon-file"></span>
+                    </button>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="mainbody col-sm-9">
+
+            <h3>Home &gt RutaActual</h3>
+
+            <br>
+
+            <a href="/resendemail">{{ mensaje }}</a> <br>
+
+            {% for message in messages %}
+                {{ messages.error[0] }}
+            {% endfor %}
+
+            <h4>Folders</h4>
+
+            <table id="folders" class="table table-hover unselectable">
+
+                <tbody>
+                {% for folder in folders %}
+                    <tr ondblclick="openFolder('{{ folder.id }}');">
+                        <th><span class="glyphicon glyphicon-folder-open"></span> {{ folder.name }}</th>
+                        <th class="dropup">
+                            <button class="btn btn-link" type="button" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-share dropdown-toggle"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><form class=" input-group" action="/shareFolder" method="post">
+                                        <input type="text" class="form-control" name="email" placeholder="Insert email" autofocus>
+                                        <input type="text" class="form-control" name="rol" placeholder="Insert role">
+                                        <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                        <button class="btn btn-default" type="submit">
+                                            <span class="glyphicon glyphicon-share"></span>
+                                        </button>
+                                    </form></li>
+                            </ul>
+                        </th>
+                        <th class="dropup">
+                            <button class="btn btn-link" type="button" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><form class=" input-group" action="/rename" method="post">
+                                        <input type="text" class="form-control" name="folder_name" placeholder="Insert name" autofocus>
+                                        <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                    </form></li>
+                            </ul>
+                        </th>
+                        <th><form class=" input-group" action="/deleteFolder" method="post">
+                                <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                <button class="btn btn-link" type="submit">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+                        </th>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            <br>
+
+            {% block files %}
+                <h4>Files </h4>
+
+                <div class="files">
+                    {% for file in files %}
+                        <figure class="btn btn-default">
+                            <img class="cardimg" src="{{ base_path }}/assets/file.png" alt="file">
+                            <figcaption>
+                                <p>{{ file.name }}</p>
+                            </figcaption>
+                            <div class="floating-buttons">
+
+                                <form class=" input-group" action="/downloadFile" method="post">
+                                    <input type="hidden" name="id_file" id="id_folder" value="{{ file.id }}">
+                                    <button class="btn btn-primary" type="submit">
+                                        <span class="glyphicon glyphicon-download"></span>
+                                    </button>
+                                </form>
+
+
+                                <div class="dropup filedropup">
+                                    <button class="dropup btn btn-primary" type="button" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
+
+                                    <ul class="dropdown-menu filedropupmenu">
+                                        <li><form class=" input-group" action="/renameFile" method="post">
+                                                <input type="text" class="form-control" name="file_name" placeholder="Insert name" autofocus>
+                                                <input type="hidden" name="id_file" id="id_file" value="{{ file.id }}">
+                                            </form></li>
+                                    </ul>
+                                </div>
+
+
+                                <form class=" input-group" action="/deleteFolder" method="post">
+                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                    <button class="btn btn-danger" type="submit">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </figure>
+                    {% endfor %}
+                </div>
+
+
+                <div id="files">
+                    {% block errorFiles %}
+                        {% for error in errors %}
+                            <p> {{ error }} </p>
+                        {% endfor %}
+
+                        {% if moreErrors['invalidExt'] is defined %}
+                            <p> {{ moreErrors['extensions'] }} </p>
+                        {% endif %}
+
+                        {% if moreErrors['invalidSize'] is defined %}
+                            <p> {{ moreErrors['size'] }} </p>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+    <div class="dropdown profile">
+        {{ username }}
+        <img src="{{ base_path }}/profilePics/{{ path }}"
+             class="dropdown-toggle img-circle dropdown-profile my-img-circle"
+             type="button" data-toggle="dropdown">
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="/profile">My account</a></li>
+            <li><a href="" data-toggle="modal" data-target="#notificationModal">
+                    Notifications
+                </a>
+            </li>
+            <li><a href="/logout">
+                    Log out
+                </a></li>
+
+            </li>
+        </ul>
+    </div>
+
+
+    <div id="uploadModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Upload in current folder</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
+                        <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
+                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">
+                                                 <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="notificationModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Notifications</h4>
+                </div>
+                <div class="modal-body">
+                    <table id="notifications" class="table table-hover unselectable borderless">
+                        <tbody>
+                            <tr onclick="deleteNotification(this)">
+                                <th>Jesús se ha cagado en el funcionamiento responsive del bootstrap.</th>
+                            </tr>
+                            <tr onclick="deleteNotification(this)">
+                                <th>Jesús se ha cagado en el funcionamiento responsive del bootstrap.</th>
+                            </tr>
+                            <tr onclick="deleteNotification(this)">
+                                <th>Jesús se ha cagado en el funcionamiento responsive del bootstrap.</th>
+                            </tr>
+                            <tr onclick="deleteNotification(this)">
+                                <th>Jesús se ha cagado en el funcionamiento responsive del bootstrap.</th>
+                            </tr>
+                            <tr onclick="deleteNotification(this)">
+                                <th>Jesús se ha cagado en el funcionamiento responsive del bootstrap.</th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

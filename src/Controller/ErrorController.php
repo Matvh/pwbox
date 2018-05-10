@@ -29,7 +29,7 @@ class ErrorController
     {
 
 
-        return $this->container->get('view')->render($response, 'error.twig');
+        return $this->container->get('view')->render($response, 'error.html.twig');
 
     }
 }

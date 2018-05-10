@@ -11,6 +11,7 @@ namespace SlimApp\Controller;
 
 use DateTime;
 use Doctrine\DBAL\Driver\PDOException;
+use Slim\Flash\Messages;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use SlimApp\Model\User;
@@ -34,7 +35,7 @@ class HomeController
         $exit = $this->container->get('user_repository')->remove($email);
         if($exit){
             shell_exec("rm -rf /home/vagrant/users/$email");
-            return $this->container->get('view')->render($response, 'home.twig');
+            return $this->container->get('view')->render($response, 'home.html.twig');
         } else {
         }
     }
@@ -43,7 +44,7 @@ class HomeController
 
         if (!isset($_SESSION['email'])){
             //TODO landing page explicando de qué va esta cosa
-            return $this->container->get('view')->render($response,'login.twig');
+            return $this->container->get('view')->render($response,'login.html.twig');
 
         } else {
 
@@ -51,9 +52,11 @@ class HomeController
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
 
+            $messages = $this->container->get('flash')->getMessages();
+
             //return $response->withStatus(302)->withHeader("Location", "/login");
-            return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'],'pic' =>
-                $path,'username' => $username, 'folders' => $folders]);
+            return $this->container->get('view')->render($response,'home.html.twig', ['email' => $_SESSION['email'],'pic' =>
+                $path,'username' => $username, 'folders' => $folders, 'messages' => $messages]);
         }
 
 
@@ -68,6 +71,8 @@ class HomeController
             //miramos si la cuenta esta activada
             if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
             else $mensaje = "";
+            $messages = $this->container->get('flash')->getMessages();
+
 
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
@@ -76,20 +81,17 @@ class HomeController
             $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size/1024) *100;
 
-            $messages = $this->container->get('flash')->getMessages();
 
-            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-            $_SESSION['folder_id'] = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
-            return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+            return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
                     'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent]);
+
 
 
         } else {
             return $response->withStatus(302)->withHeader("Location", "/login");
 
         }
-        }
-
+    }
 
 }

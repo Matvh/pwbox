@@ -22,13 +22,13 @@ namespace SlimApp\Controller;
      {
          if (!isset($_SESSION['email'])){
              //TODO landing page explicando de qué va esta cosa
-             return $this->container->get('view')->render($response,'login.twig');
+             return $this->container->get('view')->render($response,'login.html.twig');
 
          } else {
              //return $response->withStatus(302)->withHeader("Location", "/");
              $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
 
-             return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'], 'folders' => folders]);
+             return $this->container->get('view')->render($response,'home.html.twig', ['email' => $_SESSION['email'], 'folders' => folders]);
          }
          //$name = $args['name'];
          //$this ->container->get('test');

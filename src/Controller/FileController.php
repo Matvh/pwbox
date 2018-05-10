@@ -25,7 +25,7 @@ class FileController
     public function showFormAction(Request $request, Response $response){
         //TODO ver la sesion o redireccionar a login
         return $this->container->get('view')
-            ->render($response,'file.twig',[]);
+            ->render($response,'file.html.twig',[]);
     }
 
     public function uploadFileAction(Request $request, Response $response)
@@ -64,6 +64,7 @@ class FileController
                         $fileName,
                         $extension
                     );
+                    $this->container->get('flash')->addMessage('error', "No se permite esa extensión");
 
                     continue;
                 }
@@ -76,6 +77,8 @@ class FileController
                         $fileName,
                         $this->convertToReadableSize($uploadedFile->getSize())
                     );
+                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande");
+
                     continue;
                 }
 
@@ -84,18 +87,21 @@ class FileController
 
                 $fileSize = $uploadedFile->getSize() / 1024;
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-                $this->container->get('user_repository')->setSize($user['email'], $currentSize - ($fileSize / 1024));
+                if($currentSize - ($fileSize / 1024) <= 0){
+                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
+                    return $response->withStatus(302)->withHeader("Location", "/home");
 
-                $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
-                $this->container->get('file_repository')->upload($file);
 
-                $this->container->get('flash')->addMessage('Test', 'This is a message');
-                $message = $this->container->get('flash')->getMessages();
-                var_dump($message);
-                var_dump("hello");
-                exit();
+                } else {
+                    $this->container->get('user_repository')->setSize($user['email'],
+                        $currentSize - ($fileSize / 1024));
 
-                return $response->withStatus(302)->withHeader("Location", "/home");
+                    $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
+                    $this->container->get('file_repository')->upload($file);
+
+
+                    return $response->withStatus(302)->withHeader("Location", "/home");
+                }
             }
         }
     }

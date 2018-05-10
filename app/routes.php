@@ -2,7 +2,7 @@
 
 /*$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
     $name = $args['name'];
-    return $this->view->render($response,'hello.twig',['name' => $name]);
+    return $this->view->render($response,'hello.html.twig',['name' => $name]);
 });*/
 
 
@@ -47,8 +47,8 @@ $app->get('/resendemail', 'SlimApp\Controller\ResendActivateController');
 $app->post('/folder', 'SlimApp\Controller\FolderController');
 $app->post('/create-folder', 'SlimApp\Controller\FolderController:createFolder');
 
-$app->get('/delete/{id}', 'SlimApp\Controller\FolderController:deleteFolder');
-$app->get('/rename/{id}', 'SlimApp\Controller\FolderController:renameFolder');
+$app->post('/deleteFolder', 'SlimApp\Controller\FolderController:deleteFolder');
+$app->post('/rename', 'SlimApp\Controller\FolderController:renameFolder');
 
 
 $app->post('/deleteAccount', 'SlimApp\Controller\MyAccountController:deleteUser');
@@ -56,5 +56,12 @@ $app->post('/deleteAccount', 'SlimApp\Controller\MyAccountController:deleteUser'
 $app->post('/addNotification', 'SlimApp\Controller\NotificationController:addNotification');
 $app->post('/deleteNotification', 'SlimApp\Controller\NotificationController:deleteNotification');
 
+$app->post('/shareFolder', 'SlimApp\Controller\FolderController:shareFolder');
+
+$app->get('/showSharedFolders', 'SlimApp\Controller\FolderController:showSharedFolders');
+
+$app->get('/enterSharedFolder', 'SlimApp\Controller\FolderController:enterSharedFolder');
+$app->get('/renameSharedFolder', 'SlimApp\Controller\FolderController:renameSharedFolder');
+$app->get('/deleteSharedFolder', 'SlimApp\Controller\FolderController:deleteSharedFolder');
 
 

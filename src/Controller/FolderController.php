@@ -28,8 +28,12 @@ class FolderController
 
     public function __invoke(Request $request, Response $response)
     {
+
         $_SESSION['folder_id'] = $_POST['id_folder'];
-        return $response->withStatus(302)->withHeader("Location", "/home");
+        //var_dump($_SESSION['folder_id'], $_POST['id_folder']);
+
+        //return $response->withStatus(302)->withHeader("Location", "/home");
+        return $response->withJson(['ok'=>'ok'], 201);
 
     }
 
@@ -38,14 +42,14 @@ class FolderController
 
         $folderName = $_POST['folder_name'];
 
-        $id = $this->container->get('user_repository')->exist($_SESSION['email']);
-        $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
+        //$id = $this->container->get('user_repository')->exist($_SESSION['email']);
+       // $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
         $paramValue = $_SESSION['folder_id'];
 
-        if($exist){
+        /*if($exist){
             $this->container->get('flash')->addMessage('carpeta_error', "Error, la carpeta con ese nombre ya existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
-        }
+        }*/
 
 
         $date = new DateTime('now');
@@ -63,32 +67,147 @@ class FolderController
      public function deleteFolder(Request $request, Response $response, array $args)
      {
 
-         $paramValue = $args['id'];
+         $paramValue = $_POST['id_folder'];
          $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
          $this->container->get('folder_repository')->delete($paramValue);
 
          if($parent != null) {
              $id = $args['id'];
-             return $response->withStatus(302)->withHeader("Location", "/folder/$parent");
+             return $response->withStatus(302)->withHeader("Location", "/home");
          } else {
-             return $response->withStatus(302)->withHeader("Location", "/");
+             return $response->withStatus(302)->withHeader("Location", "/home");
          }
-
-
-
-
-
 
      }
 
     public function renameFolder(Request $request, Response $response, array $args)
     {
+        $id_folder = $_POST['id_folder'];
+        $newName = $_POST['folder_name'];
+
+        $exit = $this->container->get('folder_repository')->rename($newName, $id_folder);
+
+        if($exit)
+        {
+
+            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
+            return $response->withStatus(302)->withHeader("Location", "/home");
 
 
+        } else{
+
+            return $response->withStatus(302)->withHeader("Location", "/home");
+
+        }
+
+    }
+
+    public function shareFolder(Request $request, Response $response)
+    {
+        $error = "";
+        $idAdmin = $this->container->get('user_repository')->getID($_SESSION['email']);
+        if ($idAdmin == null) $error = true;
+        $id_folder = $_POST['id_folder'];
+        $email = $_POST['email'];
+        $idShared = $this->container->get('user_repository')->getID($email);
+        if ($idShared == null) $error = true;
+        $rol = $_POST['rol'];
+
+        if ($error ){
+            $this->container->get('flash')->addMessage('error', "Error, el usuario con el email '$email' no existe");
+            return $response->withStatus(302)->withHeader("Location", "/home");
+        } else {
+            $exit = $this->container->get('folder_repository')->shareFolder($idAdmin, $idShared, $id_folder, $rol);
+            return $response->withStatus(302)->withHeader("Location", "/home");
+        }
 
 
+    }
+
+    public function showSharedFolders(Request $request, Response $response)
+    {
 
 
+        if (isset($_SESSION['email'])) {
+            $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
+            if(!isset($_SESSION['shared_folder_id'])){
+                $folders = $this->container->get('folder_repository')->selectSharedFolders($idUser);
+            } else {
+                $folders = $this->container->get('folder_repository')->selectChild($_SESSION['shared_folder_id']);
+            }
+
+            $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
+            //miramos si la cuenta esta activada
+            if ($exit == "false") {
+                $mensaje = "Activa la cuenta, porfavor";
+            } else {
+                $mensaje = "";
+            }
+            $messages = $this->container->get('flash')->getMessages();
+
+
+            $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+            $size = 1024 - ($this->container->get('user_repository')->getSize($_SESSION['email']));
+            $sizepercent = ($size / 1024) * 100;
+
+
+            return $this->container->get('view')->render($response, 'home.html.twig', [
+                'username' => $username,
+                'folders' => $folders,
+                'path' => $path,
+                'messages' => $messages,
+                'mensaje' => $mensaje,
+                'size' => $size,
+                'sizepercent' => $sizepercent
+            ]);
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/login");
+        }
+    }
+
+    public function enterSharedFolder(Request $request, Response $response)
+    {
+        $_SESSION['shared_folder_id'] = $_POST['id_shared_folder'];
+
+        return $response->withJson(['ok'=>'ok'], 201);
+    }
+
+    public function renameSharedFolder(Request $request, Response $response, array $args)
+    {
+        $id_folder = $_POST['id_shared_folder'];
+        $newName = $_POST['folder_name'];
+
+        $exit = $this->container->get('folder_repository')->rename($newName, $id_folder);
+
+        if($exit)
+        {
+
+            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+
+
+        } else{
+
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+
+        }
+
+    }
+
+    public function deleteSharedFolder(Request $request, Response $response, array $args)
+    {
+
+        $paramValue = $_POST['id_shared_folder'];
+        $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
+        $this->container->get('folder_repository')->delete($paramValue);
+
+        if($parent != null) {
+            $id = $args['id'];
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+        }
 
     }
 

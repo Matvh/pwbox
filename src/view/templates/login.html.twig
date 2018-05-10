@@ -1,4 +1,4 @@
-{% extends "base.twig" %}
+{% extends "base.html.twig" %}
 
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
@@ -19,6 +19,7 @@
 
             <h2>Login</h2>
             <h4 >{{ mensaje }}</h4>
+
             <form class="box" action="/login" method="post" onsubmit="return preventDefault()">
                 <input  id='user' type="text" placeholder="Username or email" name="email" onchange="checkError(this, 'text')" autofocus>
                 <input  id='pass' type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
@@ -50,7 +51,7 @@
                     <h4 class="modal-title">What is PWBox?</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Some text in the modal.</p>
+                    <p>Pwbox is a custom file hosting service that offers a personal cloud storage with a simple and intuitive UI.</p>
                 </div>
             </div>
 
