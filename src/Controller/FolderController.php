@@ -67,15 +67,15 @@ class FolderController
      public function deleteFolder(Request $request, Response $response, array $args)
      {
 
-         $paramValue = $args['id'];
+         $paramValue = $_POST['id_folder'];
          $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
          $this->container->get('folder_repository')->delete($paramValue);
 
          if($parent != null) {
              $id = $args['id'];
-             return $response->withStatus(302)->withHeader("Location", "/folder/$parent");
+             return $response->withStatus(302)->withHeader("Location", "/home");
          } else {
-             return $response->withStatus(302)->withHeader("Location", "/");
+             return $response->withStatus(302)->withHeader("Location", "/home");
          }
 
      }
