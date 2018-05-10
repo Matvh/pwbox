@@ -1,15 +1,15 @@
 BLOQUE 1: 
 	——
 BLOQUE 2: 
-	
+
 	faltan mensajes de errores(cuenta no activada) y available_size en la home
 BLOQUE 3: 
 	——
 BLOQUE 4: 
-	——
-BLOQUE 5: 
-	mostrar mensajes de success y error en el update
-BLOQUE 6: 
+	arreglar lo de la foto de perfil (html.twig) dropdown
+BLOQUE 5:
+    - done
+BLOQUE 6:
 	todo
 BLOQUE 7: 
 	todo
@@ -17,7 +17,7 @@ BLOQUE 8:
 	faltan mensajes de errores (cuenta no activada) y available_size en la home
 	descargar file
 	renombrar file
-BLOQUE 9: 	
+BLOQUE 9:
 	eliminar carpetas y archivos de dentro de una carpeta que se quiere eliminar
 BLOQUE 10: 
 	hacer jerarquía de admin/reader

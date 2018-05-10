@@ -42,49 +42,92 @@ class MyAccountController
 
     public function updateData(Request $request, Response $response)
     {
-        //TODO verificaciones
+
         if (isset($_SESSION['email'])) {
+            $results=[];
+            $email = $_SESSION['email'];
 
             //cambiar mail
             if (isset($_POST['email']) && !empty($_POST['email']) && $_POST['email'] != " ") {
-                var_dump($_SESSION['email']);
-                $email = $_SESSION['email'];
-                $new_email = $_POST['email'];
 
-                $this->container->get('user_repository')->updateEmail($email, $new_email);
-                $this->container->get('user_repository')->updateProfilePicPath($new_email, $new_email.".png");
-                rename("/home/vagrant/code/pwbox/public/profilePics/" . $email . ".png","/home/vagrant/code/pwbox/public/profilePics/". $new_email . ".png");
-                $_SESSION['email'] = $new_email;
-                echo "success";
-            } else {
-                if (isset($_POST['email']) && (empty($_POST['email']) || $_POST['email'] == " ")) {
-                    echo "password must not be empty";
+                if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+
+                    $new_email = $_POST['email'];
+                    $res = $this->container->get('user_repository')->updateEmail($email, $new_email);
+
+                    if($res){
+                        $_SESSION['email'] = $new_email;
+                        $ok['email'] = true;
+                        $results['email'] = "Email successfully updated";
+                    }else{
+                        $results['email'] = "There was a problem updating your email";
+                    }
+                }else{
+                    $results['email'] = "Incorrect email format";
                 }
             }
 
             //cambiar password
             if (isset($_POST['password']) && !empty($_POST['password']) && $_POST['password'] != " ") {
-                $password = hash("sha256", $_POST['password']);
-                $this->container->get('user_repository')->updatePassword($_SESSION['email'], $password);
-                echo "success";
-            }
+                $password = $_POST['password'];
+                if(strlen($password) >= 6 && strlen($password)<= 12 &&
+                    preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) && preg_match('/[1-9]/', $password)){
 
-            var_dump($_FILES);
+                    if($password == $_POST['pass_re']){
+                        $password = hash("sha256", $_POST['password']);
+                        $result = $this->container->get('user_repository')->updatePassword($_SESSION['email'], $password);
+                        if($result){
+                            $ok['password'] = true;
+                            $results['password'] = 'Password successfully updated';
+                        }else{
+                            $results['password'] = 'The was a problem updating the password';
+                        }
+                    }else{
+                        $results['password'] = 'The password and the confirm password do not match';
+                    }
+                }else{
+                    $results['password'] = 'The password must have between 6 to 12 characters, at least 1 number and 1 upper case letter';
+                }
+            }
 
             //cambiar foto
             if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
 
                 $email = $_SESSION['email'];
+                $oldPath = $this->container->get('user_repository')->getProfilePic($email);
+                $oldPic = '/home/vagrant/code/pwbox/public/profilePics/'.$oldPath;
 
-                $oldPic = "/home/vagrant/code/pwbox/public/profilePics/".$email.".png";
-                chmod($oldPic, 777);
-                unlink($oldPic);
-                $this->container->get('upload_photo')->uploadPhoto($email);
-                echo "success";
-                exit();
-            }else{
-                echo "hola";
+                $u_id = $this->container->get('user_repository')->getID($email);
+                $uploadErrors = $this->container->get('upload_photo')->uploadPhoto($u_id);
+
+                if ($uploadErrors == 'success'){
+                    $ok['photo'] = true;
+                    $results['photo'] = 'Profile picture successfully updated';
+
+                    //remove old picture
+                    $newPath = $u_id . '.' . strtolower(pathinfo($_FILES["picture"]["name"],PATHINFO_EXTENSION));
+
+                    //if they have a different ext, then remove the old pic & update database
+                    if($oldPath != $newPath){
+                        if ($oldPath != 'default.png'){
+                            chmod($oldPic, 777);
+                            unlink($oldPic);
+                        }
+                        $this->container->get('user_repository')->updateProfilePicPath($email, $newPath);
+                    }
+                }else{
+                    $results['photo'] = $uploadErrors;
+                }
             }
+
+            if (isset($ok['email']) || isset($ok['password']) || isset($ok['photo'])) {
+                $newResponse = $response->withJson($results, 201);
+                return $newResponse;
+            }
+            $newResponse = $response->withJson($results, 400);
+            return $newResponse;
+
+            //return $this->container->get('view')->render($response, 'myAccount.twig', ['user' => $exit[0], 'results' => $results]);
 
         } else {
                 return $response->withStatus(403)->withHeader("Location", "/error");
@@ -93,16 +136,9 @@ class MyAccountController
 
     public function deleteUser(Request $request, Response $response)
     {
-        /*$idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
-
-        $this->container->get('folder_repository')->deleteAllFolders($_SESSION['email'], $idUser);
-
-        $this->container->get('user_repository')->remove($_SESSION['email']);*/
 
         $this->container->get('user_repository')->remove($_SESSION['email']);
         return $this->container->get('view')->render($response, 'login.html.twig');
-
-
 
     }
 }
