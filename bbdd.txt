@@ -45,6 +45,7 @@ CREATE TABLE `shareFolder` (
   `id_owner` int unsigned NOT NULL,
   `id_folder` int unsigned NOT NULL,
   `id_shared` int unsigned NOT NULL,
+  `rol` varchar(255),
    PRIMARY KEY (`id_owner`, `id_shared`, `id_folder`),
    FOREIGN KEY (`id_owner`) REFERENCES `user` (`id`),
    FOREIGN KEY (`id_shared`) REFERENCES `user` (`id`),

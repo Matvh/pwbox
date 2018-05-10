@@ -69,7 +69,11 @@
 
             <br>
 
-            <a href="/resendemail">{{ mensaje }}</a>
+            <a href="/resendemail">{{ mensaje }}</a> <br>
+
+            {% for message in messages %}
+                {{ messages.error[0] }}
+            {% endfor %}
 
             <h4>Folders</h4>
 
@@ -205,6 +209,7 @@
             </li>
         </ul>
     </div>
+
 
     <div id="uploadModal" class="modal fade" role="dialog">
         <div class="modal-dialog">

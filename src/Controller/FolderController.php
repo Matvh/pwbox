@@ -78,11 +78,6 @@ class FolderController
              return $response->withStatus(302)->withHeader("Location", "/");
          }
 
-
-
-
-
-
      }
 
     public function renameFolder(Request $request, Response $response, array $args)
@@ -95,7 +90,7 @@ class FolderController
         if($exit)
         {
 
-            $this->container->get('flash')->addMessage('carpeta_error', "Error, la carpeta con ese nombre ya existe");
+            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
 
 
@@ -105,10 +100,26 @@ class FolderController
 
         }
 
+    }
 
+    public function shareFolder(Request $request, Response $response)
+    {
+        $error = "";
+        $idAdmin = $this->container->get('user_repository')->getID($_SESSION['email']);
+        if ($idAdmin == null) $error = true;
+        $id_folder = $_POST['id_folder'];
+        $email = $_POST['email'];
+        $idShared = $this->container->get('user_repository')->getID($email);
+        if ($idShared == null) $error = true;
+        $rol = $_POST['rol'];
 
-
-
+        if ($error ){
+            $this->container->get('flash')->addMessage('error', "Error, el usuario con el email '$email' no existe");
+            return $response->withStatus(302)->withHeader("Location", "/home");
+        } else {
+            $exit = $this->container->get('folder_repository')->shareFolder($idAdmin, $idShared, $id_folder, $rol);
+            return $response->withStatus(302)->withHeader("Location", "/home");
+        }
 
 
     }
