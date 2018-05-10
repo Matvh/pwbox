@@ -44,13 +44,17 @@ $app->get('/logout', 'SlimApp\Controller\LogoutController');
 
 $app->get('/resendemail', 'SlimApp\Controller\ResendActivateController');
 
-
-$app->get('/folder/{id}', 'SlimApp\Controller\FolderController');
-$app->post('/create-folder/{id}', 'SlimApp\Controller\FolderController:createFolder');
-$app->post('/create-folder/', 'SlimApp\Controller\FolderController:createFolder');
+$app->post('/folder', 'SlimApp\Controller\FolderController');
+$app->post('/create-folder', 'SlimApp\Controller\FolderController:createFolder');
 
 $app->get('/delete/{id}', 'SlimApp\Controller\FolderController:deleteFolder');
 $app->get('/rename/{id}', 'SlimApp\Controller\FolderController:renameFolder');
 
 
 $app->post('/deleteAccount', 'SlimApp\Controller\MyAccountController:deleteUser');
+
+$app->post('/addNotification', 'SlimApp\Controller\NotificationController:addNotification');
+$app->post('/deleteNotification', 'SlimApp\Controller\NotificationController:deleteNotification');
+
+
+

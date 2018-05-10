@@ -29,9 +29,8 @@ class DoctrineFolderRepository implements FolderRepository
     public function create(Folder $folder, User $user)
     {
 
-        $sql = "INSERT INTO folder(is_root, super_root, created_at, updated_at, name, path) VALUES(:root, :super_root, :created_at, :updated_at, :nombre, :path)";
+        $sql = "INSERT INTO folder(super_root, created_at, updated_at, name, path) VALUES( :super_root, :created_at, :updated_at, :nombre, :path)";
         $stmt = $this->database->prepare($sql);
-        $stmt->bindValue("root", $folder->getRoot());
         $stmt->bindValue("super_root", $folder->getSuperRoot());
         $stmt->bindValue("created_at", $folder->getCreated()->format(self::DATE_FORMAT));
         $stmt->bindValue("updated_at", $folder->getUpdated()->format(self::DATE_FORMAT));

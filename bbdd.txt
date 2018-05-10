@@ -32,7 +32,6 @@ CREATE TABLE `user` (
 
 CREATE TABLE `folder` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `is_root` varchar(255),
   `super_root` varchar(255),
   `created_at` varchar(255),
   `updated_at` varchar(255),

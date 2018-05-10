@@ -26,64 +26,37 @@ class FolderController
         $this->container = $container;
     }
 
-    public function __invoke(Request $request, Response $response, array $args)
+    public function __invoke(Request $request, Response $response)
     {
-        $paramValue = $args['id'];
+        $_SESSION['folder_id'] = $_POST['id_folder'];
+        return $response->withStatus(302)->withHeader("Location", "/home");
 
-        $exit = $this->container->get('folder_repository')->selectChild($paramValue);
-        $files = $this->container->get('file_repository')->select($paramValue);
-        $errors = $this->container->get('flash')->getMessages();
-        var_dump($errors);
-
-        return $this->container->get('view')->render($response, 'home.twig', ['folders' => $exit, 'id_folder' => $paramValue,
-            'files' => $files, 'flash' => $errors]);
     }
 
-    public function createFolder(Request $request, Response $response, array $args)
+    public function createFolder(Request $request, Response $response)
     {
+
         $folderName = $_POST['folder_name'];
-        if ($args != null) {
-            $id = $this->container->get('user_repository')->exist($_SESSION['email']);
-            $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
-            $paramValue = $args['id'];
 
-            if($exist){
-                return $response->withStatus(302)->withHeader("Location", "/folder/$paramValue");
-            }
-            $root = 0;
-            $date = new DateTime('now');
-            $folder = new Folder(1, $date, $date, $folderName, "path", $root, "false");
-            $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-            $email = $_SESSION['email'];
-            $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
-            $this->container->get('folder_repository')->create($folder, $user);
-            $child = $this->container->get('folder_repository')->selectChildId($folderName);
-            $this->container->get('folder_repository')->createChild($paramValue, $child[0]['id']);
-            return $response->withStatus(302)->withHeader("Location", "/folder/$paramValue");
+        $id = $this->container->get('user_repository')->exist($_SESSION['email']);
+        $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
+        $paramValue = $_SESSION['folder_id'];
 
-        }
-        else {
-            $root = 1;
-            $date = new DateTime('now');
-            $id = $this->container->get('user_repository')->exist($_SESSION['email']);
-            $exist = $this->container->get('folder_repository')->exist($folderName, $id[0]['id']);
-
-            if($exist){
-                return $response->withStatus(302)->withHeader("Location", "/");
-            }
-            $folder = new Folder(1, $date, $date, $folderName, "path", $root, "false");
-            $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-            $email = $_SESSION['email'];
-            $user = new User(1, $user, $email, "hola", "miquel", "jeje", "lolo", $date, $date, 1, "02/02/02", null);
-            $this->container->get('folder_repository')->create($folder, $user);
-            $child = $this->container->get('folder_repository')->selectChildId($folderName);
-            $this->container->get('folder_repository')->createChild($_POST['id_folder'], $child[0]['id']);
-
-            return $response->withStatus(302)->withHeader("Location", "/");
-
+        if($exist){
+            $this->container->get('flash')->addMessage('carpeta_error', "Error, la carpeta con ese nombre ya existe");
+            return $response->withStatus(302)->withHeader("Location", "/home");
         }
 
 
+        $date = new DateTime('now');
+        $folder = new Folder(1, $date, $date, $folderName, "path", "false");
+        $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+        $email = $_SESSION['email'];
+        $user = new User(1, $user, $email, "", "", "", "", $date, $date, 1, "", null);
+        $this->container->get('folder_repository')->create($folder, $user);
+        $child = $this->container->get('folder_repository')->selectChildId($folderName);
+        $this->container->get('folder_repository')->createChild($paramValue, $child[0]['id']);
+        return $response->withStatus(302)->withHeader("Location", "/home");
 
     }
 

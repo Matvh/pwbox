@@ -38,6 +38,13 @@ $container['file_repository'] = function ($container){
     return $repository;
 };
 
+$container['notification_repository'] = function ($container){
+    $repository = new \SlimApp\Implementations\DoctrineNotificationRepository(
+        $container->get('doctrine')
+    );
+    return $repository;
+};
+
 
 $container['post_user_use_case'] = function ($container){
     $useCase = new SlimApp\Model\UseCase\PostUserCase(

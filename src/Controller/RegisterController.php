@@ -52,6 +52,9 @@ class RegisterController
         $characteristics = $resul['characteristics'];
         $foto = 'default.png';
 
+        {
+
+        }
 
         $existe = $this->container->get('user_repository')->getEmail($username);
 
@@ -67,18 +70,22 @@ class RegisterController
                 if($exit) {
                     $user_id = $this->container->get('user_repository')->getID($email);
                     shell_exec("mkdir ../public/uploads/$user_id");
-                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "false", "true" ), $user);
+                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "true" ), $user);
                     $this->container->get('activate_email')->sendActivateEmail($email);
 
                     if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
-                        $errors = $this->container->get('upload_photo')->uploadPhoto($user_id);
+                        $uploadErrors = $this->container->get('upload_photo')->uploadPhoto($user_id);
+                        $data['error'] = $uploadErrors;
                     }
-                    $_SESSION['email'] = $user->getEmail();
-                    //$_SESSION['id_folder'] = $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
 
-                    $this->container->
-                    get('flash')->addMessage('info', $errors);
-                    return $response->withStatus(302)->withHeader("Location", "/home");
+                    $_SESSION['email'] = $user->getEmail();
+                    $data['username'] = $username;
+                    $data['user_id'] = $user_id;
+
+                    $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
+                    $_SESSION['folder_id'] = $foldersRoot;
+
+                    return $response->withStatus(302)->withHeader("Location", "/home", array('data' => $data));
 
                 } else {
                     echo "Ha habido un problema con la base de datos";

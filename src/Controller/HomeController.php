@@ -39,7 +39,6 @@ class HomeController
         }
     }
 
-
     public function indexAction(Request $request, Response $response) {
 
         if (!isset($_SESSION['email'])){
@@ -47,6 +46,7 @@ class HomeController
             return $this->container->get('view')->render($response,'login.twig');
 
         } else {
+
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
@@ -55,54 +55,41 @@ class HomeController
             return $this->container->get('view')->render($response,'home.twig', ['email' => $_SESSION['email'],'pic' =>
                 $path,'username' => $username, 'folders' => $folders]);
         }
+
+
     }
 
     public function validateSession(Request $request, Response $response){
 
 
+        if(isset($_SESSION['email'])){
 
-        if (isset($_GET['email'])){
-            $exit = $this->container->get('user_repository')->getActivate($_GET['email']);
-            $username = $this->container->get('user_repository')->getUsername($_GET['email']);
-
-            $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
-
+            $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
+            //miramos si la cuenta esta activada
             if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
             else $mensaje = "";
-            $path = $this->container->get('user_repository')->getProfilePic($_GET['email']);
-            $username = $this->container->get('user_repository')->getUsername($_GET['email']);
-            $folders = $this->container->get('folder_repository')->select($_GET['email']);
-            $files = $this->container->get('file_repository')->select($_POST['id_folder']);
 
-            return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
+            $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+            $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
+            $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
+            $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
+            $sizepercent = ($size/1024) *100;
+
+            $messages = $this->container->get('flash')->getMessages();
+
+            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+            $_SESSION['folder_id'] = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
+
+            return $this->container->get('view')->render($response,'home.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent]);
 
 
-        }else{
-            if(isset($_SESSION['email'])){
-                $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/login");
 
-                if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
-                else $mensaje = "";
-                $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
-                $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-                $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
-
-                $foldersRoot = $this->container->get('folder_repository')->selectSuperRoot("root".$username)[0]['id'];
-
-                if($_POST != null) {
-                    $files = $this->container->get('file_repository')->select($_POST['id_folder']);
-
-                } else {
-                    $files = $this->container->get('file_repository')->select($foldersRoot);
-                }
-
-                return $response->withStatus(307)->withHeader("Location", "/folder/$foldersRoot");
-
-            } else {
-                return $this->container->get('view')->render($response, 'login.twig');
-
-            }
         }
-    }
+        }
+
 
 }
