@@ -30,9 +30,10 @@ class FolderController
     {
 
         $_SESSION['folder_id'] = $_POST['id_folder'];
-        var_dump($_SESSION['folder_id'], $_POST['id_folder']);exit();
+        //var_dump($_SESSION['folder_id'], $_POST['id_folder']);
 
-        return $response->withStatus(302)->withHeader("Location", "/home");
+        //return $response->withStatus(302)->withHeader("Location", "/home");
+        return $response->withJson(['ok'=>'ok'], 201);
 
     }
 
