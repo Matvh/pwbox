@@ -124,4 +124,49 @@ class FolderController
 
     }
 
+    public function showSharedFolders(Request $request, Response $response)
+    {
+
+
+        if (isset($_SESSION['email'])) {
+            $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
+            $folders = $this->container->get('folder_repository')->selectSharedFolders($idUser);
+
+            $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
+            //miramos si la cuenta esta activada
+            if ($exit == "false") {
+                $mensaje = "Activa la cuenta, porfavor";
+            } else {
+                $mensaje = "";
+            }
+            $messages = $this->container->get('flash')->getMessages();
+
+
+            $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+            $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+            $size = 1024 - ($this->container->get('user_repository')->getSize($_SESSION['email']));
+            $sizepercent = ($size / 1024) * 100;
+
+
+            return $this->container->get('view')->render($response, 'home.html.twig', [
+                'username' => $username,
+                'folders' => $folders,
+                'path' => $path,
+                'messages' => $messages,
+                'mensaje' => $mensaje,
+                'size' => $size,
+                'sizepercent' => $sizepercent
+            ]);
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/login");
+        }
+    }
+
+    public function enterSharedFolder()
+    {
+        $_SESSION['shared_folder_id'] = $_POST['id_shared_folder'];
+
+        return $response->withJson(['ok'=>'ok'], 201);
+    }
+
 }

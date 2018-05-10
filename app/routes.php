@@ -58,4 +58,6 @@ $app->post('/deleteNotification', 'SlimApp\Controller\NotificationController:del
 
 $app->post('/shareFolder', 'SlimApp\Controller\FolderController:shareFolder');
 
+$app->get('/showSharedFolders', 'SlimApp\Controller\FolderController:showSharedFolders');
+
 
