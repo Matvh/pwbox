@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{ base_path }}/assets/js/home.js"></script>
+    <script src="{{ base_path }}/assets/js/shared.js"></script>
 {% endblock %}
 
 
@@ -19,23 +19,11 @@
                 </div>
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="#section1">{{ username }}'s Box</a></li>
-                    <li class="active"><a href="#section2">Shared with Me</a></li>
+                    <li><a href="/home">{{ username }}'s Box</a></li>
+                    <li class="active"><a href="">Shared with Me</a></li>
                 </ul>
                 <br>
 
-                <div class="rspace">
-
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ sizepercent }}" aria-valuemin="0"
-                             aria-valuemax="100" style="width: {{ sizepercent }}%;">
-                            <span class="sr-only">{{ sizepercent }}% Complete</span>
-                        </div>
-                    </div>
-
-                    <h5> {{ size }}MB of 1GB used </h5>
-
-                </div>
 
                 <div class="buttons-div row">
 
@@ -103,7 +91,7 @@
                             <button class="btn btn-link" type="button" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
                             <ul class="dropdown-menu">
-                                <li><form class=" input-group" action="/rename" method="post">
+                                <li><form class=" input-group" action="/renameSharedFolder" method="post">
                                         <input type="text" class="form-control" name="folder_name" placeholder="Insert name" autofocus>
                                         <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
                                     </form></li>
@@ -118,18 +106,7 @@
                         </th>
                     </tr>
                 {% endfor %}
-                {% if folder is not root %}
-                    <tr>
-                        <th>
-                            <form class=" input-group" action="/folder" method="post">
-                            <input type="hidden" name="id_folder" id="id_folder" value="{{ parent folder }}">
-                            <button class="btn btn-link" type="submit">
-                                <span class="glyphicon glyphicon-glyphicon-chevron-left"></span>
-                            </button>
-                            </form>
-                        </th>
-                    </tr>
-                {% endif %}
+
                 </tbody>
 
             </table>

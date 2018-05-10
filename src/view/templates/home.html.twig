@@ -19,7 +19,7 @@
                 </div>
 
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="/home">{{ username }}'s Box</a></li>
+                    <li class="active"><a href="">{{ username }}'s Box</a></li>
                     <li><a href="/showSharedFolders">Shared with Me</a></li>
                 </ul>
                 <br>
@@ -118,18 +118,7 @@
                         </th>
                     </tr>
                 {% endfor %}
-                {% if folder is not root %}
-                    <tr>
-                        <th>
-                            <form class=" input-group" action="/folder" method="post">
-                            <input type="hidden" name="id_folder" id="id_folder" value="{{ parent folder }}">
-                            <button class="btn btn-link" type="submit">
-                                <span class="glyphicon glyphicon-glyphicon-chevron-left"></span>
-                            </button>
-                            </form>
-                        </th>
-                    </tr>
-                {% endif %}
+
                 </tbody>
 
             </table>
