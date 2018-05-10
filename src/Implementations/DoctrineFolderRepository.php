@@ -63,7 +63,6 @@ class DoctrineFolderRepository implements FolderRepository
         $exit = $stmt->execute();
 
 
-
     }
 
     public function exist(String $name, int $id)
@@ -71,8 +70,8 @@ class DoctrineFolderRepository implements FolderRepository
         try {
             $sql = "SELECT folder.name FROM folder, userFolder WHERE folder.name = :name AND userFolder.id_folder = folder.id AND userFolder.id_user = :id";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("name",$name , 'string');
-            $stmt->bindValue("id",$id );
+            $stmt->bindValue("name", $name, 'string');
+            $stmt->bindValue("id", $id);
 
             $stmt->execute();
             $result = $stmt->fetchAll();
@@ -89,7 +88,7 @@ class DoctrineFolderRepository implements FolderRepository
             $sql = "SELECT folder.name, folder.id FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id 
                     = userFolder.id_folder AND userFolder.id_user = user.id AND (user.email = :email OR user.username = :email) ";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("email",$user , 'string');
+            $stmt->bindValue("email", $user, 'string');
             $stmt->execute();
             $result = $stmt->fetchAll();
             return $result;
@@ -103,7 +102,7 @@ class DoctrineFolderRepository implements FolderRepository
         try {
             $sql = "SELECT id FROM folder WHERE name = :user ";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("user",$user , 'string');
+            $stmt->bindValue("user", $user, 'string');
             $stmt->execute();
             $result = $stmt->fetchAll();
             return $result;
@@ -117,7 +116,7 @@ class DoctrineFolderRepository implements FolderRepository
         try {
             $sql = "SELECT folder.name, folder.id FROM folder, folderFolder WHERE folderFolder.id_root_folder = :id AND folderFolder.id_folder = folder.id";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("id",$id , 'string');
+            $stmt->bindValue("id", $id, 'string');
             $stmt->execute();
             $result = $stmt->fetchAll();
             return $result;
@@ -132,7 +131,7 @@ class DoctrineFolderRepository implements FolderRepository
         try {
             $sql = "SELECT id_root_folder FROM folderFolder WHERE id_folder = :id";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("id",$id );
+            $stmt->bindValue("id", $id);
             $stmt->execute();
             $result = $stmt->fetchAll();
 
@@ -148,7 +147,7 @@ class DoctrineFolderRepository implements FolderRepository
         try {
             $sql = "SELECT folder.id FROM folder WHERE folder.name = :name ORDER BY id DESC";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("name",$name, 'string');
+            $stmt->bindValue("name", $name, 'string');
 
             $stmt->execute();
             $result = $stmt->fetchAll();
@@ -158,12 +157,13 @@ class DoctrineFolderRepository implements FolderRepository
             return false;
         }
     }
+
     public function selectSuperRoot(String $name)
     {
         try {
             $sql = "SELECT folder.id FROM folder WHERE folder.name = :name ";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("name",$name, 'string');
+            $stmt->bindValue("name", $name, 'string');
 
             $stmt->execute();
             $result = $stmt->fetchAll();
@@ -180,8 +180,8 @@ class DoctrineFolderRepository implements FolderRepository
         try {
             $sql = "INSERT INTO folderFolder(id_root_folder, id_folder) VALUES (:parent, :child)";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("parent",$parent, 'string');
-            $stmt->bindValue("child",$child, 'string');
+            $stmt->bindValue("parent", $parent, 'string');
+            $stmt->bindValue("child", $child, 'string');
 
             $result = $stmt->execute();
 
@@ -227,8 +227,6 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt->execute();
 
 
-
-
     }
 
     public function update(Folder $folder)
@@ -244,6 +242,26 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt->bindValue("id", $id);
         return $stmt->execute();
 
+
+    }
+
+    public function shareFolder(int $idAdmin, int $idShared, int $idFolder, String $rol)
+    {
+        try {
+            $sql = "INSERT INTO shareFolder(id_owner, id_folder, id_shared, rol) VALUES (:id_owner, :id_folder, :id_shared, :rol)";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id_owner", $idAdmin);
+            $stmt->bindValue("id_folder", $idFolder);
+            $stmt->bindValue("id_shared", $idShared);
+            $stmt->bindValue("rol", $rol);
+
+            $result = $stmt->execute();
+
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
 
 
     }

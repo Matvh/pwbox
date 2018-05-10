@@ -64,6 +64,7 @@ class FileController
                         $fileName,
                         $extension
                     );
+                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande");
 
                     continue;
                 }
@@ -76,6 +77,8 @@ class FileController
                         $fileName,
                         $this->convertToReadableSize($uploadedFile->getSize())
                     );
+                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande");
+
                     continue;
                 }
 
