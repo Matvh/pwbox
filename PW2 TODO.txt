@@ -7,9 +7,9 @@ BLOQUE 3:
 	—
 BLOQUE 4: 
 	arreglar lo de la foto de perfil (html.twig) dropdown
-BLOQUE 5: 
-	mostrar mensajes de success y error en el update
-BLOQUE 6: 
+BLOQUE 5:
+    - done
+BLOQUE 6:
 	todo
 BLOQUE 7: 
 	todo
