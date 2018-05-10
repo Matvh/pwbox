@@ -47,7 +47,7 @@ $app->get('/resendemail', 'SlimApp\Controller\ResendActivateController');
 $app->post('/folder', 'SlimApp\Controller\FolderController');
 $app->post('/create-folder', 'SlimApp\Controller\FolderController:createFolder');
 
-$app->get('/delete/{id}', 'SlimApp\Controller\FolderController:deleteFolder');
+$app->post('/deleteFolder', 'SlimApp\Controller\FolderController:deleteFolder');
 $app->post('/rename', 'SlimApp\Controller\FolderController:renameFolder');
 
 
@@ -57,5 +57,11 @@ $app->post('/addNotification', 'SlimApp\Controller\NotificationController:addNot
 $app->post('/deleteNotification', 'SlimApp\Controller\NotificationController:deleteNotification');
 
 $app->post('/shareFolder', 'SlimApp\Controller\FolderController:shareFolder');
+
+$app->get('/showSharedFolders', 'SlimApp\Controller\FolderController:showSharedFolders');
+
+$app->get('/enterSharedFolder', 'SlimApp\Controller\FolderController:enterSharedFolder');
+$app->get('/renameSharedFolder', 'SlimApp\Controller\FolderController:renameSharedFolder');
+$app->get('/deleteSharedFolder', 'SlimApp\Controller\FolderController:deleteSharedFolder');
 
 

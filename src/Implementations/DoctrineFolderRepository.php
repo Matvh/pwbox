@@ -262,7 +262,20 @@ class DoctrineFolderRepository implements FolderRepository
         } catch (DBALException $e) {
             return false;
         }
+    }
 
+    public function selectSharedFolders(int $id)
+    {
+        try {
+            $sql = "SELECT folder.id, folder.name, shareFolder.rol FROM folder, shareFolder WHERE shareFolder.id_shared = :id AND folder.id = shareFolder.id_folder ";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
 
     }
 }

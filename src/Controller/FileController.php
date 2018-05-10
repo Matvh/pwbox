@@ -64,7 +64,7 @@ class FileController
                         $fileName,
                         $extension
                     );
-                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande");
+                    $this->container->get('flash')->addMessage('error', "No se permite esa extensión");
 
                     continue;
                 }
@@ -87,14 +87,21 @@ class FileController
 
                 $fileSize = $uploadedFile->getSize() / 1024;
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-                $this->container->get('user_repository')->setSize($user['email'], $currentSize - ($fileSize / 1024));
-
-                $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
-                $this->container->get('file_repository')->upload($file);
-
+                if($currentSize - ($fileSize / 1024) <= 0){
+                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
+                    return $response->withStatus(302)->withHeader("Location", "/home");
 
 
-                return $response->withStatus(302)->withHeader("Location", "/home");
+                } else {
+                    $this->container->get('user_repository')->setSize($user['email'],
+                        $currentSize - ($fileSize / 1024));
+
+                    $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
+                    $this->container->get('file_repository')->upload($file);
+
+
+                    return $response->withStatus(302)->withHeader("Location", "/home");
+                }
             }
         }
     }

@@ -51,10 +51,8 @@ class HomeController
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->select($_SESSION['email']);
-            $messages = $this->container->get('flash')->addMessages('hola', "alkjsdkajsdkajd");
 
             $messages = $this->container->get('flash')->getMessages();
-            var_dump($messages);exit();
 
             //return $response->withStatus(302)->withHeader("Location", "/login");
             return $this->container->get('view')->render($response,'home.html.twig', ['email' => $_SESSION['email'],'pic' =>
