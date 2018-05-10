@@ -130,7 +130,11 @@ class FolderController
 
         if (isset($_SESSION['email'])) {
             $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
-            $folders = $this->container->get('folder_repository')->selectSharedFolders($idUser);
+            if(!isset($_SESSION['shared_folder_id'])){
+                $folders = $this->container->get('folder_repository')->selectSharedFolders($idUser);
+            } else {
+                $folders = $this->container->get('folder_repository')->selectChild($_SESSION['shared_folder_id']);
+            }
 
             $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
             //miramos si la cuenta esta activada
@@ -162,11 +166,49 @@ class FolderController
         }
     }
 
-    public function enterSharedFolder()
+    public function enterSharedFolder(Request $request, Response $response)
     {
         $_SESSION['shared_folder_id'] = $_POST['id_shared_folder'];
 
         return $response->withJson(['ok'=>'ok'], 201);
+    }
+
+    public function renameSharedFolder(Request $request, Response $response, array $args)
+    {
+        $id_folder = $_POST['id_shared_folder'];
+        $newName = $_POST['folder_name'];
+
+        $exit = $this->container->get('folder_repository')->rename($newName, $id_folder);
+
+        if($exit)
+        {
+
+            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+
+
+        } else{
+
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+
+        }
+
+    }
+
+    public function deleteSharedFolder(Request $request, Response $response, array $args)
+    {
+
+        $paramValue = $_POST['id_shared_folder'];
+        $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
+        $this->container->get('folder_repository')->delete($paramValue);
+
+        if($parent != null) {
+            $id = $args['id'];
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+        } else {
+            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+        }
+
     }
 
 }
