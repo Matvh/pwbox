@@ -107,6 +107,13 @@
                                     </form></li>
                             </ul>
                         </th>
+                        <th><form class=" input-group" action="/deleteFolder" method="post">
+                                <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                <button class="btn btn-link" type="submit">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+                        </th>
                     </tr>
                 {% endfor %}
 
@@ -119,9 +126,49 @@
 
             {% block files %}
                 <h4>Files </h4>
-                {% for file in files %}
-                    <li>{{ file.name }}</li>
-                {% endfor %}
+
+                <div class="files">
+                    {% for file in files %}
+                        <figure class="btn btn-default">
+                            <img class="cardimg" src="{{ base_path }}/assets/file.png" alt="file">
+                            <figcaption>
+                                <p>{{ file.name }}</p>
+                            </figcaption>
+                            <div class="floating-buttons">
+
+                                <form class=" input-group" action="/downloadFile" method="post">
+                                    <input type="hidden" name="id_file" id="id_folder" value="{{ file.id }}">
+                                    <button class="btn btn-primary" type="submit">
+                                        <span class="glyphicon glyphicon-download"></span>
+                                    </button>
+                                </form>
+
+
+                                <div class="dropup filedropup">
+                                    <button class="dropup btn btn-primary" type="button" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
+
+                                    <ul class="dropdown-menu filedropupmenu">
+                                        <li><form class=" input-group" action="/renameFile" method="post">
+                                                <input type="text" class="form-control" name="file_name" placeholder="Insert name" autofocus>
+                                                <input type="hidden" name="id_file" id="id_file" value="{{ file.id }}">
+                                            </form></li>
+                                    </ul>
+                                </div>
+
+
+                                <form class=" input-group" action="/deleteFolder" method="post">
+                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                    <button class="btn btn-danger" type="submit">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+
+                            </div>
+                        </figure>
+                    {% endfor %}
+                </div>
+
 
                 <div id="files">
                     {% block errorFiles %}
