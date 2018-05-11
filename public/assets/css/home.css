@@ -105,7 +105,7 @@
 .borderless > tfoot > tr > th,
 .borderless > thead > tr > td,
 .borderless > thead > tr > th {
-    border: none;
+  border: none;
 }
 
 figure {
