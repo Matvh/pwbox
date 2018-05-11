@@ -2,9 +2,11 @@
 
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/home.css">
+    <link href="{{ base_path }}/assets/css/bootstrap.fd.css" rel="stylesheet">
 {% endblock %}
 
 {% block scripts %}
+    <script src="{{ base_path }}/assets/js/bootstrap.fd.js"></script>
     <script src="{{ base_path }}/assets/js/home.js"></script>
 {% endblock %}
 
@@ -53,7 +55,7 @@
                     </div>
 
 
-                    <button class="btn btn-default my-btn modaldiv" data-toggle="modal" data-target="#uploadModal">
+                    <button class="btn btn-default my-btn" onclick="openFileDialog()">
                         <span class="glyphicon glyphicon-file"></span>
                     </button>
 
@@ -223,14 +225,19 @@
                     <h4 class="modal-title">Upload in current folder</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
-                        <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
-                        <span class="input-group-btn">
+
+                    <div class="panel-body">
+
+                        <form class="input-group" action="/file" method="post" enctype="multipart/form-data">
+                            <input type="file" name="files[]" id="files" class="form-control" multiple="multiple">
+                            <span class="input-group-btn">
                                             <button class="btn btn-default" type="submit">
                                                  <span class="glyphicon glyphicon-plus"></span>
                                             </button>
                                         </span>
-                    </form>
+                        </form>
+
+                    </div>
                 </div>
             </div>
 
