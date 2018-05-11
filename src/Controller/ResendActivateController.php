@@ -31,6 +31,7 @@ class ResendActivateController
     {
         $email = $_SESSION['email'];
         $this->container->get('activate_email')->sendActivateEmail($email);
+        $this->container->get('flash')->addMessage('error', "Se acaba de enviar un nuevo correo a '$email'. Revisa tu bandeja de entrada");
         return $response->withStatus(302)->withHeader("Location", "/home");
 
     }
