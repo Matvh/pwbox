@@ -121,6 +121,15 @@
                     </tr>
                 {% endfor %}
 
+                {% if hasParent %}
+                    <tr onclick="openFolder({{ parent_folder }})">
+                        <th><span class="glyphicon glyphicon-chevron-left"></span></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                {% endif %}
+
                 </tbody>
 
             </table>
