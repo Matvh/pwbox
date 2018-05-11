@@ -130,13 +130,17 @@ class FolderController
 
         if (isset($_SESSION['email'])) {
             $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
-            if(!isset($_SESSION['shared_folder_id'])){
-                $folders = $this->container->get('folder_repository')->selectSharedFolders($idUser);
+            if(!isset($_SESSION['shared_folder_id']) || $_SESSION['shared_folder_id'] == ""){
+                $folders = $this->container->get('folder_repository')->selectSharedFolders2($idUser);
+                $parentFolder = null;
             } else {
                 $folders = $this->container->get('folder_repository')->selectChild($_SESSION['shared_folder_id']);
+                $parentFolder = $this->container->get('folder_repository')->selectSharedFolders2($idUser);
+
             }
 
             $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
+
             //miramos si la cuenta esta activada
             if ($exit == "false") {
                 $mensaje = "Activa la cuenta, porfavor";
@@ -145,22 +149,37 @@ class FolderController
             }
             $messages = $this->container->get('flash')->getMessages();
 
-
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $size = 1024 - ($this->container->get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size / 1024) * 100;
 
 
-            return $this->container->get('view')->render($response, 'home.html.twig', [
-                'username' => $username,
-                'folders' => $folders,
-                'path' => $path,
-                'messages' => $messages,
-                'mensaje' => $mensaje,
-                'size' => $size,
-                'sizepercent' => $sizepercent
-            ]);
+
+            if($parentFolder != null) {
+                $hasParent = true;
+                return $this->container->get('view')->render($response, 'shared.html.twig', [
+                    'username' => $username,
+                    'folders' => $folders,
+                    'path' => $path,
+                    'hasParent' => $hasParent,
+                    'parent_folder' => $parentFolder,
+                    'messages' => $messages,
+                    'mensaje' => $mensaje,
+                    'size' => $size,
+                    'sizepercent' => $sizepercent]);
+            } else {
+                $hasParent = false;
+                return $this->container->get('view')->render($response, 'shared.html.twig', [
+                    'username' => $username,
+                    'folders' => $folders,
+                    'path' => $path,
+                    'hasParent' => $hasParent,
+                    'messages' => $messages,
+                    'mensaje' => $mensaje,
+                    'size' => $size,
+                    'sizepercent' => $sizepercent]);
+            }
         } else {
             return $response->withStatus(302)->withHeader("Location", "/login");
         }

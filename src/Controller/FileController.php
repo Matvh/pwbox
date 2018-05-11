@@ -35,8 +35,9 @@ class FileController
         $user['name'] = $this->container->get('user_repository')->getUsername($_SESSION['email']);
         $user['pic'] = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
         $user['email'] = $_SESSION['email'];
+        $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
 
-        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $_SESSION['email'] . "/";
+        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . "/";
         $uploadedFiles = $request->getUploadedFiles();
 
         if (!empty($uploadedFiles['files'][0]->file)) {

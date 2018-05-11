@@ -70,7 +70,7 @@
                 <tbody>
                 {% for folder in folders %}
                     <tr>
-                        <th ondblclick="openFolder('{{ folder.id }}')"><span class="glyphicon glyphicon-folder-open"></span> {{ folder.name }}</th>
+                        <th ondblclick="openFolder('{{ folder.id }}', 'no')"><span class="glyphicon glyphicon-folder-open"></span> {{ folder.name }}</th>
                         <th class="dropup">
                             <button class="btn btn-link" type="button" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-share dropdown-toggle"></span></button>
@@ -106,6 +106,13 @@
                         </th>
                     </tr>
                 {% endfor %}
+
+                    <tr onclick="openFolder('{{ folder.id }}', 'si')">
+                        <th><span class="glyphicon glyphicon-chevron-left"></span></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
 
                 </tbody>
 
@@ -157,6 +164,7 @@
                             </div>
                         </figure>
                     {% endfor %}
+
                 </div>
 
 

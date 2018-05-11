@@ -1,24 +1,30 @@
 
-function openFolder(folder){
-
+function openFolder(folder, inici){
+    console.log(folder + " " + inici)
     var info = {
-        'id_folder' : folder
+        'id_shared_folder' : folder,
+        'inici' : inici
     };
 
     $.ajax({
-        url: "/enterSharedFolder",
+        url: "/shared",
         type: "post",
         data: info,
         async: true,
         success: function(msg) {
-            window.location.replace("/home");
             console.log(msg);
+            window.location.replace("/shared");
         },error: function (msg,responseJSON){
-            console.log(msg['responseJSON']);
+            console.log(msg + 'error');
         },
         cache: false
     });
 
+}
+
+function loadShared(){
+
+    window.location.replace("/shared");
 }
 
 function deleteNotification(element){
