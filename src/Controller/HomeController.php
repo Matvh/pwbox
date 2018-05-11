@@ -78,18 +78,26 @@ class HomeController
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
             $parentFolder = $this->container->get('folder_repository')->selectParent($_SESSION['folder_id']);
-
-            if($parentFolder == null) $hasParent = false; 
-
             $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
             $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size/1024) *100;
 
+            if($parentFolder == null) {
+                $hasParent = false;
 
-
-            return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+                return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
+                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent, 'hasParent'
+                    => $hasParent]);
+            } else {
+                return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
                     'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent, 'hasParent'
                     => $hasParent, 'parent_folder' => $parentFolder[0]['id_root_folder'] ]);
+            }
+
+
+
+
+
 
 
 
