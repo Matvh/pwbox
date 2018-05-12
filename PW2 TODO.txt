@@ -2,11 +2,10 @@ BLOQUE 1:
 	——
 BLOQUE 2: 
 
-	faltan mensajes de errores(cuenta no activada) y available_size en la home
-BLOQUE 3: 
+BLOQUE 3:
 	——
-BLOQUE 4: 
-	arreglar lo de la foto de perfil (html.twig) dropdown
+BLOQUE 4:
+----
 BLOQUE 5:
     - done
 BLOQUE 6:
@@ -14,7 +13,6 @@ BLOQUE 6:
 BLOQUE 7: 
 	todo
 BLOQUE 8:
-	faltan mensajes de errores (cuenta no activada) y available_size en la home
 	descargar file
 	renombrar file
 BLOQUE 9:
@@ -22,10 +20,10 @@ BLOQUE 9:
 BLOQUE 10: 
 	hacer jerarquía de admin/reader
 	mostrar errores
-	drop multiple files
+	upload files
 BLOQUE 11: 
 	todo
 BLOQUE 12: 
-	fallo por archivo más grande que el espacio restante
+	----
 BLOQUE 13: 
 	todo

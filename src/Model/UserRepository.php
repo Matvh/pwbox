@@ -18,7 +18,7 @@ interface UserRepository
 
     public function login(User $user);
 
-    public function remove(String $email);
+    public function remove(String $email, int $id);
 
     public function getSize(String $email);
 

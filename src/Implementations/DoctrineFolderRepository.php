@@ -142,6 +142,25 @@ class DoctrineFolderRepository implements FolderRepository
 
     }
 
+    public function selectParentShared(int $id, int $idFolder)
+    {
+        try {
+            $sql = "SELECT id_root_folder FROM folderFolder, shareFolder, user WHERE folderFolder.id_folder = :id AND 
+          shareFolder.id_folder = folderFolder.id_folder AND shareFolder.id_shared = :idUser ";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->bindValue("idUser", $idFolder);
+
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+
+    }
+
     public function selectChildId(String $name)
     {
         try {
@@ -195,12 +214,17 @@ class DoctrineFolderRepository implements FolderRepository
 
     public function delete(int $folder)
     {
+        $sql = "DELETE FROM shareFolder WHERE id_folder = :email ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $folder);
+        $exit = $stmt->execute();
+
         $sql = "DELETE FROM folderFolder WHERE folderFolder.id_folder = :email ";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $folder);
         $exit = $stmt->execute();
 
-        $sql = "DELETE FROM userFolder WHERE userFolder.id_folder = :email ";
+        $sql = "DELETE FROM userFolder WHERE id_folder = :email ";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $folder);
         $exit = $stmt->execute();
@@ -264,10 +288,28 @@ class DoctrineFolderRepository implements FolderRepository
         }
     }
 
-    public function selectSharedFolders(int $id)
+    public function selectSharedFolders(int $idFolder)
     {
         try {
-            $sql = "SELECT folder.id, folder.name, shareFolder.rol FROM folder, shareFolder WHERE shareFolder.id_shared = :id AND folder.id = shareFolder.id_folder ";
+            $sql = "SELECT folderFolder.id_root_folder FROM folderFolder, shareFolder WHERE shareFolder.id_folder = folderFolder.id_folder AND shareFolder.id_folder = :idFolder";
+            $stmt = $this->database->prepare($sql);
+
+            $stmt->bindValue("idFolder", $idFolder);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+
+    }
+
+    public function selectSharedFolders2(int $id)
+    {
+        try {
+            $sql = "SELECT folder.id, folder.name, shareFolder.rol FROM folder, shareFolder 
+                    WHERE shareFolder.id_shared = :id  
+                    AND folder.id = shareFolder.id_folder ";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("id", $id);
             $stmt->execute();
