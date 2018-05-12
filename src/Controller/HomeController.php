@@ -95,12 +95,6 @@ class HomeController
             }
 
 
-
-
-
-
-
-
         } else {
             return $response->withStatus(302)->withHeader("Location", "/login");
 

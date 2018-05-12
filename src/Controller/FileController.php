@@ -17,15 +17,17 @@ use SlimApp\Model\File\File;
 class FileController
 {
     protected $container;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function showFormAction(Request $request, Response $response){
+    public function showFormAction(Request $request, Response $response)
+    {
         //TODO ver la sesion o redireccionar a login
         return $this->container->get('view')
-            ->render($response,'file.html.twig',[]);
+            ->render($response, 'file.html.twig', []);
     }
 
     public function uploadFileAction(Request $request, Response $response)
@@ -39,6 +41,7 @@ class FileController
 
         $directory = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . "/";
         $uploadedFiles = $request->getUploadedFiles();
+
 
         if (!empty($uploadedFiles['files'][0]->file)) {
 
@@ -83,15 +86,15 @@ class FileController
                     continue;
                 }
 
-                $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
-
-
+                //Ver si hay espacio para subir los achivos que faltan
                 $fileSize = $uploadedFile->getSize() / 1024;
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-                if($currentSize - ($fileSize / 1024) <= 0){
-                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
-                    return $response->withStatus(302)->withHeader("Location", "/home");
 
+
+                if ($currentSize - ($fileSize / 1024) <= 0) {
+                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
+                    $moreErrors['maxAvailable'] = true;
+                    break;
 
                 } else {
                     $this->container->get('user_repository')->setSize($user['email'],
@@ -99,12 +102,36 @@ class FileController
 
                     $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
                     $this->container->get('file_repository')->upload($file);
-
-
-                    return $response->withStatus(302)->withHeader("Location", "/home");
+                    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
                 }
             }
+
+            if (!isset($moreErrors['invalidSize']) && !isset($moreErrors['invalidExt']) && !isset($moreErrors['maxAvailable'])) {
+                $newResponse = $response->withStatus(201);
+                return $newResponse;
+            }
+
+            $newResponse = $response->withJson($errors, 400);
+            return $newResponse;
         }
+    }
+
+
+    public function downloadFileAction(Request $request, Response $response){
+        $id = $_POST['id_file'];
+        //header('Content-disposition: attachment; filename=image.jpg');
+        //header('Content-type: image/jpeg');
+        //readfile('/home/vagrant/code/pwbox/public/uploads/4/snorlax.png');
+        $fichero = '/home/vagrant/code/pwbox/public/uploads/4/bbdd query DATE.txt';
+
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($fichero).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fichero));
+            readfile($fichero);
     }
 
     /**
@@ -123,7 +150,8 @@ class FileController
      * @param int $size
      * @return bool
      */
-    private function isValidSize(int $size){
+    private function isValidSize(int $size)
+    {
         return $size < 262144;
     }
 
@@ -131,7 +159,8 @@ class FileController
      * @param $size
      * @return string
      */
-    function convertToReadableSize($size){
+    function convertToReadableSize($size)
+    {
         $base = log($size) / log(1024);
         $suffix = array("", "KB", "MB", "GB", "TB");
         $f_base = floor($base);

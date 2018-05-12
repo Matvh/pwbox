@@ -75,10 +75,6 @@ class DoctrineFileRepository implements FileRepository
         } catch (DBALException $e) {
             return false;
         }
-
-
-
-
     }
 
     public function deleteFilesFolder(int $id)

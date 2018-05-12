@@ -150,7 +150,7 @@
                             <div class="floating-buttons">
 
                                 <form class=" input-group" action="/downloadFile" method="post">
-                                    <input type="hidden" name="id_file" id="id_folder" value="{{ file.id }}">
+                                    <input type="hidden" name="id_file" id="id_file" value="{{ file.id }}">
                                     <button class="btn btn-primary" type="submit">
                                         <span class="glyphicon glyphicon-download"></span>
                                     </button>
@@ -170,8 +170,8 @@
                                 </div>
 
 
-                                <form class=" input-group" action="/deleteFolder" method="post">
-                                    <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                <form class=" input-group" action="/deleteFiler" method="post">
+                                    <input type="hidden" name="id_folder" id="id_file" value="{{ file.id }}">
                                     <button class="btn btn-danger" type="submit">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
