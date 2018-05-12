@@ -214,12 +214,17 @@ class DoctrineFolderRepository implements FolderRepository
 
     public function delete(int $folder)
     {
+        $sql = "DELETE FROM shareFolder WHERE id_folder = :email ";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("email", $folder);
+        $exit = $stmt->execute();
+
         $sql = "DELETE FROM folderFolder WHERE folderFolder.id_folder = :email ";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $folder);
         $exit = $stmt->execute();
 
-        $sql = "DELETE FROM userFolder WHERE userFolder.id_folder = :email ";
+        $sql = "DELETE FROM userFolder WHERE id_folder = :email ";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $folder);
         $exit = $stmt->execute();

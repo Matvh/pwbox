@@ -64,7 +64,7 @@ $app->post('/shared', 'SlimApp\Controller\FolderController:enterSharedFolder');
 
 
 $app->get('/enterSharedFolder', 'SlimApp\Controller\FolderController:enterSharedFolder');
-$app->get('/renameSharedFolder', 'SlimApp\Controller\FolderController:renameSharedFolder');
+$app->post('/renameSharedFolder', 'SlimApp\Controller\FolderController:renameSharedFolder');
 $app->get('/deleteSharedFolder', 'SlimApp\Controller\FolderController:deleteSharedFolder');
 
 

@@ -24,6 +24,6 @@ BLOQUE 10:
 BLOQUE 11: 
 	todo
 BLOQUE 12: 
-	fallo por archivo más grande que el espacio restante
+	----
 BLOQUE 13: 
 	todo

@@ -114,8 +114,14 @@ class DoctrineUserRepository implements  UserRepository
 
 
 
-    public function remove(String $email)
+    public function remove(String $email, int $id)
     {
+
+        $sql = "DELETE FROM shareFolder WHERE id_shared = :id";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $id);
+        $exit = $stmt->execute();
+
         $sql = "DELETE FROM user WHERE email = :email";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("email", $email, 'string');
