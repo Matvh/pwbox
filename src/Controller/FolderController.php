@@ -67,19 +67,28 @@ class FolderController
      public function deleteFolder(Request $request, Response $response, array $args)
      {
 
-         $paramValue = $_POST['id_folder'];
-         $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
-         $this->container->get('folder_repository')->delete($paramValue);
+         $idFolder = $_POST['id_folder'];
+         $this->deleteFolderP($idFolder);
 
-         if($parent != null) {
-             $id = $args['id'];
-             return $response->withStatus(302)->withHeader("Location", "/home");
-         } else {
-             return $response->withStatus(302)->withHeader("Location", "/home");
-         }
+         return $response->withStatus(302)->withHeader("Location", "/home");
+
 
      }
 
+    public function deleteFolderP(int $id)
+    {
+        $this->container->get('file_repository')->deleteFilesFolder($id);
+        $folders = $this->container->get('folder_repository')->selectChild($id);
+
+
+
+        foreach ($folders as $folder){
+            $this->deleteFolderP($folder['id']);
+        }
+
+        $this->container->get('folder_repository')->delete($id);
+
+    }
     public function renameFolder(Request $request, Response $response, array $args)
     {
         $id_folder = $_POST['id_folder'];
@@ -112,11 +121,14 @@ class FolderController
         $idShared = $this->container->get('user_repository')->getID($email);
         if ($idShared == null) $error = true;
         $rol = $_POST['rol'];
+        if($rol == "rol") $rol = "admin";
+        else $rol = "reader";
 
         if ($error ){
             $this->container->get('flash')->addMessage('error', "Error, el usuario con el email '$email' no existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
         } else {
+
             $exit = $this->container->get('folder_repository')->shareFolder($idAdmin, $idShared, $id_folder, $rol);
             return $response->withStatus(302)->withHeader("Location", "/home");
         }
@@ -194,7 +206,7 @@ class FolderController
 
     public function renameSharedFolder(Request $request, Response $response, array $args)
     {
-        $id_folder = $_POST['id_shared_folder'];
+        $id_folder = $_POST['id_folder'];
         $newName = $_POST['folder_name'];
 
         $exit = $this->container->get('folder_repository')->rename($newName, $id_folder);
@@ -203,12 +215,12 @@ class FolderController
         {
 
             $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
-            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+            return $response->withStatus(302)->withHeader("Location", "/shared");
 
 
         } else{
 
-            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
+            return $response->withStatus(302)->withHeader("Location", "/shared");
 
         }
 

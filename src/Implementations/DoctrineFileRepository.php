@@ -81,5 +81,22 @@ class DoctrineFileRepository implements FileRepository
 
     }
 
+    public function deleteFilesFolder(int $id)
+    {
+        try {
+            $sql = "DELETE FROM file WHERE :id = folder_id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+        } catch (DBALException $e) {
+            return false;
+        }
+
+
+
+    }
+
+
+
 
 }

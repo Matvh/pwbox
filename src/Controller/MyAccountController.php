@@ -136,9 +136,30 @@ class MyAccountController
 
     public function deleteUser(Request $request, Response $response)
     {
+        $id = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
 
-        $this->container->get('user_repository')->remove($_SESSION['email']);
+        $username = $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+        $idFolder = $this->container->get('folder_repository')->selectIdRoot("root".$username);
+        $this->deleteFolderP($idFolder[0]['id']);
+
+        $this->container->get('user_repository')->remove($_SESSION['email'], $id);
         return $this->container->get('view')->render($response, 'login.html.twig');
 
     }
+
+    public function deleteFolderP(int $id)
+    {
+        $this->container->get('file_repository')->deleteFilesFolder($id);
+        $folders = $this->container->get('folder_repository')->selectChild($id);
+
+
+
+        foreach ($folders as $folder){
+            $this->deleteFolderP($folder['id']);
+        }
+
+        $this->container->get('folder_repository')->delete($id);
+
+    }
 }
+
