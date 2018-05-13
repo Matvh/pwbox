@@ -81,7 +81,7 @@ class FileController
                         $fileName,
                         $this->convertToReadableSize($uploadedFile->getSize())
                     );
-                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande");
+                    $this->container->get('flash')->addMessage('error2', "Archivo demasiado grande");
 
                     continue;
                 }
@@ -106,7 +106,6 @@ class FileController
                     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
                 }
             }
-            var_dump($fileSize);exit();
 
             if (!isset($moreErrors['invalidSize']) && !isset($moreErrors['invalidExt']) && !isset($moreErrors['maxAvailable'])) {
                 $newResponse = $response->withStatus(201);

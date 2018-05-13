@@ -81,7 +81,6 @@ class HomeController
             $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
             $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size/1024) *100;
-
             if($parentFolder == null) {
                 $hasParent = false;
 
