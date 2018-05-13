@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{{ base_path }}/assets/js/home.js"></script>
+    <script src="{{ base_path }}/assets/js/register.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -13,21 +13,32 @@
     <div class="jumbotron">
         <div class="container">
             <h2>Register</h2>
+
             <form class="box" action="" method="post" enctype="multipart/form-data">
-                <input type="text" placeholder="Name" name="name" onchange="checkError(this, 'text')">
-                <input type="text" placeholder="Description" name="description" onchange="checkError(this, 'text')">
-                <input type="text" placeholder="Characteristics" name="characteristics" onchange="checkError(this, 'text')">
-                <input type="text" placeholder="Username" name="username" onchange="checkError(this, 'text')">
-                <input type="date" placeholder="Birthday" name="birthday" onchange="checkError(this, 'text')">
-                <input type="text" placeholder="Email" name="email" onchange="checkError(this, 'mail')">
-                <input type="password" placeholder="Password" name="password" onchange="checkError(this, 'pass')">
-                <input type="password" placeholder="Repeat password" name="repassword" onchange="checkError(this, 'pass')">
+                <div class="row">
 
-                <img id="pic" src="{{ base_path }}/profilePics/default.png" width="100" height="100"  >
-                <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
-                       id="picture" name="picture">
+                    <div class="col-sm-6">
+                        <img id="pic" src="{{ base_path }}/profilePics/default.png" width="162" height="162"  >
+                        <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
+                               id="picture" name="picture">
 
-                <button class="btn btn-primary full-width loginbtn" type="submit">
+                        <input type="text" placeholder="Username" name="username" onchange="checkError(this, 'text')" autofocus>
+                        <input type="text" placeholder="Description" name="description" oninput="turnGreen(this)">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Name" name="name" oninput="checkError(this, 'text')">
+                        <input type="text" placeholder="Characteristics" name="characteristics" oninput="turnGreen(this)">
+                        <input type="date" placeholder="Birthday" name="birthday" oninput="checkError(this, 'date')">
+                        <input type="text" placeholder="Email" name="email" oninput="checkError(this, 'mail')">
+                        <input type="password" id="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
+                        <input type="password" placeholder="Repeat password" name="repassword" oninput="checkError(this, 'pass')">
+                    </div>
+
+                </div>
+
+
+                <button id="submitbutton" class="btn btn-primary full-width loginbtn" type="submit">
                     Sign me in!
                 </button>
 

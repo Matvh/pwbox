@@ -18,11 +18,11 @@
             <div class="row">
 
                 <form id="fieldsForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
-                    <input type="text" placeholder="{{ user.nombre }}" name="name" readonly>
-                    <input type="text" placeholder="{{ user.description }}" name="description" readonly>
-                    <input type="text" placeholder="{{ user.description }}" name="characteristics" readonly>
-                    <input type="text" placeholder="{{ user.username }}" name="username" readonly>
-                    <input id="email" type="text" placeholder="{{ user.email }}" name="email">
+                    <input type="text" value="{{ user.nombre }}" name="name" readonly>
+                    <input type="text" value="{{ user.description }}" name="description" readonly>
+                    <input type="text" value="{{ user.description }}" name="characteristics" readonly>
+                    <input type="text" value="{{ user.username }}" name="username" readonly>
+                    <input id="email" type="text" value="{{ user.email }}" name="email">
                     <input id="pass" type="password" placeholder="Password" name="password">
                     <input id="pass_re" type="password" placeholder="Repeat password" name="pass_re">
                     <button class="btn btn-primary full-width loginbtn" type="button" onclick="updateInfo()">
