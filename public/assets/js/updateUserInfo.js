@@ -66,14 +66,17 @@ function updatePhoto(){
         data: formData,
         async: false,
         success: function (msg) {
+
             message = msg['photo'];
             document.getElementById("message").innerHTML = "";
             document.getElementById("message").innerHTML = message;
         },
         error: function (msg) {
+            if (typeof msg['responseJSON']['photo'] !== 'undefined'){
             message = msg['responseJSON']['photo'];
             document.getElementById("message").innerHTML = "";
             document.getElementById("message").innerHTML = message;
+            }
         },
         cache: false
     });

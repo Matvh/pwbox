@@ -75,10 +75,6 @@ class DoctrineFileRepository implements FileRepository
         } catch (DBALException $e) {
             return false;
         }
-
-
-
-
     }
 
     public function deleteFilesFolder(int $id)
@@ -92,6 +88,43 @@ class DoctrineFileRepository implements FileRepository
             return false;
         }
 
+
+
+    }
+
+    public function deleteFile(int $id){
+        try {
+            $sql = "DELETE FROM file WHERE :id = id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+        } catch (DBALException $e) {
+            return false;
+        }
+
+    }
+
+    public function selectFileName(int $id)
+    {
+        try {
+            $sql = "SELECT name FROM file WHERE :id = id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result[0]['name'];
+        } catch (DBALException $e) {
+            return false;
+        }
+    }
+
+    public function renameFile(int $id, String $name)
+    {
+        $sql = "UPDATE file SET name = :name WHERE id = :id";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("name", $name);
+        $stmt->bindValue("id", $id);
+        return $stmt->execute();
 
 
     }

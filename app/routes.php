@@ -31,6 +31,7 @@ $app->get('/add','SlimApp\Controller\CreateFolderController');
 
 $app->get('/file', 'SlimApp\Controller\FileController:showFormAction');
 $app->post('/file', 'SlimApp\Controller\FileController:uploadFileAction');
+$app->post('/downloadFile', 'SlimApp\Controller\FileController:downloadFileAction');
 
 $app->get('/activate', 'SlimApp\Controller\ActivateAccountController:activateAction');
 
@@ -67,4 +68,6 @@ $app->get('/enterSharedFolder', 'SlimApp\Controller\FolderController:enterShared
 $app->post('/renameSharedFolder', 'SlimApp\Controller\FolderController:renameSharedFolder');
 $app->get('/deleteSharedFolder', 'SlimApp\Controller\FolderController:deleteSharedFolder');
 
+$app->post('/deleteFile', 'SlimApp\Controller\FileController:deleteFile');
+$app->post('/renameFile', 'SlimApp\Controller\FileController:renameFile');
 

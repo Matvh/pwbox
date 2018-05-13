@@ -17,15 +17,17 @@ use SlimApp\Model\File\File;
 class FileController
 {
     protected $container;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function showFormAction(Request $request, Response $response){
+    public function showFormAction(Request $request, Response $response)
+    {
         //TODO ver la sesion o redireccionar a login
         return $this->container->get('view')
-            ->render($response,'file.html.twig',[]);
+            ->render($response, 'file.html.twig', []);
     }
 
     public function uploadFileAction(Request $request, Response $response)
@@ -39,6 +41,7 @@ class FileController
 
         $directory = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . "/";
         $uploadedFiles = $request->getUploadedFiles();
+
 
         if (!empty($uploadedFiles['files'][0]->file)) {
 
@@ -83,15 +86,16 @@ class FileController
                     continue;
                 }
 
-                $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
-
-
+                //Ver si hay espacio para subir los achivos que faltan
                 $fileSize = $uploadedFile->getSize() / 1024;
-                $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-                if($currentSize - ($fileSize / 1024) <= 0){
-                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
-                    return $response->withStatus(302)->withHeader("Location", "/home");
 
+                $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
+
+
+                if ($currentSize - ($fileSize / 1024) <= 0) {
+                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
+                    $moreErrors['maxAvailable'] = true;
+                    break;
 
                 } else {
                     $this->container->get('user_repository')->setSize($user['email'],
@@ -99,12 +103,37 @@ class FileController
 
                     $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
                     $this->container->get('file_repository')->upload($file);
-
-
-                    return $response->withStatus(302)->withHeader("Location", "/home");
+                    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
                 }
             }
+            var_dump($fileSize);exit();
+
+            if (!isset($moreErrors['invalidSize']) && !isset($moreErrors['invalidExt']) && !isset($moreErrors['maxAvailable'])) {
+                $newResponse = $response->withStatus(201);
+                return $newResponse;
+            }
+
+            $newResponse = $response->withJson($errors, 400);
+            return $newResponse;
         }
+    }
+
+
+    public function downloadFileAction(Request $request, Response $response){
+        $id = $_POST['id_file'];
+
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+        $fichero = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name;
+
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($fichero).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fichero));
+            readfile($fichero);
     }
 
     /**
@@ -123,7 +152,8 @@ class FileController
      * @param int $size
      * @return bool
      */
-    private function isValidSize(int $size){
+    private function isValidSize(int $size)
+    {
         return $size < 262144;
     }
 
@@ -131,10 +161,49 @@ class FileController
      * @param $size
      * @return string
      */
-    function convertToReadableSize($size){
+    function convertToReadableSize($size)
+    {
         $base = log($size) / log(1024);
         $suffix = array("", "KB", "MB", "GB", "TB");
         $f_base = floor($base);
         return round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
+    }
+
+    public function deleteFile(Request $request, Response $response)
+    {
+
+        $id = $_POST['id_file'];
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+        $size = round(filesize('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name)/1000000, PHP_ROUND_HALF_EVEN);
+        $userSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
+
+        $this->container->get('user_repository')->setSize($_SESSION['email'],$userSize+$size);
+
+
+        unlink('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name);
+        $name = $this->container->get('file_repository')->deleteFile($id);
+        return $response->withStatus(302)->withHeader("Location", "/home");
+
+    }
+
+    public function renameFile(Request $request, Response $response)
+    {
+        $id = $_POST['id_file'];
+        $newName = $_POST['file_name'];
+
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+        $old = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name;
+        $new = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$newName;
+
+        rename($old, $new);
+        $this->container->get('file_repository')->renameFile($id, $newName);
+
+        return $response->withStatus(302)->withHeader("Location", "/home");
+
+
     }
 }
