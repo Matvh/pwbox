@@ -54,7 +54,6 @@ $app->post('/rename', 'SlimApp\Controller\FolderController:renameFolder');
 
 $app->post('/deleteAccount', 'SlimApp\Controller\MyAccountController:deleteUser');
 
-$app->post('/addNotification', 'SlimApp\Controller\NotificationController:addNotification');
 $app->post('/deleteNotification', 'SlimApp\Controller\NotificationController:deleteNotification');
 
 $app->post('/shareFolder', 'SlimApp\Controller\FolderController:shareFolder');

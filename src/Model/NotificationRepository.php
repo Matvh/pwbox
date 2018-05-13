@@ -14,9 +14,7 @@ use SlimApp\Model\Notification\Notification;
 interface NotificationRepository
 {
 
-    function addNotification(Notification $notification);
-
-    function deleteNotifications(String $email);
+    function deleteNotification(int $id);
 
     function getNotifications(String $email);
 

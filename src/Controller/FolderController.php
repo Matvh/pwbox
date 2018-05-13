@@ -166,6 +166,8 @@ class FolderController
             $size = 1024 - ($this->container->get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size / 1024) * 100;
 
+            $notifications = $this->container->get('notification_repository')->getNotifications($_SESSION['email']);
+
 
 
             if($parentFolder != null) {
@@ -179,7 +181,9 @@ class FolderController
                     'messages' => $messages,
                     'mensaje' => $mensaje,
                     'size' => $size,
-                    'sizepercent' => $sizepercent]);
+                    'sizepercent' => $sizepercent,
+
+                    'notifications' => $notifications]);
             } else {
                 $hasParent = false;
                 return $this->container->get('view')->render($response, 'shared.html.twig', [
@@ -190,7 +194,9 @@ class FolderController
                     'messages' => $messages,
                     'mensaje' => $mensaje,
                     'size' => $size,
-                    'sizepercent' => $sizepercent]);
+                    'sizepercent' => $sizepercent,
+
+                    'notifications' => $notifications]);
             }
         } else {
             return $response->withStatus(302)->withHeader("Location", "/login");

@@ -5,7 +5,6 @@ namespace SlimApp\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface;
-use SlimApp\Model\Notification\Notification;
 
 class NotificationController
 {
@@ -16,14 +15,11 @@ class NotificationController
         $this->container = $container;
     }
 
-    public function addNotification(Request $request, Response $response){
-        //TODO: Agregarlo a la base de datos
-        return $response->withStatus(302)->withHeader("Location", "/home");
-    }
+    public function deleteNotification(Request $request, Response $response){
 
-    public function deleteNotifications(Request $request, Response $response){
-        //TODO: Eliminarlo de la base de datos
-        return $response->withStatus(302)->withHeader("Location", "/home");
+        $id = $_POST['id_notification'];
+        $this->container->get('notification_repository')->deleteNotification($id);
+
     }
 
 }

@@ -82,16 +82,18 @@ class HomeController
             $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size/1024) *100;
 
+            $notifications = $this->container->get('notification_repository')->getNotifications($_SESSION['email']);
+
             if($parentFolder == null) {
                 $hasParent = false;
 
                 return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
                     'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent, 'hasParent'
-                    => $hasParent]);
+                    => $hasParent, 'notifications' => $notifications]);;
             } else {
                 return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
                     'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent, 'hasParent'
-                    => $hasParent, 'parent_folder' => $parentFolder[0]['id_root_folder'] ]);
+                    => $hasParent, 'parent_folder' => $parentFolder[0]['id_root_folder'], 'notifications' => $notifications]);
             }
 
 

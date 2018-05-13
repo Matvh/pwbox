@@ -21,7 +21,24 @@ function openFolder(folder){
 
 }
 
-function deleteNotification(element){
+function deleteNotification(element, id){
+
+    var info = {
+        'id_notification' : id
+    };
+
+    $.ajax({
+        url: "/deleteNotification",
+        type: "post",
+        data: info,
+        async: true,
+        success: function(msg) {},
+        error: function (msg,responseJSON){
+            console.log(msg['responseJSON']);
+        },
+        cache: false
+    });
+
     element.remove();
 }
 
@@ -66,7 +83,9 @@ function uploadFiles(files_list){
 
     var formData = new FormData();
     for (var i = 0; i < files_list.length; i++){
-        formData.append('files[]', files_list[i]);
+        if(files_list[i].size <= 2000000 ){
+            formData.append('files[]', files_list[i]);
+        }
     }
 
     $.ajax({

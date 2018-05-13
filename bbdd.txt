@@ -76,24 +76,33 @@ CREATE TABLE `folderFolder` (
 CREATE TABLE `notification` (
   `id` int  unsigned NOT NULL AUTO_INCREMENT,
   `info` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   PRIMARY KEY (`id`)
+  `id_user` int  unsigned NOT NULL,
+  `id_folder` int  unsigned,
+   PRIMARY KEY (`id`),
+   FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
+   FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`),
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
 CREATE TABLE `userFolder` (
   `id_user` int  unsigned NOT NULL,
   `id_folder` int  unsigned NOT NULL,
-  `id_notification` int  unsigned NOT NULL,
-   PRIMARY KEY (`id_user`,  `id_folder`, `id_notification`),
+   PRIMARY KEY (`id_user`,  `id_folder`),
    FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
-   FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`),
-    FOREIGN KEY (`id_notification`) REFERENCES `notification` (`id`)
+   FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 select * from user;
 
 
 SELECT folder.id, folder.name FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id
                     = userFolder.id_folder AND userFolder.id_user = user.id AND (user.email = 'miquel@gmail.com' OR user.username = 'miquel');
+
+--CAMBIOS 13/05/2018:
+
+--Eliminada la dependencia de notification de userFolder
+
+--FK - Añadida dependencia de user a notification
+--FK - Añadida dependencia de folder a notification (opcional)
 
 
 
