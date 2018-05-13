@@ -88,6 +88,7 @@ class FileController
 
                 //Ver si hay espacio para subir los achivos que faltan
                 $fileSize = $uploadedFile->getSize() / 1024;
+
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
 
 
@@ -105,6 +106,7 @@ class FileController
                     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
                 }
             }
+            var_dump($fileSize);exit();
 
             if (!isset($moreErrors['invalidSize']) && !isset($moreErrors['invalidExt']) && !isset($moreErrors['maxAvailable'])) {
                 $newResponse = $response->withStatus(201);
@@ -173,6 +175,11 @@ class FileController
         $id = $_POST['id_file'];
         $name = $this->container->get('file_repository')->selectFileName($id);
         $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+        $size = round(filesize('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name)/1000000, PHP_ROUND_HALF_EVEN);
+        $userSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
+
+        $this->container->get('user_repository')->setSize($_SESSION['email'],$userSize+$size);
 
 
         unlink('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name);
