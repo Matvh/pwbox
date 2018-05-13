@@ -119,10 +119,10 @@ class FileController
 
     public function downloadFileAction(Request $request, Response $response){
         $id = $_POST['id_file'];
-        //header('Content-disposition: attachment; filename=image.jpg');
-        //header('Content-type: image/jpeg');
-        //readfile('/home/vagrant/code/pwbox/public/uploads/4/snorlax.png');
-        $fichero = '/home/vagrant/code/pwbox/public/uploads/4/bbdd query DATE.txt';
+
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+        $fichero = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name;
 
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
