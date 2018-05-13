@@ -127,7 +127,6 @@ class MyAccountController
             $newResponse = $response->withJson($results, 400);
             return $newResponse;
 
-            //return $this->container->get('view')->render($response, 'myAccount.twig', ['user' => $exit[0], 'results' => $results]);
 
         } else {
                 return $response->withStatus(403)->withHeader("Location", "/error");
@@ -143,10 +142,34 @@ class MyAccountController
         $this->deleteFolderP($idFolder[0]['id']);
 
         $this->container->get('user_repository')->remove($_SESSION['email'], $id);
+        $dir = '/home/vagrant/code/pwbox/public/uploads/'.$id;
+        $this->deleteDirectory($dir);
         return $this->container->get('view')->render($response, 'login.html.twig');
 
     }
 
+    function deleteDirectory($dir) {
+        if (!file_exists($dir)) {
+            return true;
+        }
+
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+
+        }
+
+        return rmdir($dir);
+    }
     public function deleteFolderP(int $id)
     {
         $this->container->get('file_repository')->deleteFilesFolder($id);

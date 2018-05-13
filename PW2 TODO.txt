@@ -16,7 +16,7 @@ BLOQUE 8:
 	descargar file
 	renombrar file
 BLOQUE 9:
-	eliminar carpetas y archivos de dentro de una carpeta que se quiere eliminar
+
 BLOQUE 10: 
 	hacer jerarquía de admin/reader
 	mostrar errores
