@@ -118,6 +118,17 @@ class DoctrineFileRepository implements FileRepository
         }
     }
 
+    public function renameFile(int $id, String $name)
+    {
+        $sql = "UPDATE file SET name = :name WHERE id = :id";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("name", $name);
+        $stmt->bindValue("id", $id);
+        return $stmt->execute();
+
+
+    }
+
 
 
 

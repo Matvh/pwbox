@@ -166,4 +166,37 @@ class FileController
         $f_base = floor($base);
         return round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
     }
+
+    public function deleteFile(Request $request, Response $response)
+    {
+
+        $id = $_POST['id_file'];
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+
+        unlink('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name);
+        $name = $this->container->get('file_repository')->deleteFile($id);
+        return $response->withStatus(302)->withHeader("Location", "/home");
+
+    }
+
+    public function renameFile(Request $request, Response $response)
+    {
+        $id = $_POST['id_file'];
+        $newName = $_POST['file_name'];
+
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+        $old = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name;
+        $new = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$newName;
+
+        rename($old, $new);
+        $this->container->get('file_repository')->renameFile($id, $newName);
+
+        return $response->withStatus(302)->withHeader("Location", "/home");
+
+
+    }
 }
