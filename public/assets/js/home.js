@@ -96,9 +96,11 @@ function uploadFiles(files_list){
         data: formData,
         async: false,
         success: function (msg) {
+            //console.log(msg);
             window.location.replace("/home");
         },
         error: function (msg) {
+            //console.log(msg);
             window.location.replace("/home");
         },
         cache: false
