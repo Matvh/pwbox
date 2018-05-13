@@ -68,7 +68,7 @@ class FileController
                         $fileName,
                         $extension
                     );
-                    $this->container->get('flash')->addMessage('error', "No se permite esa extensión");
+                    $this->container->get('flash')->addMessage('error', "No se permite esa extensión: " . $fileName);
 
                     continue;
                 }
@@ -81,7 +81,10 @@ class FileController
                         $fileName,
                         $this->convertToReadableSize($uploadedFile->getSize())
                     );
-                    $this->container->get('flash')->addMessage('error2', "Archivo demasiado grande");
+
+
+                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande: " . $fileName);
+
 
                     continue;
                 }
@@ -108,11 +111,16 @@ class FileController
             }
 
             if (!isset($moreErrors['invalidSize']) && !isset($moreErrors['invalidExt']) && !isset($moreErrors['maxAvailable'])) {
-                $newResponse = $response->withStatus(201);
+                //$newResponse = $response->withStatus(201);
+                $data = array('size' => $fileSize, 'size2' => $uploadedFile->getSize());
+                $newResponse = $response->withJson($data, 201);
                 return $newResponse;
             }
 
-            $newResponse = $response->withJson($errors, 400);
+            //$newResponse = $response->withJson($errors, 400);
+            //return $newResponse;
+            $data = array('size' => $fileSize, 'size2' => $uploadedFile->getSize());
+            $newResponse = $response->withJson($data, 400);
             return $newResponse;
         }
     }
@@ -153,7 +161,7 @@ class FileController
      */
     private function isValidSize(int $size)
     {
-        return $size < 262144;
+        return $size < 2097152;
     }
 
     /**
