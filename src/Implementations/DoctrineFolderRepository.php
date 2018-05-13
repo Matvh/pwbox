@@ -38,10 +38,6 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt->bindValue("path", $folder->getPath(), 'string');
         $stmt->execute();
 
-        $sql = "INSERT INTO notification(info) VALUES(:info)";
-        $stmt = $this->database->prepare($sql);
-        $stmt->bindValue("info", "Folder created", 'string');
-        $stmt->execute();
 
         $sql = "SELECT * FROM user WHERE email = :email";
         $stmt = $this->database->prepare($sql);
@@ -56,7 +52,7 @@ class DoctrineFolderRepository implements FolderRepository
         $stmt->execute();
         $exit2 = $stmt->fetchAll();
 
-        $sql = "INSERT INTO userFolder(id_user, id_folder, id_notification) VALUES (:usera, :folder, 4)";
+        $sql = "INSERT INTO userFolder(id_user, id_folder) VALUES (:usera, :folder)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("usera", $email[0]['id'], 'string');
         $stmt->bindValue("folder", $exit2[0]['id'], 'string');
