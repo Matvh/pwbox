@@ -26,10 +26,9 @@ class DoctrineNotificationRepository implements NotificationRepository
         try {
             $sql = "DELETE FROM notification WHERE id = :id";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("id", $id, 'int');
+            $stmt->bindValue("id", $id);
             $stmt->execute();
-            $result = $stmt->fetchAll();
-            return $result;
+
         } catch (DBALException $e) {
             return false;
         }
@@ -38,7 +37,7 @@ class DoctrineNotificationRepository implements NotificationRepository
 
     function getNotifications(int $id){
         try {
-            $sql = "SELECT info FROM notification WHERE id_user = :id";
+            $sql = "SELECT info, id FROM notification WHERE id_user = :id";
             $stmt = $this->database->prepare($sql);
             $stmt->bindValue("id", $id);
             $stmt->execute();

@@ -16,10 +16,11 @@ class NotificationController
     }
 
     public function deleteNotification(Request $request, Response $response){
-
         $id = $_POST['id_notification'];
-        $this->container->get('notification_repository')->deleteNotification($id);
 
+        $this->container->get('notification_repository')->deleteNotification($id);
+        $newResponse = $response->withJson(202);
+        return $newResponse;
     }
 
 }
