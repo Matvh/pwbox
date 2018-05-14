@@ -136,6 +136,7 @@ class MyAccountController
     public function deleteUser(Request $request, Response $response)
     {
         $id = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+        $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
         $this->container->get('notification_repository')->deleteNotificationID(intval($id));
         $username = $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
         $idFolder = $this->container->get('folder_repository')->selectIdRoot("root".$username);
@@ -144,6 +145,8 @@ class MyAccountController
         $this->container->get('user_repository')->remove($_SESSION['email'], $id);
         $dir = '/home/vagrant/code/pwbox/public/uploads/'.$id;
         $this->deleteDirectory($dir);
+        unlink('/home/vagrant/code/pwbox/public/profilePics/'.$path);
+
         session_destroy();
         return $response->withStatus(303)->withHeader("Location", "/login");
 
