@@ -73,3 +73,6 @@ $app->get('/deleteSharedFolder', 'SlimApp\Controller\FolderController:deleteShar
 $app->post('/deleteFile', 'SlimApp\Controller\FileController:deleteFile');
 $app->post('/renameFile', 'SlimApp\Controller\FileController:renameFile');
 
+$app->post('/deleteSharedFile', 'SlimApp\Controller\FileController:deleteSharedFile');
+$app->post('/renameSharedFile', 'SlimApp\Controller\FileController:renameSharedFile');
+

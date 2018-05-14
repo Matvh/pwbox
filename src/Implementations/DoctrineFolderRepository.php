@@ -360,4 +360,19 @@ class DoctrineFolderRepository implements FolderRepository
         }
 
     }
+
+    public function getNameFromId(int $id)
+    {
+        try {
+            $sql = "SELECT name FROM folder WHERE id = :id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result[0]['name'];
+        } catch (DBALException $e) {
+            return false;
+        }
+
+    }
 }

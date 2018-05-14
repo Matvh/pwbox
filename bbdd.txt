@@ -80,8 +80,7 @@ CREATE TABLE `notification` (
   `id_user` int  unsigned NOT NULL,
   `id_folder` int  unsigned,
    PRIMARY KEY (`id`),
-   FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
-   FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`)
+   FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 

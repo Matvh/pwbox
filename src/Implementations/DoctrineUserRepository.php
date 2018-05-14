@@ -205,6 +205,17 @@ class DoctrineUserRepository implements  UserRepository
 
     }
 
+    public function getEmailFromId(int $id)
+    {
+        $sql = "SELECT email FROM user WHERE id = :id";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("id", $id);
+        $stmt->execute();
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
+
+    }
+
 
 
 

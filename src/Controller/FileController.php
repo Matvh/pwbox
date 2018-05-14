@@ -296,6 +296,18 @@ class FileController
 
             if (!isset($moreErrors['invalidSize']) && !isset($moreErrors['invalidExt']) && !isset($moreErrors['maxAvailable'])) {
                 //$newResponse = $response->withStatus(201);
+                $usuario = $_SESSION['email'];
+                $paramValue = $_SESSION['shared_folder_id'];
+                $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+                $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
+
+                $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
+                $this->container->get('notification_repository')->add("El usuario '$usuario' ha subido el archivo '$fileName' en '$folderName'", $idOwner[0]['id_user'], $paramValue);
+                $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha subido el archivo '$fileName' en '$folderName", "Archivo subido - PWBOX");
+
+
+
+
                 $data = array('size' => $fileSize, 'size2' => $uploadedFile->getSize());
                 $newResponse = $response->withJson($data, 201);
                 return $newResponse;
@@ -308,4 +320,65 @@ class FileController
             return $newResponse;
         }
     }
+
+    public function deleteSharedFile(Request $request, Response $response)
+    {
+
+        $id = $_POST['id_file'];
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+
+        $size = round(filesize('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name)/1000000, PHP_ROUND_HALF_EVEN);
+        $userSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
+
+        $this->container->get('user_repository')->setSize($_SESSION['email'],$userSize+$size);
+
+        $usuario = $_SESSION['email'];
+        $paramValue = $_SESSION['shared_folder_id'];
+        $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+        $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
+
+        $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
+        $this->container->get('notification_repository')->add("El usuario '$usuario' ha eliminado el archivo $name en  '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha eliminado el archivo $name en  '$folderName'", "Archivo eliminado - PWBOX");
+
+
+        unlink('/home/vagrant/code/pwbox/public/uploads/'.$idOwner.'/'.$name);
+        $name = $this->container->get('file_repository')->deleteFile($id);
+        return $response->withStatus(302)->withHeader("Location", "/shared");
+
+    }
+
+    public function renameSharedFile(Request $request, Response $response)
+    {
+        $id = $_POST['id_file'];
+        $newName = $_POST['file_name'];
+        $paramValue = $_SESSION['shared_folder_id'];
+
+        $name = $this->container->get('file_repository')->selectFileName($id);
+        $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
+        $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+
+
+        $old = '/home/vagrant/code/pwbox/public/uploads/'.$idOwner.'/'.$name;
+        $new = '/home/vagrant/code/pwbox/public/uploads/'.$idOwner.'/'.$newName;
+
+        $usuario = $_SESSION['email'];
+        $paramValue = $_SESSION['shared_folder_id'];
+        $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
+
+        $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
+        $this->container->get('notification_repository')->add("El usuario '$usuario' ha renombrado el archivo $old con el nombre $new en  '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha renombrado el archivo $old con el nombre $new en  '$folderName'", "Archivo renombrado - PWBOX");
+
+
+
+        rename($old, $new);
+        $this->container->get('file_repository')->renameFile($id, $newName);
+
+        return $response->withStatus(302)->withHeader("Location", "/shared");
+
+
+    }
+
 }

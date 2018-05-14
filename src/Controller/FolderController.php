@@ -69,7 +69,10 @@ class FolderController
      {
 
          $idFolder = $_POST['id_folder'];
-         $this->deleteFolderP($idFolder);
+
+         $this->deleteFolderP(intval($idFolder));
+
+
 
          return $response->withStatus(302)->withHeader("Location", "/home");
 
@@ -262,13 +265,17 @@ class FolderController
         $paramValue = $_POST['id_shared_folder'];
         $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
         $this->container->get('folder_repository')->delete($paramValue);
+        $usuario = $_SESSION['email'];
+        $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+        $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
-        if($parent != null) {
-            $id = $args['id'];
-            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
-        } else {
-            return $response->withStatus(302)->withHeader("Location", "/showSharedFolders");
-        }
+        $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
+        $this->container->get('notification_repository')->add("El usuario '$usuario' ha eliminado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha eliminado la carpeta '$folderName'", "Carpeta eliminada - PWBOX");
+
+
+        return $response->withStatus(302)->withHeader("Location", "/shared");
+
 
     }
 
@@ -277,8 +284,14 @@ class FolderController
 
         $folderName = $_POST['folder_name'];
 
-
+        $usuario = $_SESSION['email'];
         $paramValue = $_SESSION['shared_folder_id'];
+        $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+        $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
+
+
+        $this->container->get('notification_repository')->add("El usuario '$usuario' ha creado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha creado la carpeta '$folderName'", "Creación carpeta - PWBOX");
 
 
 
