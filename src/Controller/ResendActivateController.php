@@ -30,7 +30,9 @@ class ResendActivateController
     public function __invoke(Request $request, Response $response)
     {
         $email = $_SESSION['email'];
-        $this->container->get('activate_email')->sendActivateEmail($email);
+        $subject = 'Activate Account';
+        $message = 'Follow the link in order to activate your account http://pwbox.test/activate?email='.$email;
+        $this->container->get('activate_email')->sendEmail($email,$message, $subject);
         $this->container->get('flash')->addMessage('error', "Se acaba de enviar un nuevo correo a '$email'. Revisa tu bandeja de entrada");
         return $response->withStatus(302)->withHeader("Location", "/home");
 

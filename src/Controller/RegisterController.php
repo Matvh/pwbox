@@ -67,8 +67,10 @@ class RegisterController
                 if($exit) {
                     $user_id = $this->container->get('user_repository')->getID($email);
                     shell_exec("mkdir ../public/uploads/$user_id");
-                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "true" ), $user);
-                    $this->container->get('activate_email')->sendActivateEmail($email);
+                    $this->container->get('folder_repository')->create(new Folder(1, $date,$date, "root".$username,"path", "true" , "false"), $user);
+                    $subject = 'Activate Account';
+                    $message = 'Follow the link in order to activate your account http://pwbox.test/activate?email='.$email;
+                    $this->container->get('activate_email')->sendEmail($email, $message, $subject);
 
                     if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
                         $uploadErrors = $this->container->get('upload_photo')->uploadPhoto($user_id);

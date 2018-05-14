@@ -18,6 +18,7 @@ class Folder
     private $updated;
     private $name;
     private $path;
+    private $isShared;
 
     /**
      * Folder constructor.
@@ -26,7 +27,7 @@ class Folder
      * @param $updated
      * @param $name
      */
-    public function __construct($id, $created, $updated, $name, $path, $superRoot)
+    public function __construct($id, $created, $updated, $name, $path, $superRoot, $isShared)
     {
         $this->id = $id;
         $this->created = $created;
@@ -34,6 +35,8 @@ class Folder
         $this->name = $name;
         $this->path = $path;
         $this->superRoot = $superRoot;
+        $this->isShared = $isShared;
+
     }
 
     /**
@@ -131,6 +134,35 @@ class Folder
     {
         $this->superRoot = $superRoot;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getisShared()
+    {
+        return $this->isShared;
+    }
+
+    /**
+     * @param mixed $isShared
+     */
+    public function setIsShared($isShared): void
+    {
+        $this->isShared = $isShared;
+    }
+
+    /**
+     * @return mixed
+     */
+
+
+
+
+
+
+
+
+
 
 
 
