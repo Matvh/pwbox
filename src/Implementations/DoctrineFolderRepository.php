@@ -29,11 +29,12 @@ class DoctrineFolderRepository implements FolderRepository
     public function create(Folder $folder, User $user)
     {
 
-        $sql = "INSERT INTO folder(super_root, created_at, updated_at, name, path) VALUES( :super_root, :created_at, :updated_at, :nombre, :path)";
+        $sql = "INSERT INTO folder(super_root, created_at, updated_at, isShared,name, path) VALUES( :super_root, :created_at, :updated_at,:isAdmin, :nombre, :path)";
         $stmt = $this->database->prepare($sql);
         $stmt->bindValue("super_root", $folder->getSuperRoot());
         $stmt->bindValue("created_at", $folder->getCreated()->format(self::DATE_FORMAT));
         $stmt->bindValue("updated_at", $folder->getUpdated()->format(self::DATE_FORMAT));
+        $stmt->bindValue("isAdmin", $folder->getisShared());
         $stmt->bindValue("nombre", $folder->getName(), 'string');
         $stmt->bindValue("path", $folder->getPath(), 'string');
         $stmt->execute();
@@ -343,5 +344,20 @@ class DoctrineFolderRepository implements FolderRepository
         } catch (DBALException $e) {
             return false;
         }
+    }
+
+    public function get(int $id)
+    {
+        try {
+            $sql = "SELECT * FROM shareFolder WHERE id_folder = :id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+
     }
 }

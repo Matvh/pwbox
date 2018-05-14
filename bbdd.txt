@@ -36,6 +36,7 @@ CREATE TABLE `folder` (
   `super_root` varchar(255),
   `created_at` varchar(255),
   `updated_at` varchar(255),
+  `isShared` varchar(255),
    `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `path` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    PRIMARY KEY (`id`)
