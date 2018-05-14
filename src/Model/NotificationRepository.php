@@ -16,7 +16,7 @@ interface NotificationRepository
 
     function deleteNotification(int $id);
 
-    function getNotifications(String $email);
+    function getNotifications(int $id);
 
 
 

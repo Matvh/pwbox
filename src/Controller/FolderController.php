@@ -100,12 +100,11 @@ class FolderController
         if($exit)
         {
 
-            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
 
 
         } else{
-
+            $this->container->get('flash')->addMessage('error', "Error al renombrar la carpeta");
             return $response->withStatus(302)->withHeader("Location", "/home");
 
         }
@@ -181,7 +180,7 @@ class FolderController
             $size = 1024 - ($this->container->get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size / 1024) * 100;
 
-            $notifications = $this->container->get('notification_repository')->getNotifications($_SESSION['email']);
+            $notifications = $this->container->get('notification_repository')->getNotifications($idUser);
             if($parentFolder != null) {
                 $hasParent = true;
                 return $this->container->get('view')->render($response, 'shared.html.twig', [
@@ -284,7 +283,7 @@ class FolderController
 
 
         $date = new DateTime('now');
-        $folder = new Folder(1, $date, $date, $folderName, "path", "false");
+        $folder = new Folder(1, $date, $date, $folderName, "path", "false", "true");
         $user = $this->container->get('user_repository')->getUsername($_SESSION['email']);
         $email = $_SESSION['email'];
         $user = new User(1, $user, $email, "", "", "", "", $date, $date, 1, "", null);

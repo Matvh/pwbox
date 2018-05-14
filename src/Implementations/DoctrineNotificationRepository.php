@@ -36,12 +36,11 @@ class DoctrineNotificationRepository implements NotificationRepository
 
     }
 
-    function getNotifications(String $email){
+    function getNotifications(int $id){
         try {
-            $sql = "SELECT info, notification.id FROM notification, user WHERE email = :email AND
-                    id_user = id.user ORDER BY notification.id DESC;";
+            $sql = "SELECT info FROM notification WHERE id_user = :id";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("email", $email, 'string');
+            $stmt->bindValue("id", $id);
             $stmt->execute();
             $result = $stmt->fetchAll();
             return $result;
@@ -59,6 +58,19 @@ class DoctrineNotificationRepository implements NotificationRepository
         $stmt->bindValue("id_user", $idUser);
         $stmt->bindValue("id_folder", $idFolder);
         $stmt->execute();
+
+    }
+
+    function deleteNotificationID(int $id){
+        try {
+            $sql = "DELETE FROM notification WHERE id_user = :id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+
+        } catch (DBALException $e) {
+            return false;
+        }
 
     }
 

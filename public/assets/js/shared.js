@@ -96,9 +96,12 @@ function uploadFiles(files_list){
         data: formData,
         async: false,
         success: function (msg) {
+            //console.log(msg);
             window.location.replace("/shared");
         },
         error: function (msg) {
+            //console.log(msg);
+
             window.location.replace("/shared");
         },
         cache: false

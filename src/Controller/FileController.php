@@ -218,12 +218,12 @@ class FileController
     {
         $errors = [];
         $moreErrors = [];
-        $user['name'] = $this->container->get('user_repository')->getUsername($_SESSION['email']);
-        $user['pic'] = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
-        $user['email'] = $_SESSION['email'];
-        $idUser = $this->container->get('user_repository')->getOwner($_SESSION['shared_folder_id']);
+        //$user['name'] = $this->container->get('user_repository')->getUsername($_SESSION['email']);
+        //$user['pic'] = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
+        //$user['email'] = $_SESSION['email'];
+        $idUser = $this->container->get('folder_repository')->getOwner($_SESSION['shared_folder_id'])[0]['id_user'];
 
-        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . "/";
+        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . '/';
         $uploadedFiles = $request->getUploadedFiles();
 
 
@@ -285,10 +285,10 @@ class FileController
                     break;
 
                 } else {
-                    $this->container->get('user_repository')->setSize($user['email'],
+                    $this->container->get('user_repository')->setSize($idUser[0]['email'],
                         $currentSize - ($fileSize / 1024));
 
-                    $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
+                    $file = new File($fileName, $_SESSION['shared_folder_id'], new \DateTime('now'), $extension);
                     $this->container->get('file_repository')->upload($file);
                     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $fileName);
                 }

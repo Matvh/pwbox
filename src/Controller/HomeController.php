@@ -73,7 +73,7 @@ class HomeController
             else $mensaje = "";
             $messages = $this->container->get('flash')->getMessages();
             $hasParent = true;
-
+            $id = $this->container->get('user_repository')->getID($_SESSION['email']);
             $path = $this->container->get('user_repository')->getProfilePic($_SESSION['email']);
             $username = $this->container->get('user_repository')->getUsername($_SESSION['email']);
             $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
@@ -82,7 +82,8 @@ class HomeController
             $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size/1024) *100;
 
-            $notifications = $this->container->get('notification_repository')->getNotifications($_SESSION['email']);
+            $notifications = $this->container->get('notification_repository')->getNotifications($id);
+            //var_dump($notifications);exit();
 
             if($parentFolder == null) {
                 $hasParent = false;

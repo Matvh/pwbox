@@ -97,9 +97,9 @@ class DoctrineFolderRepository implements FolderRepository
     public function getOwner(int $id)
     {
         try {
-            $sql = "SELECT id_user FROM userFolder WHERE folder_id = :folder_id";
+            $sql = "SELECT id_user FROM userFolder WHERE id_folder = :folder_id";
             $stmt = $this->database->prepare($sql);
-            $stmt->bindValue("folder_id", $id, 'int');
+            $stmt->bindValue("folder_id", $id);
             $stmt->execute();
             $result = $stmt->fetchAll();
             return $result;
