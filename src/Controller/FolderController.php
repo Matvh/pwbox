@@ -20,6 +20,8 @@ class FolderController
 {
 
     protected $container;
+    private $firstTime = true;
+   //private $isAdmin;
 
     public function __construct(ContainerInterface $container)
     {
@@ -162,7 +164,14 @@ class FolderController
             $sizepercent = ($size / 1024) * 100;
 
             $notifications = $this->container->get('notification_repository')->getNotifications($_SESSION['email']);
+            if($this->firstTime){
+                $rol = $this->container->get('folder_repository')->selectSharedFolders2($idUser);
+                if($rol[0]['rol'] == "admin") $isAdmin = true;
+                else $isAdmin = false;
+                $this->firstTime = false;
+            }
 
+            $files = $this->container->get('file_repository')->select(intval($_SESSION['shared_folder_id']));
 
 
             if($parentFolder != null) {
@@ -176,6 +185,8 @@ class FolderController
                     'messages' => $messages,
                     'mensaje' => $mensaje,
                     'size' => $size,
+                    'files' => $files,
+                    'isAdmin' => $isAdmin,
                     'sizepercent' => $sizepercent,
 
                     'notifications' => $notifications]);
@@ -189,6 +200,8 @@ class FolderController
                     'messages' => $messages,
                     'mensaje' => $mensaje,
                     'size' => $size,
+                    'files' => $files,
+                    'isAdmin' => $isAdmin,
                     'sizepercent' => $sizepercent,
 
                     'notifications' => $notifications]);
