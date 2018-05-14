@@ -58,7 +58,7 @@ function openFileDialog() {
         // BinaryString, Text, DataURL, ArrayBuffer
         readAs: "DataURL",
         removeMessage: "Remove&nbsp;file",
-        title: "Upload in current folder",
+        title: "Upload in current folder"
 
     })
     //Event OK
@@ -73,7 +73,6 @@ function openFileDialog() {
             console.log("cancel")
         });
 
-    ;
 }
 
 
@@ -90,17 +89,17 @@ function uploadFiles(files_list){
     }
 
     $.ajax({
-        url: "/file",
+        url: "/fileShared",
         type: "post",
         contentType: false,
         processData: false,
         data: formData,
         async: false,
         success: function (msg) {
-            window.location.replace("/home");
+            window.location.replace("/shared");
         },
         error: function (msg) {
-            window.location.replace("/home");
+            window.location.replace("/shared");
         },
         cache: false
     });
