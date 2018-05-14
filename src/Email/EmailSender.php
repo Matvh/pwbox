@@ -12,6 +12,6 @@ namespace SlimApp\Email;
 interface EmailSender
 {
 
-    public function sendActivateEmail(String $email);
+    public function sendEmail(String $email,String $message, String $subject);
 
 }

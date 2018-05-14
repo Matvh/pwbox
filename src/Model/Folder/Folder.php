@@ -18,6 +18,7 @@ class Folder
     private $updated;
     private $name;
     private $path;
+    private $isAdmin;
 
     /**
      * Folder constructor.
@@ -131,6 +132,13 @@ class Folder
     {
         $this->superRoot = $superRoot;
     }
+
+
+
+
+
+
+
 
 
 

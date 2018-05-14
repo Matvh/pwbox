@@ -20,8 +20,6 @@ class FolderController
 {
 
     protected $container;
-    private $firstTime = true;
-   //private $isAdmin;
 
     public function __construct(ContainerInterface $container)
     {
@@ -118,14 +116,14 @@ class FolderController
         $idShared = $this->container->get('user_repository')->getID($email);
         if ($idShared == null) $error = true;
         $rol = $_POST['rol'];
-        if($rol == "rol") $rol = "admin";
-        else $rol = "reader";
+        if ($rol == null) $rol = "reader";
 
         if ($error ){
             $this->container->get('flash')->addMessage('error', "Error, el usuario con el email '$email' no existe");
             return $response->withStatus(302)->withHeader("Location", "/home");
         } else {
-
+            $this->container->get('notification_repository')->add("Se ha compartido una carpeta contigo", $idShared, $id_folder);
+            $this->container->get('activate_email')->sendEmail($email, "Se ha compartido una carpeta contigo", "Carpeta compartida - PWBOX");
             $exit = $this->container->get('folder_repository')->shareFolder($idAdmin, $idShared, $id_folder, $rol);
             return $response->withStatus(302)->withHeader("Location", "/home");
         }
@@ -138,11 +136,22 @@ class FolderController
 
 
         if (isset($_SESSION['email'])) {
+            $files = "";
+            $isAdmin = "false";
             $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
             if(!isset($_SESSION['shared_folder_id']) || $_SESSION['shared_folder_id'] == ""){
                 $folders = $this->container->get('folder_repository')->selectSharedFolders2($idUser);
                 $parentFolder = null;
             } else {
+
+                $rol = $this->container->get('folder_repository')->getRol(intval($_SESSION['shared_folder_id']))[0]['rol'];
+                if ($rol == 'admin') {
+                    $this->isAdmin = "true";
+                } else {
+                    $this->isAdmin = "false";
+                }
+                $files = $this->container->get('file_repository')->select(intval($_SESSION['shared_folder_id']));
+
                 $folders = $this->container->get('folder_repository')->selectChild($_SESSION['shared_folder_id']);
                 $parentFolder = $this->container->get('folder_repository')->selectSharedFolders2($idUser);
 
@@ -163,17 +172,8 @@ class FolderController
             $size = 1024 - ($this->container->get('user_repository')->getSize($_SESSION['email']));
             $sizepercent = ($size / 1024) * 100;
 
+
             $notifications = $this->container->get('notification_repository')->getNotifications($_SESSION['email']);
-            if($this->firstTime){
-                $rol = $this->container->get('folder_repository')->selectSharedFolders2($idUser);
-                if($rol[0]['rol'] == "admin") $isAdmin = true;
-                else $isAdmin = false;
-                $this->firstTime = false;
-            }
-
-            $files = $this->container->get('file_repository')->select(intval($_SESSION['shared_folder_id']));
-
-
             if($parentFolder != null) {
                 $hasParent = true;
                 return $this->container->get('view')->render($response, 'shared.html.twig', [
@@ -213,7 +213,10 @@ class FolderController
 
     public function enterSharedFolder(Request $request, Response $response)
     {
+
         $_SESSION['shared_folder_id'] = $_POST['id_shared_folder'];
+
+
 
         return $response->withJson(['ok'=>'ok'], 201);
     }
@@ -242,7 +245,7 @@ class FolderController
 
     public function deleteSharedFolder(Request $request, Response $response, array $args)
     {
-
+        $this->firstTime = false;
         $paramValue = $_POST['id_shared_folder'];
         $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
         $this->container->get('folder_repository')->delete($paramValue);

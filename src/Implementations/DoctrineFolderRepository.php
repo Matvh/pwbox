@@ -330,4 +330,18 @@ class DoctrineFolderRepository implements FolderRepository
         }
 
     }
+
+    public function getRol(int $id)
+    {
+        try {
+            $sql = "SELECT rol FROM shareFolder WHERE id_folder = :id";
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindValue("id", $id);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (DBALException $e) {
+            return false;
+        }
+    }
 }

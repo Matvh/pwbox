@@ -51,4 +51,15 @@ class DoctrineNotificationRepository implements NotificationRepository
 
     }
 
+    public function add(String $mensaje, int $idUser, int $idFolder)
+    {
+        $sql = "INSERT INTO notification(info, id_user, id_folder) VALUES(:info, :id_user, :id_folder)";
+        $stmt = $this->database->prepare($sql);
+        $stmt->bindValue("info", $mensaje);
+        $stmt->bindValue("id_user", $idUser);
+        $stmt->bindValue("id_folder", $idFolder);
+        $stmt->execute();
+
+    }
+
 }

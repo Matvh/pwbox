@@ -16,7 +16,7 @@ use Swift_TransportException;
 class SwiftEmail implements EmailSender
 {
 
-    public function sendActivateEmail(String $email)
+    public function sendEmail(String $email, String $message, String $subject )
     {
         try {
             // Create the Transport
@@ -28,11 +28,10 @@ class SwiftEmail implements EmailSender
             $mailer = new Swift_Mailer($transport);
 
             // Create a message
-            $message = (new Swift_Message('Activate Account'))
+            $message = (new Swift_Message($subject)) //'Activate Account',
                 ->setFrom(['pwb@info' => 'pwbox@info'])
                 ->setTo([$email])
-                ->setBody('Follow the link in order to activate your account http://pwbox.test/activate?email='.$email);
-
+                ->setBody($message); //'Follow the link in order to activate your account http://pwbox.test/activate?email='.$email
             // Send the message
             $result = $mailer->send($message);
         }catch (Swift_TransportException $e){
