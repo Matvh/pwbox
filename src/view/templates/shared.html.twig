@@ -30,7 +30,7 @@
                 <div class="buttons-div row">
 
                     <div class="dropup">
-                        <button class="btn btn-default my-btn" data-toggle="dropdown">
+                        <button class="btn btn-default my-btn" data-toggle="dropdown" {% if not isAdmin %} disabled {% endif %}>
                             <span class="glyphicon glyphicon-folder-close"></span>
                         </button>
 
@@ -43,7 +43,7 @@
                     </div>
 
 
-                    <button class="btn btn-default my-btn" onclick="openFileDialog()">
+                    <button class="btn btn-default my-btn" onclick="openFileDialog()" {% if not isAdmin %} disabled {% endif %}>
                         <span class="glyphicon glyphicon-file"></span>
                     </button>
 
@@ -74,7 +74,7 @@
                     <tr>
                         <th ondblclick="openFolder('{{ folder.id }}', 'no')"><span class="glyphicon glyphicon-folder-open"></span> {{ folder.name }}</th>
                         <th class="dropup">
-                            <button class="btn btn-link" type="button" data-toggle="dropdown">
+                            <button class="btn btn-link" type="button" data-toggle="dropdown" {% if not isAdmin %} disabled {% endif %}>
                                 <span class="glyphicon glyphicon-share dropdown-toggle"></span></button>
                             <ul class="dropdown-menu">
                                 <li><form class=" input-group" action="/shareFolder" method="post">
@@ -90,7 +90,7 @@
                             </ul>
                         </th>
                         <th class="dropup">
-                            <button class="btn btn-link" type="button" data-toggle="dropdown">
+                            <button class="btn btn-link" type="button" data-toggle="dropdown" {% if not isAdmin %} disabled {% endif %}>
                                 <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
                             <ul class="dropdown-menu">
                                 <li><form class=" input-group" action="/renameSharedFolder" method="post">
@@ -101,7 +101,7 @@
                         </th>
                         <th><form class=" input-group" action="/deleteFolder" method="post">
                                 <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
-                                <button class="btn btn-link" type="submit">
+                                <button class="btn btn-link" type="submit" {% if not isAdmin %} disabled {% endif %}>
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </form>
@@ -144,7 +144,7 @@
 
 
                                 <div class="dropup filedropup">
-                                    <button class="dropup btn btn-primary" type="button" data-toggle="dropdown">
+                                    <button class="dropup btn btn-primary" type="button" data-toggle="dropdown" {% if not isAdmin %} disabled {% endif %}>
                                         <span class="glyphicon glyphicon-edit dropdown-toggle"></span></button>
 
                                     <ul class="dropdown-menu filedropupmenu">
@@ -158,7 +158,7 @@
 
                                 <form class=" input-group" action="/deleteFolder" method="post">
                                     <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
-                                    <button class="btn btn-danger" type="submit">
+                                    <button class="btn btn-danger" type="submit" {% if not isAdmin %} disabled {% endif %}>
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
                                 </form>
