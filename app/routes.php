@@ -30,6 +30,8 @@ $app->get('/add','SlimApp\Controller\CreateFolderController');
 
 
 $app->get('/file', 'SlimApp\Controller\FileController:showFormAction');
+$app->post('/fileShared', 'SlimApp\Controller\FileController:uploadFileSharedAction');
+
 $app->post('/file', 'SlimApp\Controller\FileController:uploadFileAction');
 $app->post('/downloadFile', 'SlimApp\Controller\FileController:downloadFileAction');
 
