@@ -47,6 +47,7 @@ $app->get('/resendemail', 'SlimApp\Controller\ResendActivateController');
 
 $app->post('/folder', 'SlimApp\Controller\FolderController');
 $app->post('/create-folder', 'SlimApp\Controller\FolderController:createFolder');
+$app->post('/create-shared-folder', 'SlimApp\Controller\FolderController:createSharedFolder');
 
 $app->post('/deleteFolder', 'SlimApp\Controller\FolderController:deleteFolder');
 $app->post('/rename', 'SlimApp\Controller\FolderController:renameFolder');
