@@ -145,7 +145,11 @@ class MyAccountController
         $this->container->get('user_repository')->remove($_SESSION['email'], $id);
         $dir = '/home/vagrant/code/pwbox/public/uploads/'.$id;
         $this->deleteDirectory($dir);
-        unlink('/home/vagrant/code/pwbox/public/profilePics/'.$path);
+
+        if($path != "default.png"){
+            unlink('/home/vagrant/code/pwbox/public/profilePics/'.$path);
+        }
+
 
         session_destroy();
         return $response->withStatus(303)->withHeader("Location", "/login");
