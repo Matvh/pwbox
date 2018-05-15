@@ -9,8 +9,8 @@
 namespace SlimApp\Controller;
 
 
-use http\Env\Response;
-use Slim\Http\Request;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
 class ErrorController
 {
@@ -27,9 +27,6 @@ class ErrorController
 
     public function __invoke(Request $request, Response $response)
     {
-
-
         return $this->container->get('view')->render($response, 'error.html.twig');
-
     }
 }

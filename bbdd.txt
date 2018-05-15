@@ -91,6 +91,7 @@ CREATE TABLE `userFolder` (
    FOREIGN KEY (`id_user`) REFERENCES `user` (`id`),
    FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
 select * from user;
 
 

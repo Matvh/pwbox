@@ -36,7 +36,8 @@ class MyAccountController
 
             return $this->container->get('view')->render($response, 'myAccount.html.twig', ['user' => $exit[0]]);
         } else {
-            return $response->withStatus(403)->withHeader("Location", "/error");
+            //return $this->container->get('view')->render($response, 'error.html.twig');
+            return $response->withStatus(303)->withHeader("Location", "/error");
         }
     }
 
@@ -129,7 +130,7 @@ class MyAccountController
 
 
         } else {
-                return $response->withStatus(403)->withHeader("Location", "/error");
+                return $response->withStatus(303)->withHeader("Location", "/error");
         }
     }
 
