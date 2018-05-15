@@ -93,7 +93,8 @@ class RegisterController
                     return $response->withStatus(302)->withHeader("Location", "/home", array('data' => $data));
 
                 } else {
-                    echo "Ha habido un problema con la base de datos";
+                    return $this->container->get('view')->render($response, 'register.html.twig',
+                        ['mensaje' => "Hemos tenido un problema en nuestra base de datos, vuelve a intentarlo"]);
                 }
             } catch (NotFoundExceptionInterface $e) {
                 $e->getTraceAsString();
@@ -101,7 +102,8 @@ class RegisterController
                 $e->getTraceAsString();
             }
         } else {
-            echo "Error en algun campo!";
+            return $this->container->get('view')->render($response, 'register.html.twig',
+                ['mensaje' => "El usuario ya existe"]);
         }
     }
 }
