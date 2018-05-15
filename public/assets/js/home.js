@@ -46,7 +46,7 @@ function openFileDialog() {
 
     $.FileDialog({
         // MIME type of accepted files, e. g. image/jpeg
-        accept: "png, md, pdf, txt, gif",
+        accept: "png, md, pdf, txt, gif, jpg, jpeg",
         cancelButton: "Close",
         dragMessage: "Drop files here",
         dropheight: 400,
