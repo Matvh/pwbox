@@ -241,18 +241,24 @@ class FolderController
     {
         $id_folder = $_POST['id_folder'];
         $newName = $_POST['folder_name'];
-
+        $paramValue = $_SESSION['shared_folder_id'];
+        $usuario = $_SESSION['email'];
+        $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+        $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
         $exit = $this->container->get('folder_repository')->rename($newName, $id_folder);
 
         if($exit)
         {
 
-            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
+            $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
+            $this->container->get('notification_repository')->add("El usuario '$usuario' ha renombrado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
+            $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha renombrado la carpeta '$folderName'", "Carpeta renombrada - PWBOX");
+
             return $response->withStatus(302)->withHeader("Location", "/shared");
 
 
         } else{
-
+            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
             return $response->withStatus(302)->withHeader("Location", "/shared");
 
         }

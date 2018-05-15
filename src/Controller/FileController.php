@@ -368,8 +368,8 @@ class FileController
         $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
         $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
-        $this->container->get('notification_repository')->add("El usuario '$usuario' ha renombrado el archivo $old con el nombre $new en  '$folderName'", $idOwner[0]['id_user'], $paramValue);
-        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha renombrado el archivo $old con el nombre $new en  '$folderName'", "Archivo renombrado - PWBOX");
+        $this->container->get('notification_repository')->add("El usuario '$usuario' ha renombrado el archivo $name con el nombre $newName en  '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha renombrado el archivo $name con el nombre $newName en '$folderName'", "Archivo renombrado - PWBOX");
 
 
 
