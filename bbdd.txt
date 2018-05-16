@@ -19,7 +19,7 @@ CREATE TABLE `user` (
   `updated_at` varchar(255),
    `active_account` varchar(255),
    `birthdate` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-   `available_size` int,
+   `available_size` float,
    `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
    `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
    `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
@@ -92,18 +92,6 @@ CREATE TABLE `userFolder` (
    FOREIGN KEY (`id_folder`) REFERENCES `folder` (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-select * from user;
-
-
-SELECT folder.id, folder.name FROM folder, userFolder, user WHERE folder.is_root = 1 AND folder.id
-                    = userFolder.id_folder AND userFolder.id_user = user.id AND (user.email = 'miquel@gmail.com' OR user.username = 'miquel');
-
---CAMBIOS 13/05/2018:
-
---Eliminada la dependencia de notification de userFolder
-
---FK - Añadida dependencia de user a notification
---FK - Añadida dependencia de folder a notification (opcional)
 
 
 

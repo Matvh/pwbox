@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
-
+{% block title %}
+    <title>PWBox - PROFILE</title>
+{% endblock %}
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/profile.css">
 {% endblock %}
@@ -76,9 +78,11 @@
                 <a  class="btn btn-warning full-width signinbtn" href="home">
                     Go back
                 </a>
-
             </div>
+            {{ parent() }}
         </div>
+
     </div>
+
 
 {% endblock %}

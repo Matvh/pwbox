@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
-
+{% block title %}
+    <title>PWBox - REGISTER</title>
+{% endblock %}
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
 {% endblock %}
@@ -49,6 +51,7 @@
             </form>
             <p>{{ mensaje }}</p>
         </div>
+        {{ parent() }}
     </div>
 
 {% endblock %}

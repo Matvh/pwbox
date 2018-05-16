@@ -90,19 +90,19 @@ class FileController
                 }
 
                 //Ver si hay espacio para subir los achivos que faltan
-                $fileSize = $uploadedFile->getSize() / 1024;
+                $fileSize = (float) $uploadedFile->getSize() / 1048576; //bytes to megabytes
 
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
 
 
-                if ($currentSize - ($fileSize / 1024) <= 0) {
+                if (($currentSize - $fileSize) <= 0) {
                     $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
                     $moreErrors['maxAvailable'] = true;
                     break;
 
                 } else {
                     $this->container->get('user_repository')->setSize($user['email'],
-                        $currentSize - ($fileSize / 1024));
+                        ($currentSize - $fileSize));
 
                     $file = new File($fileName, $_SESSION['folder_id'], new \DateTime('now'), $extension);
                     $this->container->get('file_repository')->upload($file);

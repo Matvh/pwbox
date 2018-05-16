@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PWBox</title>
+    {% block title %}{% endblock %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,7 +15,15 @@
 
 </head>
 <body>
-{% block content %} {% endblock %}
 
+{% block content %}
+<footer class="page-footer font-small blue pt-4 mt-4">
+    <div class="footer-copyright" style="position: fixed; top: 96%">
+        © 2018 Copyright:
+        PWBox - All Right Reserved - Matias Villarroel Hagemann - Miguel Abellan Donoso - Jesus Rada Fernandez
+    </div>
+{% endblock %}
+</footer>
 </body>
+
 </html>
