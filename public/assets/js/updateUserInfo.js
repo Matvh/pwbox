@@ -70,7 +70,7 @@ function blockSubmit(){
 }
 
 function preventDefault(){
-    return name && password && repassword && birthday && email;
+    return email || (password && repassword);
 }
 
 function updateInfo() {
