@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
-
+{% block title %}
+    <title>PWBox - LOGIN</title>
+{% endblock %}
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
 {% endblock %}
@@ -32,8 +34,11 @@
                         Create account
                 </a>
             </form>
+
         </div>
+        {{ parent() }}
     </div>
+
 
     <!-- Trigger the modal with a button -->
     <div class="modaldiv" data-toggle="modal" data-target="#myModal">
@@ -54,8 +59,8 @@
                     <p>Pwbox is a custom file hosting service that offers a personal cloud storage with a simple and intuitive UI.</p>
                 </div>
             </div>
-
         </div>
+
     </div>
 
 {% endblock %}

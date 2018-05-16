@@ -1,5 +1,10 @@
 {% extends "base.html.twig" %}
 
+{% block title %}
+    <title>PWBox - HOME</title>
+{% endblock %}
+
+
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/home.css">
     <link href="{{ base_path }}/assets/css/bootstrap.fd.css" rel="stylesheet">
@@ -181,9 +186,8 @@
                         </figure>
                     {% endfor %}
                 </div>
-
             {% endblock %}
-
+            {{ parent() }}
         </div>
 
     </div>

@@ -1,5 +1,9 @@
 {% extends "base.html.twig" %}
 
+{% block title %}
+    <title>PWBox - ERROR 403</title>
+{% endblock %}
+
 {% block style %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/error.css">
 {% endblock %}
@@ -25,5 +29,6 @@
             <p id="fittext2">Access Denied</p>
         </article>
     </div>
+    {{ parent() }}
 
 {% endblock %}
