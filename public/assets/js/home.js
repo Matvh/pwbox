@@ -81,12 +81,17 @@ function uploadFiles(files_list){
     console.log(files_list);
     var message;
 
+    var tooBig = false;
+
     var formData = new FormData();
     for (var i = 0; i < files_list.length; i++){
         if(files_list[i].size <= 2000000 ){
             formData.append('files[]', files_list[i]);
         }
+        else tooBig = true;
     }
+
+    if(tooBig) alert("Some files were over 2MB and have not been uploaded.");
 
     $.ajax({
         url: "/file",

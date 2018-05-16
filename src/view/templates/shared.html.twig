@@ -55,7 +55,7 @@
 
         <div class="mainbody col-sm-9">
 
-            <h3>Shared &gt RutaActual</h3>
+            <h3>Shared</h3>
 
             <br>
 
@@ -169,22 +169,6 @@
 
                 </div>
 
-
-                <div id="files">
-                    {% block errorFiles %}
-                        {% for error in errors %}
-                            <p> {{ error }} </p>
-                        {% endfor %}
-
-                        {% if moreErrors['invalidExt'] is defined %}
-                            <p> {{ moreErrors['extensions'] }} </p>
-                        {% endif %}
-
-                        {% if moreErrors['invalidSize'] is defined %}
-                            <p> {{ moreErrors['size'] }} </p>
-                        {% endif %}
-                    {% endblock %}
-                </div>
             {% endblock %}
 
         </div>
