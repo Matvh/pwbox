@@ -57,7 +57,8 @@ class RegisterController
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
             && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
-            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) && preg_match('/[1-9]/', $password) && $existe == null){
+            preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) &&
+            preg_match('/[1-9]/', $password) && $existe == null && preg_match('/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/',$birthday)){
 
             $date = new DateTime('now');
             $user = new User(1, $username, $email, $description,$name, $characteristics, hash("sha256",$password),
