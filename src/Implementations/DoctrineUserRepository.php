@@ -193,7 +193,7 @@ class DoctrineUserRepository implements  UserRepository
         return $result;
     }
 
-    public function setSize(String $email, int $size)
+    public function setSize(String $email, float $size)
     {
         $sql = "UPDATE user SET available_size = :size WHERE email = :email";
         $stmt = $this->database->prepare($sql);
