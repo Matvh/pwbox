@@ -267,15 +267,16 @@ class FolderController
 
     public function deleteSharedFolder(Request $request, Response $response, array $args)
     {
-        $this->firstTime = false;
-        $paramValue = $_POST['id_shared_folder'];
-        $parent = $this->container->get('folder_repository')->selectParent($paramValue)[0]['id_root_folder'];
-        $this->container->get('folder_repository')->delete($paramValue);
+        $idFolder = $_POST['id_shared_folder'];
+        $this->deleteFolderP(intval($idFolder));
+        $paramValue = $_SESSION['shared_folder_id'];
+        $folderName = $_POST['folder_name'];
+
         $usuario = $_SESSION['email'];
-        $idOwner = $this->container->get('folder_repository')->getOwner($paramValue);
+        $idOwner = $this->container->get('folder_repository')->getOwner($_SESSION['shared_folder_id']);
+
         $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
-        $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
         $this->container->get('notification_repository')->add("El usuario '$usuario' ha eliminado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
         $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha eliminado la carpeta '$folderName'", "Carpeta eliminada - PWBOX");
 

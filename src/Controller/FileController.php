@@ -287,7 +287,7 @@ class FileController
                 $fileSize = $uploadedFile->getSize();
 
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-                $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $_SESSION['shared_folder_id'] . '/'. $fileName;
+                $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . '/'. $fileName;
                 if (file_exists($direccion)){
                     $this->container->get('flash')->addMessage('error', "El archivo $fileName ya existe en alguna carpeta");
                     continue;

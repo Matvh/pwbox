@@ -102,7 +102,8 @@
                             </ul>
                         </th>
                         <th><form class=" input-group" action="/deleteSharedFolder" method="post">
-                                <input type="hidden" name="id_folder" id="id_folder" value="{{ folder.id }}">
+                                <input type="hidden" name="folder_name" id="folder_name" value="{{ folder.name }}">
+                                <input type="hidden" name="id_shared_folder" id="id_folder" value="{{ folder.id }}">
                                 <button class="btn btn-link" type="submit" {% if isAdmin != 'true' %} disabled {% endif %}>
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
