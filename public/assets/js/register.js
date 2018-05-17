@@ -6,15 +6,22 @@ var DATE_REG_PICKER = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01
 var CORRECT = 'rgb(225, 242, 230)';
 var INCORRECT = 'rgb(244, 231, 219)';
 
-var name = false;
-var password = false;
-var repassword = false;
-var birthday = false;
-var email = false;
-var username = false;
+var name;
+var password;
+var repassword;
+var birthday;
+var email;
+var username;
 
 window.onload = function(){
     document.getElementById('submitbutton').disabled=true;
+
+    name = false;
+    password = false;
+    repassword = false;
+    birthday = false;
+    email = false;
+    username = false;
 }
 
 
@@ -65,7 +72,7 @@ function checkError(e, t) {
             break;
 
         case 'pass':
-            console.log(name + password + repassword + birthday + email + username)
+
             if(!PASS_REG.test(e.value)){
                 e.style.setProperty('background-color', INCORRECT, 'important');
                 this[e.name] = false;

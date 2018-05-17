@@ -19,14 +19,14 @@
 
             <div class="row">
 
-                <form id="fieldsForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
+                <form id="fieldsForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data" onsubmit="return preventDefault()">
                     <input type="text" value="{{ user.nombre }}" name="name" readonly>
                     <input type="text" value="{{ user.description }}" name="description" readonly>
-                    <input type="text" value="{{ user.description }}" name="characteristics" readonly>
+                    <input type="text" value="{{ user.characteristics }}" name="characteristics" readonly>
                     <input type="text" value="{{ user.username }}" name="username" readonly>
-                    <input id="email" type="text" value="{{ user.email }}" name="email">
-                    <input id="pass" type="password" placeholder="Password" name="password">
-                    <input id="pass_re" type="password" placeholder="Repeat password" name="pass_re">
+                    <input id="email" type="text" value="{{ user.email }}" name="email" oninput="checkError(this, 'mail')">
+                    <input id="password" type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
+                    <input id="pass_re" type="password" placeholder="Repeat password" name="pass_re"oninput="checkError(this, 'pass')">
                     <button class="btn btn-primary full-width loginbtn" type="button" onclick="updateInfo()">
                         Update
                     </button>
@@ -44,9 +44,16 @@
 
                 <p id="message"></p> {#error/success messages#}
 
-                <div class="modaldiv btn btn-danger full-width signinbtn" data-toggle="modal" data-target="#myModal">
-                    Delete account
+                <div>
+                    <div class="modaldiv btn btn-danger full-width signinbtn" data-toggle="modal" data-target="#myModal">
+                        Delete account
+                    </div>
+
+                    <a  class="btn btn-warning full-width signinbtn" href="home">
+                        Go back
+                    </a>
                 </div>
+
 
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -75,9 +82,6 @@
                     </div>
                 </div>
 
-                <a  class="btn btn-warning full-width signinbtn" href="home">
-                    Go back
-                </a>
             </div>
             {{ parent() }}
         </div>

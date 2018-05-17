@@ -71,7 +71,6 @@ function openFileDialog() {
         .on('cancel.bs.filedialog', function(ev) {
             console.log("cancel")
         });
-
     ;
 }
 

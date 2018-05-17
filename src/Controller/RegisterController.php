@@ -62,7 +62,7 @@ class RegisterController
 
             $date = new DateTime('now');
             $user = new User(1, $username, $email, $description,$name, $characteristics, hash("sha256",$password),
-                $date, $date, 1024, $birthday, $foto);
+                $date, $date, 1073741824, $birthday, $foto);
             try {
                 $exit = $this->container->get('user_repository')->save($user);
                 if($exit) {

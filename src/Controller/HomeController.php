@@ -18,7 +18,6 @@ use SlimApp\Model\User;
 
 class HomeController
 {
-
     protected $container;
 
     /**
@@ -63,7 +62,7 @@ class HomeController
     }
 
     public function validateSession(Request $request, Response $response){
-
+        $MAX_AV_SIZE = 1073741824;
 
         if(isset($_SESSION['email'])){
 
@@ -79,8 +78,10 @@ class HomeController
             $folders = $this->container->get('folder_repository')->selectChild($_SESSION['folder_id']);
             $parentFolder = $this->container->get('folder_repository')->selectParent($_SESSION['folder_id']);
             $files = $this->container->get('file_repository')->select($_SESSION['folder_id']);
-            $size = 1024 - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
-            $sizepercent = ($size/1024) *100;
+            $size = $MAX_AV_SIZE - ($this -> container -> get('user_repository')->getSize($_SESSION['email']));
+            $sizepercent = ($size/$MAX_AV_SIZE) *100;
+
+            $sizeUser = $this->convertToReadableSize($size);
 
             $notifications = $this->container->get('notification_repository')->getNotifications($id);
             //var_dump($notifications);exit();
@@ -102,6 +103,15 @@ class HomeController
             return $response->withStatus(302)->withHeader("Location", "/login");
 
         }
+    }
+
+    function convertToReadableSize($size)
+    {
+        if($size <= 0) return '0MB';
+        $base = log($size) / log(1024);
+        $suffix = array("", "KB", "MB", "GB", "TB");
+        $f_base = floor($base);
+        return round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
     }
 
 }
