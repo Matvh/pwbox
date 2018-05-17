@@ -60,6 +60,12 @@ class FileController
 
                 $extension = $fileInfo['extension'];
 
+                $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . '/'. $fileName;
+                if (file_exists($direccion)){
+                    $this->container->get('flash')->addMessage('error', "El archivo $fileName ya existe en alguna carpeta");
+                    continue;
+                }
+
                 if (!$this->isValidExtension($extension)) {
                     $moreErrors['invalidExt'] = true;
                     $moreErrors['extensions'] = 'Valid extensions: jpg, png, gif, pdf, md, txt';
@@ -91,7 +97,6 @@ class FileController
 
                 //Ver si hay espacio para subir los achivos que faltan
                 $fileSize = (float) $uploadedFile->getSize() / 1048576; //bytes to megabytes
-
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
 
 
@@ -206,6 +211,12 @@ class FileController
         $old = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name;
         $new = '/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$newName;
 
+        $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . '/'. $newName;
+        if (file_exists($direccion)){
+            $this->container->get('flash')->addMessage('error', "El archivo ya existe en alguna carpeta");
+            return $response->withStatus(302)->withHeader("Location", "/home");
+        }
+
         rename($old, $new);
         $this->container->get('file_repository')->renameFile($id, $newName);
 
@@ -277,7 +288,11 @@ class FileController
                 $fileSize = $uploadedFile->getSize() / 1024;
 
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
-
+                $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $_SESSION['shared_folder_id'] . '/'. $fileName;
+                if (file_exists($direccion)){
+                    $this->container->get('flash')->addMessage('error', "El archivo $fileName ya existe en alguna carpeta");
+                    continue;
+                }
 
                 if ($currentSize - ($fileSize / 1024) <= 0) {
                     $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
@@ -362,6 +377,14 @@ class FileController
 
         $old = '/home/vagrant/code/pwbox/public/uploads/'.$idOwner.'/'.$name;
         $new = '/home/vagrant/code/pwbox/public/uploads/'.$idOwner.'/'.$newName;
+
+        $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $idOwner . '/'. $newName;
+        if (file_exists($direccion)){
+            $this->container->get('flash')->addMessage('error', "El archivo ya existe en alguna carpeta");
+            return $response->withStatus(302)->withHeader("Location", "/home");
+
+
+        }
 
         $usuario = $_SESSION['email'];
         $paramValue = $_SESSION['shared_folder_id'];

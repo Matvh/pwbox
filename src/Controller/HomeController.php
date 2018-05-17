@@ -89,11 +89,11 @@ class HomeController
                 $hasParent = false;
 
                 return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
-                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent, 'hasParent'
-                    => $hasParent, 'notifications' => $notifications]);;
+                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => number_format($size,2), 'sizepercent' => $sizepercent, 'hasParent'
+                    => $hasParent, 'notifications' => $notifications]);
             } else {
                 return $this->container->get('view')->render($response,'home.html.twig', ['username' => $username, 'folders' => $folders, 'path' => $path,
-                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => $size, 'sizepercent' => $sizepercent, 'hasParent'
+                    'files' => $files, 'messages' => $messages, 'mensaje' => $mensaje, 'size' => number_format($size,2), 'sizepercent' => $sizepercent, 'hasParent'
                     => $hasParent, 'parent_folder' => $parentFolder[0]['id_root_folder'], 'notifications' => $notifications]);
             }
 
