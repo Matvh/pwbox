@@ -39,7 +39,7 @@ class FileController
         $user['email'] = $_SESSION['email'];
         $idUser = $this->container->get('user_repository')->getID($_SESSION['email']);
 
-        $directory = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . "/";
+        $directory = '/home/vagrant/code/pwbox/public/uploads/' . $idUser . "/";
         $uploadedFiles = $request->getUploadedFiles();
 
 
@@ -62,7 +62,7 @@ class FileController
 
                 if (!$this->isValidExtension($extension)) {
                     $moreErrors['invalidExt'] = true;
-                    $moreErrors['extensions'] = 'Valid extensions: jpg, png, gif, pdf, md, txt';
+                    $moreErrors['extensions'] = 'Valid extensions: jpg, jpeg, png, gif, pdf, md, txt';
                     $errors[] = sprintf(
                         'Unable to upload the file %s, the extension %s is not valid',
                         $fileName,
@@ -82,15 +82,13 @@ class FileController
                         $this->convertToReadableSize($uploadedFile->getSize())
                     );
 
-
                     $this->container->get('flash')->addMessage('error', "Archivo demasiado grande: " . $fileName);
-
-
                     continue;
                 }
 
                 //Ver si hay espacio para subir los achivos que faltan
-                $fileSize = (float) $uploadedFile->getSize() / 1048576; //bytes to megabytes
+                //$fileSize = (float) $uploadedFile->getSize() / 1048576; //bytes to megabytes
+                $fileSize = $uploadedFile->getSize();
 
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
 
@@ -151,7 +149,7 @@ class FileController
      */
     private function isValidExtension(string $extension)
     {
-        $validExtensions = ['jpg', 'png', 'gif', 'pdf', 'md', 'txt'];
+        $validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'md', 'txt'];
         return in_array($extension, $validExtensions);
     }
 
@@ -183,7 +181,7 @@ class FileController
         $name = $this->container->get('file_repository')->selectFileName($id);
         $idUser = $username = $this->container->get('user_repository')->getID($_SESSION['email']);
 
-        $size = round(filesize('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name)/1000000, PHP_ROUND_HALF_EVEN);
+        $size = filesize('/home/vagrant/code/pwbox/public/uploads/'.$idUser.'/'.$name);
         $userSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
 
         $this->container->get('user_repository')->setSize($_SESSION['email'],$userSize+$size);
@@ -246,7 +244,7 @@ class FileController
 
                 if (!$this->isValidExtension($extension)) {
                     $moreErrors['invalidExt'] = true;
-                    $moreErrors['extensions'] = 'Valid extensions: jpg, png, gif, pdf, md, txt';
+                    $moreErrors['extensions'] = 'Valid extensions: jpg, jpeg, png, gif, pdf, md, txt';
                     $errors[] = sprintf(
                         'Unable to upload the file %s, the extension %s is not valid',
                         $fileName,
@@ -274,12 +272,13 @@ class FileController
                 }
 
                 //Ver si hay espacio para subir los achivos que faltan
-                $fileSize = $uploadedFile->getSize() / 1024;
+                //$fileSize = $uploadedFile->getSize() / 1024;
+                $fileSize = $uploadedFile->getSize();
 
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
 
 
-                if ($currentSize - ($fileSize / 1024) <= 0) {
+                if ($currentSize - $fileSize <= 0) {
                     $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
                     $moreErrors['maxAvailable'] = true;
                     break;
