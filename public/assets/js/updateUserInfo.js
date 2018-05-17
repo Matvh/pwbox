@@ -1,3 +1,78 @@
+var PASS_REG = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,12}$/;
+var MAIL_REG = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var DATE_REG = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+var DATE_REG_PICKER = /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/;
+
+var CORRECT = 'rgb(225, 242, 230)';
+var INCORRECT = 'rgb(244, 231, 219)';
+
+var password;
+var repassword;
+var email;
+
+window.onload = function(){
+    document.getElementById('submitbutton').disabled=true;
+}
+
+
+function checkError(e, t) {
+
+    switch (t){
+        case 'mail':
+
+            if(!MAIL_REG.test(e.value)){
+                e.style.setProperty('background-color', INCORRECT, 'important');
+                email = false;
+                blockSubmit();
+            }
+            else{
+                e.style.setProperty('background-color', CORRECT, 'important');
+                email = true;
+                if((password && repassword) || email ) allowSubmit();
+            }
+            break;
+
+
+
+        case 'pass':
+
+            if(!PASS_REG.test(e.value)){
+                e.style.setProperty('background-color', INCORRECT, 'important');
+                if(e.name == "pass_re") repassword = false;
+                else password = false;
+                blockSubmit();
+            }
+            else{
+                if(e.name == "pass_re" && e.value != document.getElementById("password").value){
+                    e.style.setProperty('background-color', INCORRECT, 'important');
+                    repassword = false;
+                    blockSubmit();
+                }
+                else{
+                    e.style.setProperty('background-color', CORRECT, 'important');
+                    if(e.name == "pass_re") repassword = true;
+                    else password = true;
+                    if((password && repassword) || email ) allowSubmit();
+                }
+
+            }
+            break;
+    }
+
+}
+
+function allowSubmit(){
+    document.getElementById('submitbutton').disabled=false;
+}
+
+function blockSubmit(){
+    document.getElementById('submitbutton').disabled=true;
+}
+
+function preventDefault(){
+    return email || (password && repassword);
+}
+
 function updateInfo() {
 
     var info = {
