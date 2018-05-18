@@ -5,7 +5,7 @@
 
 Projectes Web II: PWBOX
 
-Para poder usar correctamente el código PHP primeramente hay que ejecutar el script de la BBDD.txt
+Para poder usar correctamente el código PHP primeramente hay que ejecutar el script de la BBDD.txt y hacer un composer install.
 
 Cosas a tener en cuenta: 
   - Si se usa el navegador Safari hay que vigilar cuando se introduce la fecha de nacimiento en el registro de un usuario. 
