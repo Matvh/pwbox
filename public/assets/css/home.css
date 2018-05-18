@@ -1,3 +1,25 @@
+html {
+  height: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 footer{
   margin-left: 25%;
   position: absolute;
@@ -24,7 +46,6 @@ footer{
 
 .mainbody{
   margin-left: 25%;
-  margin-bottom: 5rem;
 }
 
 .headimage {
@@ -34,33 +55,6 @@ footer{
 
 .headimage > img {
   width: 60%;
-}
-
-.centerimage{
-  display: block;
-  margin-left: auto;
-  margin-right: 0;
-}
-
-
-/* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
-  .sidenav {
-    height: auto;
-    padding: 15px;
-  }
-  .row.content {height: auto;}
-
-  .headimage > img {
-    max-height: 120px;
-    width: auto;
-  }
-
-  .centerimage{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 .rspace, .selected_item{
@@ -177,5 +171,35 @@ figcaption{
 .upload-drop-zone.drop {
   color: #222;
   border-color: #222;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+  .sidenav {
+    position: relative;
+    z-index: auto;
+    height: 25rem;
+  }
+
+  .headimage{
+    visibility: hidden;
+  }
+
+  .headimage > img {
+    width: 0;
+  }
+
+  footer{
+    visibility: hidden;
+  }
+
+  .mainbody{
+    margin-left: 0;
+  }
+
+  .row.content {
+    height: auto;
+  }
+
 }
 
