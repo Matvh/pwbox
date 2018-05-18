@@ -9,12 +9,12 @@ Para poder usar correctamente el código PHP primeramente hay que ejecutar el sc
 
 Cosas a tener en cuenta: 
   - Si se usa el navegador Safari hay que vigilar cuando se introduce la fecha de nacimiento en el registro de un usuario. 
-    Se debe poner una fecha del estilo (dd/mm/aaaa). No sabemos por qué no funciona en Safari, pero en Chrome, Firefox y 
-    Opera sí.
+    Se debe poner una fecha del estilo (dd/mm/aaaa), (dd-mm-aaaa), (aaaa/mm/dd) o (aaaa-mm-dd). Safari no tiene implementado
+    un picker por defecto y los que hemos encontrado en librerias públicas restaban atractivo a la página.
    
-  - Safari también da problemas cuando se descargan los archivos.
+  - Safari da problemas cuando se descargan los archivos.
 
 Horas dedicadas: 
-   Matias: 30h
+   Matias: 31h
    Miguel: 35h
-   Jesús: 33h
+   Jesús: 34h

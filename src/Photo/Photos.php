@@ -36,17 +36,17 @@ class Photos
 
         // Check file size
         if ($_FILES["picture"]["size"] > 512000) {
-            $error = $error . "Sorry, your file is too large. MAX size 50Kb <br>";
+            $error = $error . "Sorry, your file is too large. MAX size 500Kb \n";
             $uploadOk = 0;
         }
         // Allow certain file formats
         if(!$this->isValidExtension($imageFileType)) {
-            $error = $error . "Sorry, only JPG, JPEG & PNG  files are allowed. <br>";
+            $error = $error . "Sorry, only JPG, JPEG & PNG  files are allowed. \n";
             $uploadOk = 0;
         }
         // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
-            $error = $error . "Sorry, your file was not uploaded.<br>";
+            $error = $error . "Sorry, your file was not uploaded.\n";
         // if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)) {
