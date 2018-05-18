@@ -3,7 +3,7 @@
     <title>PWBox - REGISTER</title>
 {% endblock %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/login.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/profile.css">
 {% endblock %}
 
 {% block scripts %}
@@ -12,8 +12,7 @@
 
 {% block content %}
 
-    <div class="jumbotron">
-        <div class="container">
+        <div class="radabox">
             <h2>Register</h2>
 
             <form class="box" action="" method="post" enctype="multipart/form-data" onsubmit="return preventDefault()">
@@ -30,8 +29,8 @@
 
                     <div class="col-sm-6">
                         <input type="text" placeholder="Name" name="name" oninput="checkError(this, 'text')">
-                        <input type="text" placeholder="Characteristics" name="characteristics" oninput="turnGreen(this)">
                         <input type="date" placeholder="Birthday" name="birthday" oninput="checkError(this, 'date')">
+                        <input placeholder="Characteristics" name="characteristics" value="Free account">
                         <input type="text" placeholder="Email" name="email" oninput="checkError(this, 'mail')">
                         <input type="password" id="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
                         <input type="password" placeholder="Repeat password" name="repassword" oninput="checkError(this, 'pass')">
@@ -51,8 +50,6 @@
             </form>
             <p>{{ mensaje }}</p>
         </div>
-        {{ parent() }}
-    </div>
 
 {% endblock %}
 

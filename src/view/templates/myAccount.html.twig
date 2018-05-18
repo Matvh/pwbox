@@ -13,17 +13,15 @@
 
 {% block content %}
 
-    <div class="jumbotron">
-        <div class="container">
+        <div class="radabox">
             <h2>Your account</h2>
 
             <div class="row">
 
                 <form id="fieldsForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data" onsubmit="return preventDefault()">
-                    <input type="text" value="{{ user.nombre }}" name="name" readonly>
-                    <input type="text" value="{{ user.description }}" name="description" readonly>
-                    <input type="text" value="{{ user.characteristics }}" name="characteristics" readonly>
-                    <input type="text" value="{{ user.username }}" name="username" readonly>
+                    <input type="text" value="Name: {{ user.nombre }}" name="name" disabled>
+                    <input type="text" value="&ldquo;{{ user.description }}&rdquo;" name="description" disabled>
+                    <input type="text" value="{{ user.characteristics }}" name="characteristics" disabled>
                     <input id="email" type="text" value="{{ user.email }}" name="email" oninput="checkError(this, 'mail')">
                     <input id="password" type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
                     <input id="pass_re" type="password" placeholder="Repeat password" name="pass_re"oninput="checkError(this, 'pass')">
@@ -33,13 +31,15 @@
                 </form>
 
                 <form id="picForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
-                    <img id="pic" src="{{ base_path }}/profilePics/{{ user.profile_pic }}" width="200" height="200"  >
+                    <input type="text" value="{{ user.username }}" name="username" disabled>
+
+                    <img id="pic" class="profile-pic" src="{{ base_path }}/profilePics/{{ user.profile_pic }}" width="200" height="200"  >
                     <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
                             id="picture" name="picture">
-                    <br>
-                    <button onclick="updatePhoto()" class="btn btn-primary full-width loginbtn" type="button">
+                    <button onclick="updatePhoto()" class="btn btn-link full-width" type="button">
                         Change photo
                     </button>
+
                 </form>
 
                 <p id="message"></p> {#error/success messages#}
@@ -83,10 +83,8 @@
                 </div>
 
             </div>
-            {{ parent() }}
         </div>
 
-    </div>
 
 
 {% endblock %}

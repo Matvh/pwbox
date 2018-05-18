@@ -19,6 +19,15 @@ h1 {
 
 article { display: block; text-align: center; width: 650px; margin: 10px auto; }
 
+footer{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+}
+
 @media screen and (max-width: 720px) {
     article { display: block; text-align: center; width: 450px; margin: 0 auto; }
     h1 { font: 70px/1 "Roboto";}

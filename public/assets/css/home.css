@@ -1,3 +1,13 @@
+footer{
+  margin-left: 25%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
 .row.content {
   height: 100vh;
 }

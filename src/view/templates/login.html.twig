@@ -12,40 +12,35 @@
 
 {% block content %}
 
-    <div class="jumbotron">
-        <div class="container">
-            <br>
-            <div class="img-responsive headimage">
-                <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
-            </div>
-
-            <h2>Login</h2>
-            <h4 >{{ mensaje }}</h4>
-
-            <form class="box" action="/login" method="post" onsubmit="return preventDefault()">
-                <input  id='user' type="text" placeholder="Username or email" name="email" onchange="checkError(this, 'text')" autofocus>
-                <input  id='pass' type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
-
-                <button  id="submitbutton" class="btn btn-primary full-width loginbtn" type="submit">
-                    Get me in!
-                </button>
-
-                <a  class="btn btn-warning full-width signinbtn" href="register">
-                        Create account
-                </a>
-            </form>
-
+    <div class="radabox">
+        <br>
+        <div class="img-responsive headimage">
+            <img src="{{ base_path }}/assets/pwbox.png" alt="Logo">
         </div>
-        {{ parent() }}
+
+        <h2>Login</h2>
+        <h4 >{{ mensaje }}</h4>
+
+        <form class="box" action="/login" method="post" onsubmit="return preventDefault()">
+            <input  id='user' type="text" placeholder="Username or email" name="email" onchange="checkError(this, 'text')" autofocus>
+            <input  id='pass' type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
+
+            <button  id="submitbutton" class="btn btn-primary full-width loginbtn" type="submit">
+                Get me in!
+            </button>
+
+            <a  class="btn btn-warning full-width signinbtn" href="register">
+                Create account
+            </a>
+        </form>
+
     </div>
 
 
-    <!-- Trigger the modal with a button -->
     <div class="modaldiv" data-toggle="modal" data-target="#myModal">
         <span class="glyphicon glyphicon-info-sign"></span>
     </div>
 
-    <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
