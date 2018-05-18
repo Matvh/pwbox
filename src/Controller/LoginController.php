@@ -50,7 +50,7 @@ class LoginController
                 $email = $exit[0]['email'];
             } else {
                 return $this->container->get('view')->render($response, 'login.html.twig',
-                    ['mensaje' => "El usuario no existe"]);
+                    ['mensaje' => "This user does not exist"]);
 
             }
         }
@@ -63,7 +63,7 @@ class LoginController
 
         if (empty($exit)) {
             return $this->container->get('view')->render($response, 'login.html.twig',
-                ['mensaje' => "Contraseña o email erroneos"]);
+                ['mensaje' => "Invalid email and/or password"]);
         } else {
 
             $_SESSION['email'] = $email;

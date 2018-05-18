@@ -33,7 +33,7 @@ class ResendActivateController
         $subject = 'Activate Account';
         $message = 'Follow the link in order to activate your account http://pwbox.test/activate?email='.$email;
         $this->container->get('activate_email')->sendEmail($email,$message, $subject);
-        $this->container->get('flash')->addMessage('error', "Se acaba de enviar un nuevo correo a '$email'. Revisa tu bandeja de entrada");
+        $this->container->get('flash')->addMessage('error', "A new mail has been send to '$email'. Check your inbox");
         return $response->withStatus(302)->withHeader("Location", "/home");
 
     }

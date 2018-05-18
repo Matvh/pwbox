@@ -261,7 +261,7 @@ class FileController
                         $fileName,
                         $extension
                     );
-                    $this->container->get('flash')->addMessage('error', "No se permite esa extensión: " . $fileName);
+                    $this->container->get('flash')->addMessage('error', "This type of file is not valid: " . $fileName);
 
                     continue;
                 }
@@ -276,7 +276,7 @@ class FileController
                     );
 
 
-                    $this->container->get('flash')->addMessage('error', "Archivo demasiado grande: " . $fileName);
+                    $this->container->get('flash')->addMessage('error', "File is too big: " . $fileName);
 
 
                     continue;
@@ -289,12 +289,12 @@ class FileController
                 $currentSize = $this->container->get('user_repository')->getSize($_SESSION['email']);
                 $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $idUser . '/'. $fileName;
                 if (file_exists($direccion)){
-                    $this->container->get('flash')->addMessage('error', "El archivo $fileName ya existe en alguna carpeta");
+                    $this->container->get('flash')->addMessage('error', "The file $fileName already exists.");
                     continue;
                 }
 
                 if ($currentSize - $fileSize <= 0) {
-                    $this->container->get('flash')->addMessage('error', "No tienes más capacidad disponible");
+                    $this->container->get('flash')->addMessage('error', "You do not have enough space reamaining.");
                     $moreErrors['maxAvailable'] = true;
                     break;
 
@@ -316,8 +316,8 @@ class FileController
                 $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
                 $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
-                $this->container->get('notification_repository')->add("El usuario '$usuario' ha subido el archivo '$fileName' en '$folderName'", $idOwner[0]['id_user'], $paramValue);
-                $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha subido el archivo '$fileName' en '$folderName", "Archivo subido - PWBOX");
+                $this->container->get('notification_repository')->add("The user '$usuario' has uploaded the file '$fileName' in '$folderName'", $idOwner[0]['id_user'], $paramValue);
+                $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "The user '$usuario' has uploaded the file '$fileName' in '$folderName", "File uploaded - PWBOX");
 
 
 
@@ -353,8 +353,8 @@ class FileController
         $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
         $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
-        $this->container->get('notification_repository')->add("El usuario '$usuario' ha eliminado el archivo $name en  '$folderName'", $idOwner[0]['id_user'], $paramValue);
-        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha eliminado el archivo $name en  '$folderName'", "Archivo eliminado - PWBOX");
+        $this->container->get('notification_repository')->add("The user '$usuario' has deleted the file $name in  '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "The user '$usuario' has delted the file $name in  '$folderName'", "Archivo eliminado - PWBOX");
 
 
         unlink('/home/vagrant/code/pwbox/public/uploads/'.$idOwner.'/'.$name);
@@ -379,7 +379,7 @@ class FileController
 
         $direccion = '/home/vagrant/code/pwbox//public/uploads/' . $idOwner . '/'. $newName;
         if (file_exists($direccion)){
-            $this->container->get('flash')->addMessage('error', "El archivo ya existe en alguna carpeta");
+            $this->container->get('flash')->addMessage('error', "The file already exists.");
             return $response->withStatus(302)->withHeader("Location", "/home");
 
 
@@ -390,8 +390,8 @@ class FileController
         $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
         $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
-        $this->container->get('notification_repository')->add("El usuario '$usuario' ha renombrado el archivo $name con el nombre $newName en  '$folderName'", $idOwner[0]['id_user'], $paramValue);
-        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha renombrado el archivo $name con el nombre $newName en '$folderName'", "Archivo renombrado - PWBOX");
+        $this->container->get('notification_repository')->add("The user '$usuario' has renamed the file $name with $newName in  '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "The user '$usuario' has has renamed the file $name with $newName in '$folderName'", "File renamed - PWBOX");
 
 
 

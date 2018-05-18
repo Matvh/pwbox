@@ -107,7 +107,7 @@ class FolderController
 
 
         } else{
-            $this->container->get('flash')->addMessage('error', "Error al renombrar la carpeta");
+            $this->container->get('flash')->addMessage('error', "There was an error renaming the folder");
             return $response->withStatus(302)->withHeader("Location", "/home");
 
         }
@@ -127,11 +127,11 @@ class FolderController
         if ($rol == null) $rol = "reader";
 
         if ($error ){
-            $this->container->get('flash')->addMessage('error', "Error, el usuario con el email '$email' no existe");
+            $this->container->get('flash')->addMessage('error', "Error, the user with '$email' does not exist");
             return $response->withStatus(302)->withHeader("Location", "/home");
         } else {
-            $this->container->get('notification_repository')->add("Se ha compartido una carpeta contigo", $idShared, $id_folder);
-            $this->container->get('activate_email')->sendEmail($email, "Se ha compartido una carpeta contigo", "Carpeta compartida - PWBOX");
+            $this->container->get('notification_repository')->add("A folder has been shared with you", $idShared, $id_folder);
+            $this->container->get('activate_email')->sendEmail($email, "A folder has been shared with you", "Folder shared - PWBOX");
             $exit = $this->container->get('folder_repository')->shareFolder($idAdmin, $idShared, $id_folder, $rol);
             return $response->withStatus(302)->withHeader("Location", "/home");
         }
@@ -172,7 +172,7 @@ class FolderController
 
             //miramos si la cuenta esta activada
             if ($exit == "false") {
-                $mensaje = "Activa la cuenta, porfavor";
+                $mensaje = "Please, activate the account";
             } else {
                 $mensaje = "";
             }
@@ -251,14 +251,14 @@ class FolderController
         {
 
             $folderName = $this->container->get('folder_repository')->getNameFromId(intval($paramValue));
-            $this->container->get('notification_repository')->add("El usuario '$usuario' ha renombrado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
-            $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha renombrado la carpeta '$folderName'", "Carpeta renombrada - PWBOX");
+            $this->container->get('notification_repository')->add("The user '$usuario' has renamed the folder '$folderName'", $idOwner[0]['id_user'], $paramValue);
+            $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "The user '$usuario' has renamed the folder '$folderName'", "Folder renamed - PWBOX");
 
             return $response->withStatus(302)->withHeader("Location", "/shared");
 
 
         } else{
-            $this->container->get('flash')->addMessage('error', "Error, la carpeta con ese nombre ya existe");
+            $this->container->get('flash')->addMessage('error', "Error, a folder with that name already exists.");
             return $response->withStatus(302)->withHeader("Location", "/shared");
 
         }
@@ -277,8 +277,8 @@ class FolderController
 
         $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
-        $this->container->get('notification_repository')->add("El usuario '$usuario' ha eliminado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
-        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha eliminado la carpeta '$folderName'", "Carpeta eliminada - PWBOX");
+        $this->container->get('notification_repository')->add("The user '$usuario' has deleted the folder '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "The user '$usuario' has deleted the folder '$folderName'", "Folder deleted - PWBOX");
 
 
         return $response->withStatus(302)->withHeader("Location", "/shared");
@@ -297,8 +297,8 @@ class FolderController
         $emailOwner = $this->container->get('user_repository')->getEmailFromId($idOwner[0]['id_user']);
 
 
-        $this->container->get('notification_repository')->add("El usuario '$usuario' ha creado la carpeta '$folderName'", $idOwner[0]['id_user'], $paramValue);
-        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' ha creado la carpeta '$folderName'", "Creación carpeta - PWBOX");
+        $this->container->get('notification_repository')->add("El usuario '$usuario' has created the folder '$folderName'", $idOwner[0]['id_user'], $paramValue);
+        $this->container->get('activate_email')->sendEmail($emailOwner[0]['email'], "El usuario '$usuario' has created the folder '$folderName'", "Folder creation - PWBOX");
 
 
 
