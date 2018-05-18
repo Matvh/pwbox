@@ -19,9 +19,11 @@
                 <div class="row">
 
                     <div class="col-sm-6">
-                        <img id="pic" src="{{ base_path }}/profilePics/default.png" width="162" height="162"  >
+                        <label for="picture">
+                            <img class="roundedimg" id="pic" src="{{ base_path }}/profilePics/default.png" width="162" height="162">
+                        </label>
                         <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
-                               id="picture" name="picture">
+                               id="picture" name="picture" class="not-visible">
 
                         <input type="text" placeholder="Username" name="username" onchange="checkError(this, 'text')" autofocus>
                         <input type="text" placeholder="Description" name="description" oninput="turnGreen(this)">

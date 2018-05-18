@@ -76,3 +76,12 @@ h2 {
 .my-modal-foot{
 	margin-right: 1em;
 }
+
+.not-visible{
+	visibility: hidden;
+}
+
+.roundedimg{
+	border-radius: 25px;
+	border:1px solid rgb(50,78,95);
+}

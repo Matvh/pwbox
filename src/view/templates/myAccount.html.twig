@@ -33,9 +33,11 @@
                 <form id="picForm" class="col-sm-6" action="profile" method="post" enctype="multipart/form-data">
                     <input type="text" value="{{ user.username }}" name="username" disabled>
 
-                    <img id="pic" class="profile-pic" src="{{ base_path }}/profilePics/{{ user.profile_pic }}" width="200" height="200"  >
+                    <label for="picture">
+                        <img id="pic" class="profile-pic roundedimg" src="{{ base_path }}/profilePics/{{ user.profile_pic }}" width="200" height="200"  >
+                    </label>
                     <input type="file" onchange="document.getElementById('pic').src = window.URL.createObjectURL(this.files[0])"
-                            id="picture" name="picture">
+                            id="picture" name="picture" class="not-visible">
                     <button onclick="updatePhoto()" class="btn btn-link full-width" type="button">
                         Change photo
                     </button>
