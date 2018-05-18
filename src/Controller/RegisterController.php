@@ -75,12 +75,13 @@ class RegisterController
 
                     if (isset($_FILES["picture"]["name"]) && !empty($_FILES["picture"]["name"]) && $_FILES["picture"]["name"] != '') {
                         $uploadErrors = $this->container->get('upload_photo')->uploadPhoto($user_id);
+
                         if ($uploadErrors == 'success'){
                             //update path
                             $photo = $user_id . '.' . strtolower(pathinfo($_FILES["picture"]["name"],PATHINFO_EXTENSION));
                             $this->container->get('user_repository')->updateProfilePicPath($email, $photo);
                         }else{
-                            $this->container->get('flash')->addMessage('error', $uploadErrors . 'You can change your picture in MyAccount');
+                            $this->container->get('flash')->addMessage('error', $uploadErrors . 'You can change your picture in your profile');
                         }
                     }
 
