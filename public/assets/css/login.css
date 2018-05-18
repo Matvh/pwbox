@@ -79,4 +79,11 @@ h2 {
 	position: fixed;
 	right: 5rem;
 	top: 4rem;
+	overflow: hidden;
+}
+
+.modalimag{
+	width: 40rem;
+	margin-left: 5vw;
+
 }

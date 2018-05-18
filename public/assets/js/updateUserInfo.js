@@ -77,7 +77,7 @@ function updateInfo() {
 
     var info = {
         'email' : document.getElementById("email").value,
-        'password': document.getElementById("pass").value,
+        'password': document.getElementById("password").value,
         'pass_re' :document.getElementById("pass_re").value
     };
 

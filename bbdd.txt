@@ -21,12 +21,12 @@ CREATE TABLE `user` (
    `birthdate` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
    `available_size` bigint,
    `nombre` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
-   `description` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '', 
-   `characteristics` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+   `description` varchar(255) CHARACTER SET utf8mb4 DEFAULT '',
+   `characteristics` varchar(255) CHARACTER SET utf8mb4 DEFAULT 'Free account',
    `profile_pic` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_EMAIL` (`email`),
-    UNIQUE KEY `UNIQUE_USERNAME` (`username`)
+  UNIQUE KEY `UNIQUE_USERNAME` (`username`)
 
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 

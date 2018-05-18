@@ -68,7 +68,7 @@ class HomeController
 
             $exit = $this->container->get('user_repository')->getActivate($_SESSION['email']);
             //miramos si la cuenta esta activada
-            if($exit == "false") $mensaje = "Activa la cuenta, porfavor";
+            if($exit == "false") $mensaje = "Please, activate your account";
             else $mensaje = "";
             $messages = $this->container->get('flash')->getMessages();
             $hasParent = true;

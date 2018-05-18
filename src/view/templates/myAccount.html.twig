@@ -25,7 +25,7 @@
                     <input id="email" type="text" value="{{ user.email }}" name="email" oninput="checkError(this, 'mail')">
                     <input id="password" type="password" placeholder="Password" name="password" oninput="checkError(this, 'pass')">
                     <input id="pass_re" type="password" placeholder="Repeat password" name="pass_re"oninput="checkError(this, 'pass')">
-                    <button class="btn btn-primary full-width loginbtn" type="button" onclick="updateInfo()">
+                    <button id="submitbutton" class="btn btn-primary full-width loginbtn" type="button" onclick="updateInfo()">
                         Update
                     </button>
                 </form>

@@ -49,14 +49,14 @@ class RegisterController
         $username = $resul['username'];
         $description = $resul['description'];
         $name = $resul['name'];
-        $characteristics = $resul['characteristics'];
+        $characteristics = 'Free account';
         $foto = 'default.png';
 
 
         $existe = $this->container->get('user_repository')->getEmail($username);
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($password) >= 6 && strlen($password)<= 12
-            && $birthday != "" && $username != "" && $description != "" && $characteristics != "" && $name != "" &&
+            && $birthday != "" && $username != "" && $name != "" &&
             preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password) &&
             preg_match('/[1-9]/', $password) && $existe == null ){
 
@@ -95,7 +95,7 @@ class RegisterController
 
                 } else {
                     return $this->container->get('view')->render($response, 'register.html.twig',
-                        ['mensaje' => "Hemos tenido un problema en nuestra base de datos, vuelve a intentarlo"]);
+                        ['mensaje' => "We had a problem with our DB. Please, try again"]);
                 }
             } catch (NotFoundExceptionInterface $e) {
                 $e->getTraceAsString();
@@ -104,7 +104,7 @@ class RegisterController
             }
         } else {
             return $this->container->get('view')->render($response, 'register.html.twig',
-                ['mensaje' => "Error en algun campo"]);
+                ['mensaje' => "You have invalid fields"]);
         }
     }
 }
